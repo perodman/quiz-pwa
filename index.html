@@ -35,7 +35,6 @@
     <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
     <h1 id="regent-title"></h1>
 
-    <!-- NY STUDIEORDNING -->
     <div class="mode-timeline">
       <button id="timeline-mode">📜 Tidslinje</button>
     </div>
@@ -60,8 +59,10 @@
       <div id="answer" class="answer-text hidden"></div>
 
       <div class="icon-bar">
-        <span class="repeat-label">Repetera?</span>
-        <button id="mark-repeat" title="Markera / avmarkera repetition">🔁</button>
+        <span class="repeat-inline">
+          <span class="repeat-label">Repetera?</span>
+          <button id="mark-repeat" title="Markera / avmarkera repetition">🔁</button>
+        </span>
       </div>
 
       <button id="toggle-answer">Visa svar</button>
@@ -99,6 +100,13 @@
     <div class="quiz-card">
       <div id="repeat-question" class="question-text"></div>
       <div id="repeat-answer" class="answer-text hidden"></div>
+
+      <div class="icon-bar">
+        <span class="repeat-inline">
+          <span class="repeat-label">Klar med denna?</span>
+          <button id="unmark-repeat" title="Ta bort från repetition">🔁✅</button>
+        </span>
+      </div>
 
       <button id="toggle-repeat-answer">Visa svar</button>
       <button id="next-repeat">Nästa repetitionsfråga</button>
