@@ -13,172 +13,61 @@
               "name": "Gustav Vasa",
               "mnemonic": "G V S T A T R E F",
               "timeline": [
-                {
-                  "year": 1496,
-                  "event": "Gustav Eriksson föds den 12 maj 1496 i Uppland i en frälsefamilj med starka band till den svenska aristokratin. Släktens politiska nätverk ger honom tidigt kontakt med rikets maktcentrum.",
-                  "code": "FÖDSEL | ADEL | NÄTVERK"
-                },
-                {
-                  "year": 1509,
-                  "event": "Gustav studerar vid Uppsala universitet. Studierna omfattar latin, teologi och förvaltningskunskap.",
-                  "code": "UTBILDNING | KYRKA | STAT"
-                },
-                {
-                  "year": 1514,
-                  "event": "Gustav ansluter sig till Sten Sture den yngre och blir del av oppositionen mot unionskungen Kristian II.",
-                  "code": "ALLIANS | OPPOSITION"
-                },
-                {
-                  "year": 1517,
-                  "event": "Konflikten mellan Sten Stures parti och unionskungen Kristian II skärps och rör nationellt självstyre samt kontroll över kyrka och adel.",
-                  "code": "SJÄLVSTYRE | KYRKA | ADEL"
-                },
-                {
-                  "year": 1518,
-                  "event": "Efter slaget vid Brännkyrka tas Gustav som gisslan av den danske kungen Kristian II.",
-                  "code": "GISSLA | MAKT"
-                },
-                {
-                  "year": 1519,
-                  "event": "Gustav hålls fången på Kalø slott i Danmark men flyr till Lübeck där han knyter kontakter med Hansan.",
-                  "code": "FLYKT | HANSA"
-                },
-                {
-                  "year": 1520,
-                  "event": "Gustav undgår Stockholms blodbad där Kristian II låter avrätta stora delar av den svenska adeln.",
-                  "code": "BLODBAD | LEGITIMITET"
-                },
-                {
-                  "year": 1521,
-                  "event": "Dalupproret inleds under Gustav Vasas ledning och markerar starten för befrielsekriget mot Danmark.",
-                  "code": "UPPROR | BEFRIELSE"
-                },
-                {
-                  "year": 1522,
-                  "event": "Avtal sluts med Lübeck vilket ger Gustav Vasa lån, vapen och flottstöd i kampen mot Danmark.",
-                  "code": "AVTAL | STÖD"
-                },
-                {
-                  "year": 1523,
-                  "event": "Efter Stockholms kapitulation väljs Gustav Vasa till kung av Sverige den 6 juni 1523 och Kalmarunionen upplöses.",
-                  "code": "KUNG | SJÄLVSTÄNDIGHET"
-                },
-                {
-                  "year": 1524,
-                  "event": "Danmark erkänner Sveriges självständighet och avsäger sig sina anspråk på den svenska kronan.",
-                  "code": "ERKÄNNANDE | LEGITIMITET"
-                },
-                {
-                  "year": 1525,
-                  "event": "Gustav Vasa gifter sig med Katarina av Sachsen-Lauenburg och knyts till tysk fursteadel.",
-                  "code": "ÄKTENSKAP | DYNASTI"
-                },
-                {
-                  "year": 1526,
-                  "event": "Nya testamentet ges ut på svenska som ett led i reformationen.",
-                  "code": "REFORMATION | SPRÅK"
-                },
-                {
-                  "year": 1527,
-                  "event": "Västerås riksdag beslutar att kyrkans egendomar dras in till kronan.",
-                  "code": "KYRKA | STAT | MAKT"
-                },
-                {
-                  "year": 1531,
-                  "event": "Laurentius Petri utses till Sveriges första lutherska ärkebiskop.",
-                  "code": "LUTHER | KYRKA"
-                },
-                {
-                  "year": 1533,
-                  "event": "Gustav Vasas första hustru Katarina av Sachsen-Lauenburg avlider.",
-                  "code": "DÖD | HOV"
-                },
-                {
-                  "year": 1534,
-                  "event": "Gustav Vasa gifter sig med Margareta Leijonhufvud och får flera legitima arvingar.",
-                  "code": "ARV | DYNASTI"
-                },
-                {
-                  "year": 1541,
-                  "event": "Gustav Vasas bibel, den första fullständiga bibeln på svenska, ges ut.",
-                  "code": "BIBEL | SPRÅK"
-                },
-                {
-                  "year": 1542,
-                  "event": "Dackefejden bryter ut i Småland som protest mot höga skatter och centralisering.",
-                  "code": "UPPROR | SKATT"
-                },
-                {
-                  "year": 1543,
-                  "event": "Dackefejden krossas av Gustav Vasas trupper och Nils Dacke dödas.",
-                  "code": "MAKT | KONTROLL"
-                },
-                {
-                  "year": 1544,
-                  "event": "Sverige inför arvsmonarki och avskaffar valkungadömet.",
-                  "code": "ARV | MONARKI"
-                },
-                {
-                  "year": 1551,
-                  "event": "Margareta Leijonhufvud avlider och lämnar flera minderåriga barn.",
-                  "code": "DÖD | ARV"
-                },
-                {
-                  "year": 1552,
-                  "event": "Gustav Vasa gifter sig för tredje gången med Katarina Stenbock.",
-                  "code": "ÄKTENSKAP | STABILITET"
-                },
-                {
-                  "year": 1555,
-                  "event": "Krig bryter ut mellan Sverige och Ryssland om kontroll över gränsområden och handelsvägar i öster.",
-                  "code": "KRIG | ÖSTER"
-                },
-                {
-                  "year": 1557,
-                  "event": "Kriget mellan Sverige och Ryssland avslutas utan territoriella vinster.",
-                  "code": "FRED | STATUS QUO"
-                },
-                {
-                  "year": 1560,
-                  "event": "Gustav Vasa dör den 29 september 1560 och efterträds av Erik XIV. Han efterlämnar ett centraliserat rike.",
-                  "code": "DÖD | CENTRALSTAT"
-                }
+                { "year": 1496, "event": "Gustav Eriksson föds den 12 maj 1496 i Uppland i en frälsefamilj med starka band till den svenska aristokratin. Släktens politiska nätverk ger honom tidigt kontakt med rikets maktcentrum.", "code": "FÖDSEL | ADEL | NÄTVERK" },
+                { "year": 1509, "event": "Gustav studerar vid Uppsala universitet. Studierna omfattar latin, teologi och förvaltningskunskap.", "code": "UTBILDNING | KYRKA | STAT" },
+                { "year": 1514, "event": "Gustav ansluter sig till Sten Sture den yngre och blir del av oppositionen mot unionskungen Kristian II.", "code": "ALLIANS | OPPOSITION" },
+                { "year": 1517, "event": "Konflikten mellan Sten Stures parti och unionskungen Kristian II skärps och rör nationellt självstyre samt kontroll över kyrka och adel.", "code": "SJÄLVSTYRE | KYRKA | ADEL" },
+                { "year": 1518, "event": "Efter slaget vid Brännkyrka tas Gustav som gisslan av den danske kungen Kristian II.", "code": "GISSLA | MAKT" },
+                { "year": 1519, "event": "Gustav hålls fången på Kalø slott i Danmark men flyr till Lübeck där han knyter kontakter med Hansan.", "code": "FLYKT | HANSA" },
+                { "year": 1520, "event": "Gustav undgår Stockholms blodbad där Kristian II låter avrätta stora delar av den svenska adeln.", "code": "BLODBAD | LEGITIMITET" },
+                { "year": 1521, "event": "Dalupproret inleds under Gustav Vasas ledning och markerar starten för befrielsekriget mot Danmark.", "code": "UPPROR | BEFRIELSE" },
+                { "year": 1522, "event": "Avtal sluts med Lübeck vilket ger Gustav Vasa lån, vapen och flottstöd i kampen mot Danmark.", "code": "AVTAL | STÖD" },
+                { "year": 1523, "event": "Efter Stockholms kapitulation väljs Gustav Vasa till kung av Sverige den 6 juni 1523 och Kalmarunionen upplöses.", "code": "KUNG | SJÄLVSTÄNDIGHET" },
+                { "year": 1524, "event": "Danmark erkänner Sveriges självständighet och avsäger sig sina anspråk på den svenska kronan.", "code": "ERKÄNNANDE | LEGITIMITET" },
+                { "year": 1525, "event": "Gustav Vasa gifter sig med Katarina av Sachsen-Lauenburg och knyts till tysk fursteadel.", "code": "ÄKTENSKAP | DYNASTI" },
+                { "year": 1526, "event": "Nya testamentet ges ut på svenska som ett led i reformationen.", "code": "REFORMATION | SPRÅK" },
+                { "year": 1527, "event": "Västerås riksdag beslutar att kyrkans egendomar dras in till kronan.", "code": "KYRKA | STAT | MAKT" },
+                { "year": 1531, "event": "Laurentius Petri utses till Sveriges första lutherska ärkebiskop.", "code": "LUTHER | KYRKA" },
+                { "year": 1533, "event": "Gustav Vasas första hustru Katarina av Sachsen-Lauenburg avlider.", "code": "DÖD | HOV" },
+                { "year": 1534, "event": "Gustav Vasa gifter sig med Margareta Leijonhufvud och får flera legitima arvingar.", "code": "ARV | DYNASTI" },
+                { "year": 1541, "event": "Gustav Vasas bibel, den första fullständiga bibeln på svenska, ges ut.", "code": "BIBEL | SPRÅK" },
+                { "year": 1542, "event": "Dackefejden bryter ut i Småland som protest mot höga skatter och centralisering.", "code": "UPPROR | SKATT" },
+                { "year": 1543, "event": "Dackefejden krossas av Gustav Vasas trupper och Nils Dacke dödas.", "code": "MAKT | KONTROLL" },
+                { "year": 1544, "event": "Sverige inför arvsmonarki och avskaffar valkungadömet.", "code": "ARV | MONARKI" },
+                { "year": 1551, "event": "Margareta Leijonhufvud avlider och lämnar flera minderåriga barn.", "code": "DÖD | ARV" },
+                { "year": 1552, "event": "Gustav Vasa gifter sig för tredje gången med Katarina Stenbock.", "code": "ÄKTENSKAP | STABILITET" },
+                { "year": 1555, "event": "Krig bryter ut mellan Sverige och Ryssland om kontroll över gränsområden och handelsvägar i öster.", "code": "KRIG | ÖSTER" },
+                { "year": 1557, "event": "Kriget mellan Sverige och Ryssland avslutas utan territoriella vinster.", "code": "FRED | STATUS QUO" },
+                { "year": 1560, "event": "Gustav Vasa dör den 29 september 1560 och efterträds av Erik XIV. Han efterlämnar ett centraliserat rike.", "code": "DÖD | CENTRALSTAT" }
               ],
               "questions": [
-                { "q": "När föds Gustav Eriksson (Gustav Vasa)?", "year": 1496 },
-                { "q": "Var föds Gustav Eriksson år 1496?", "year": 1496 },
-                { "q": "Vilket samhällsskikt tillhör Gustav Erikssons familj vid hans födelse 1496?", "year": 1496 },
-
-                { "q": "Vid vilket universitet studerar Gustav Vasa år 1509?", "year": 1509 },
-                { "q": "Vilka ämnen studerar Gustav Vasa vid Uppsala universitet år 1509?", "year": 1509 },
-
+                { "q": "Vilket år föds Gustav Eriksson (Gustav Vasa)?", "year": 1496 },
+                { "q": "Vilket år studerar Gustav Vasa vid Uppsala universitet?", "year": 1509 },
                 { "q": "Till vilken politisk ledare ansluter sig Gustav Vasa år 1514?", "year": 1514 },
-                { "q": "Mot vilken unionskung riktas oppositionen som Gustav Vasa ansluter sig till 1514?", "year": 1514 },
-
-                { "q": "Efter vilket slag tas Gustav Vasa som gisslan av Kristian II år 1518?", "year": 1518 },
-                { "q": "Vilken kung tar Gustav Vasa som gisslan efter slaget vid Brännkyrka 1518?", "year": 1518 },
-
+                { "q": "Vilka två huvudfrågor präglar konflikten mellan Sten Stures parti och Kristian II år 1517?", "year": 1517 },
+                { "q": "Efter vilket slag tas Gustav Vasa som gisslan år 1518?", "year": 1518 },
+                { "q": "Till vilken stad flyr Gustav Vasa efter sin fångenskap år 1519?", "year": 1519 },
                 { "q": "Vilken massavrättning undgår Gustav Vasa år 1520?", "year": 1520 },
-                { "q": "Vilken kung beordrar Stockholms blodbad år 1520?", "year": 1520 },
-
-                { "q": "Vilket uppror inleds i Dalarna år 1521?", "year": 1521 },
-                { "q": "Vem leder Dalupproret som inleder befrielsekriget år 1521?", "year": 1521 },
-
-                { "q": "När väljs Gustav Vasa till kung av Sverige?", "year": 1523 },
-                { "q": "Vilken politisk union upplöses när Gustav Vasa blir kung 1523?", "year": 1523 },
-
-                { "q": "Vad beslutar Västerås riksdag 1527 om kyrkans egendom?", "year": 1527 },
-                { "q": "Till vem överförs kyrkans egendomar efter riksdagen i Västerås 1527?", "year": 1527 },
-
-                { "q": "Vem efterträder Gustav Vasa som kung vid hans död 1560?", "year": 1560 },
-                { "q": "Vilket slags rike efterlämnar Gustav Vasa vid sin död 1560?", "year": 1560 }
+                { "q": "Vilket uppror inleder Gustav Vasa i Dalarna år 1521?", "year": 1521 },
+                { "q": "Med vilken stad sluter Gustav Vasa ett avgörande avtal år 1522?", "year": 1522 },
+                { "q": "Vilket år väljs Gustav Vasa till kung av Sverige?", "year": 1523 },
+                { "q": "Vad erkänner Danmark om Sverige år 1524?", "year": 1524 },
+                { "q": "Vem gifter sig Gustav Vasa med år 1525?", "year": 1525 },
+                { "q": "Vilken religiös skrift ges ut på svenska år 1526?", "year": 1526 },
+                { "q": "Vilket beslut om kyrkans egendom fattas vid Västerås riksdag 1527?", "year": 1527 },
+                { "q": "Vem utses till Sveriges första lutherska ärkebiskop år 1531?", "year": 1531 },
+                { "q": "Vilken av Gustav Vasas hustrur avlider år 1533?", "year": 1533 },
+                { "q": "Vilket äktenskap stärker Gustav Vasas dynasti år 1534?", "year": 1534 },
+                { "q": "Vad kallas den första fullständiga bibeln på svenska som ges ut 1541?", "year": 1541 },
+                { "q": "Vilket uppror bryter ut i Småland år 1542?", "year": 1542 },
+                { "q": "Vad händer med Dackefejden och Nils Dacke år 1543?", "year": 1543 },
+                { "q": "Hur förändras den svenska kungamakten år 1544?", "year": 1544 },
+                { "q": "Vilken hustru till Gustav Vasa avlider år 1551?", "year": 1551 },
+                { "q": "Vem gifter sig Gustav Vasa med år 1552?", "year": 1552 },
+                { "q": "Mellan vilka länder bryter krig ut år 1555?", "year": 1555 },
+                { "q": "Hur avslutas kriget mellan Sverige och Ryssland år 1557?", "year": 1557 },
+                { "q": "Vem efterträder Gustav Vasa som kung vid hans död 1560?", "year": 1560 }
               ]
-            },
-            {
-              "id": "erik-xiv",
-              "name": "Erik XIV",
-              "timeline": [],
-              "questions": []
             }
           ]
         }
