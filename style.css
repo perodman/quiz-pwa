@@ -39,6 +39,19 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* MODE-FÄRGER */
+.mode-quiz button {
+  background: #5b5bd6;
+}
+
+.mode-year button {
+  background: #3f8efc;
+}
+
+.mode-timeline button {
+  background: #7a4fd9;
+}
+
 /* KNAPPAR */
 button {
   padding: 12px 16px;
@@ -46,7 +59,6 @@ button {
   font-size: 16px;
   border-radius: 10px;
   border: none;
-  background: #5b5bd6;
   color: white;
   cursor: pointer;
 }
@@ -88,6 +100,15 @@ button:active {
   font-size: 17px;
 }
 
+/* REPETITION */
+.repeat-buttons {
+  margin-top: 16px;
+}
+
+.repeat-buttons button {
+  width: 100%;
+}
+
 /* ÅRTAL */
 .year-box {
   font-size: 28px;
@@ -121,17 +142,4 @@ li {
 /* HIDDEN */
 .hidden {
   display: none;
-}
-
-/* MODE-SPECIFIKA FÄRGER */
-.mode-quiz button {
-  background: #5b5bd6;
-}
-
-.mode-year button {
-  background: #3f8efc;
-}
-
-.mode-timeline button {
-  background: #7a4fd9;
 }
