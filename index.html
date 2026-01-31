@@ -35,18 +35,10 @@
     <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
     <h1 id="regent-title"></h1>
 
-    <div class="mode-timeline">
-      <button id="timeline-mode">📜 Tidslinje</button>
-    </div>
-    <div class="mode-year">
-      <button id="year-mode">📆 Årtalsquiz</button>
-    </div>
-    <div class="mode-quiz">
-      <button id="quiz-mode">🧠 Quiz</button>
-    </div>
-    <div class="mode-repeat">
-      <button id="repeat-mode">🔁 Repetition</button>
-    </div>
+    <button id="timeline-mode">📜 Tidslinje</button>
+    <button id="year-mode">📆 Årtalsquiz</button>
+    <button id="quiz-mode">🧠 Quiz</button>
+    <button id="repeat-mode">🔁 Repetition</button>
   </div>
 
   <!-- QUIZ -->
@@ -61,7 +53,7 @@
       <div class="icon-bar">
         <span class="repeat-inline">
           <span class="repeat-label">Repetera?</span>
-          <button id="mark-repeat" title="Markera / avmarkera repetition">🔁</button>
+          <button id="mark-repeat">🔁</button>
         </span>
       </div>
 
@@ -79,37 +71,34 @@
       <div id="year-display" class="year-box"></div>
       <div id="year-answer" class="answer-text hidden"></div>
 
+      <div class="icon-bar">
+        <span class="repeat-inline">
+          <span class="repeat-label">Repetera?</span>
+          <button id="mark-repeat-year">🔁</button>
+        </span>
+      </div>
+
       <button id="toggle-year-answer">Visa svar</button>
       <button id="next-year">Slumpa nytt år</button>
     </div>
   </div>
 
-  <!-- TIMELINE -->
-  <div id="timeline-view" class="hidden">
-    <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
-    <h1 class="timeline-title">📜 Tidslinje</h1>
-    <ul id="timeline"></ul>
-    <button id="back-to-modes-3b" class="secondary small">⬅ Tillbaka</button>
-  </div>
-
   <!-- REPEAT -->
   <div id="repeat-view" class="hidden">
-    <button id="back-to-modes-4" class="secondary small">⬅ Tillbaka</button>
+    <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
     <h1 class="repeat-title">🔁 Repetition</h1>
 
     <div class="quiz-card">
       <div id="repeat-question" class="question-text"></div>
       <div id="repeat-answer" class="answer-text hidden"></div>
 
-      <div class="icon-bar">
-        <span class="repeat-inline">
-          <span class="repeat-label">Klar med denna?</span>
-          <button id="unmark-repeat" title="Ta bort från repetition">🔁✅</button>
-        </span>
-      </div>
-
       <button id="toggle-repeat-answer">Visa svar</button>
       <button id="next-repeat">Nästa repetitionsfråga</button>
+
+      <div class="remove-repeat">
+        <span class="repeat-label">Ta bort från repetition?</span>
+        <button id="remove-repeat">❌</button>
+      </div>
     </div>
   </div>
 
