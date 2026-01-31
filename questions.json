@@ -1,265 +1,28 @@
 {
-  "subjects": [
+  "id": "gustav-vasa",
+  "name": "Gustav Vasa",
+  "mnemonic": "G V S T A T R E F",
+  "questions": [
     {
-      "id": "historia",
-      "name": "Historia",
-      "categories": [
-        {
-          "id": "svenska-regenter",
-          "name": "Svenska regenter",
-          "regents": [
-            {
-              "id": "gustav-vasa",
-              "name": "Gustav Vasa",
-              "regeringstid": "1523–1560",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "timeline": [
-                { "year": "1496", "event": "Gustav Eriksson föds i Uppland." },
-                { "year": "1518", "event": "Tas som gisslan av Kristian II efter slaget vid Brännkyrka." },
-                { "year": "1519", "event": "Flyr från fångenskap och tar sig till Lübeck." },
-                { "year": "1520", "event": "Undgår Stockholms blodbad." },
-                { "year": "1521", "event": "Inleder Dalupproret mot Danmark." },
-                { "year": "1523", "event": "Väljs till kung – Kalmarunionen upplöses." },
-                { "year": "1527", "event": "Riksdagen i Västerås beslutar om reformationen." },
-                { "year": "1541", "event": "Den första fullständiga svenska bibeln ges ut." },
-                { "year": "1542–1543", "event": "Dackefejden – stort bondeuppror i Småland." },
-                { "year": "1544", "event": "Kungamakten görs ärftlig." },
-                { "year": "1560", "event": "Gustav Vasa avlider och efterträds av Erik XIV." }
-              ],
-              "questions": [
-                {
-                  "q": "Vilket år valdes Gustav Vasa till kung av Sverige?",
-                  "a": "1523"
-                },
-                {
-                  "q": "Vad hette bondeupproret som utmanade Gustav Vasas makt?",
-                  "a": "Dackefejden"
-                },
-                {
-                  "q": "Vilken viktig religiös förändring genomfördes under Gustav Vasas regering?",
-                  "a": "Reformationen – Sverige blev lutherskt."
-                },
-                {
-                  "q": "Vilken händelse år 1520 blev en avgörande katalysator för befrielsekriget?",
-                  "a": "Stockholms blodbad"
-                },
-                {
-                  "q": "Vilken stad hjälpte Gustav Vasa ekonomiskt och militärt?",
-                  "a": "Lübeck"
-                },
-                {
-                  "q": "Vilket beslut 1544 säkrade Vasasläktens framtida makt?",
-                  "a": "Kungamakten gjordes ärftlig."
-                },
-                {
-                  "q": "Vad markerar 1541 års bibelutgivning?",
-                  "a": "Reformationens genombrott och svenskt skriftspråk."
-                }
-              ]
-            },
-
-            {
-              "id": "erik-xiv",
-              "name": "Erik XIV",
-              "regeringstid": "1560–1568",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "johan-iii",
-              "name": "Johan III",
-              "regeringstid": "1568–1592",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "sigismund",
-              "name": "Sigismund",
-              "regeringstid": "1592–1599",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-ix",
-              "name": "Karl IX",
-              "regeringstid": "1604–1611",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "gustav-ii-adolf",
-              "name": "Gustav II Adolf",
-              "regeringstid": "1611–1632",
-              "dynasti": "Vasaätten",
-              "epok": "Stormaktstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "kristina",
-              "name": "Kristina",
-              "regeringstid": "1632–1654",
-              "dynasti": "Vasaätten",
-              "epok": "Stormaktstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-x-gustav",
-              "name": "Karl X Gustav",
-              "regeringstid": "1654–1660",
-              "dynasti": "Pfalz-Zweibrücken",
-              "epok": "Stormaktstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-xi",
-              "name": "Karl XI",
-              "regeringstid": "1660–1697",
-              "dynasti": "Pfalz-Zweibrücken",
-              "epok": "Stormaktstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-xii",
-              "name": "Karl XII",
-              "regeringstid": "1697–1718",
-              "dynasti": "Pfalz-Zweibrücken",
-              "epok": "Stormaktstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "ulrika-eleonora",
-              "name": "Ulrika Eleonora",
-              "regeringstid": "1718–1720",
-              "dynasti": "Pfalz-Zweibrücken",
-              "epok": "Frihetstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "fredrik-i",
-              "name": "Fredrik I",
-              "regeringstid": "1720–1751",
-              "dynasti": "Hessen-Kassel",
-              "epok": "Frihetstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "adolf-fredrik",
-              "name": "Adolf Fredrik",
-              "regeringstid": "1751–1771",
-              "dynasti": "Holstein-Gottorp",
-              "epok": "Frihetstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "gustav-iii",
-              "name": "Gustav III",
-              "regeringstid": "1771–1792",
-              "dynasti": "Holstein-Gottorp",
-              "epok": "Gustaviansk tid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "gustav-iv-adolf",
-              "name": "Gustav IV Adolf",
-              "regeringstid": "1792–1809",
-              "dynasti": "Holstein-Gottorp",
-              "epok": "Gustaviansk tid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-xiii",
-              "name": "Karl XIII",
-              "regeringstid": "1809–1818",
-              "dynasti": "Holstein-Gottorp",
-              "epok": "Unionstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-xiv-johan",
-              "name": "Karl XIV Johan",
-              "regeringstid": "1818–1844",
-              "dynasti": "Bernadotte",
-              "epok": "Unionstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "oscar-i",
-              "name": "Oscar I",
-              "regeringstid": "1844–1859",
-              "dynasti": "Bernadotte",
-              "epok": "Unionstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "karl-xv",
-              "name": "Karl XV",
-              "regeringstid": "1859–1872",
-              "dynasti": "Bernadotte",
-              "epok": "Unionstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "oscar-ii",
-              "name": "Oscar II",
-              "regeringstid": "1872–1907",
-              "dynasti": "Bernadotte",
-              "epok": "Unionstid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "gustaf-v",
-              "name": "Gustaf V",
-              "regeringstid": "1907–1950",
-              "dynasti": "Bernadotte",
-              "epok": "Modern tid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "gustaf-vi-adolf",
-              "name": "Gustaf VI Adolf",
-              "regeringstid": "1950–1973",
-              "dynasti": "Bernadotte",
-              "epok": "Modern tid",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "carl-xvi-gustaf",
-              "name": "Carl XVI Gustaf",
-              "regeringstid": "1973–",
-              "dynasti": "Bernadotte",
-              "epok": "Modern tid",
-              "timeline": [],
-              "questions": []
-            }
-          ]
-        }
-      ]
+      "q": "Vilket år valdes Gustav Vasa till kung av Sverige?",
+      "a": "1523"
+    }
+  ],
+  "timeline": [
+    {
+      "year": 1523,
+      "event": "Gustav Vasa väljs till kung av Sverige",
+      "code": "SJÄLV | STAT | MAKT"
+    },
+    {
+      "year": 1527,
+      "event": "Västerås riksdag beslutar om indragning av kyrkans egendom",
+      "code": "REF | KYRKA | STAT"
+    },
+    {
+      "year": 1544,
+      "event": "Kungamakten görs ärftlig",
+      "code": "ARV | DYNASTI | MAKT"
     }
   ]
 }
