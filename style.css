@@ -1,15 +1,88 @@
 body {
-  font-family: system-ui, sans-serif;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: #f6f4ef;
+  color: #222;
+}
+
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
   padding: 20px;
 }
 
-button {
-  display: block;
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 16px;
+/* Rubriker */
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
 }
 
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
+}
+
+/* Knappar */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f0eee9;
+}
+
+/* Quiz-kort */
+#quiz-view {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+#question {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+#answer {
+  background: #f4f2ed;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* Tidslinje */
+#timeline-view ul {
+  list-style: none;
+  padding: 0;
+}
+
+#timeline-view li {
+  background: #ffffff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #999;
+  border-radius: 6px;
+}
+
+/* Tillbaka-knappar */
+button[id^="back"] {
+  background: transparent;
+  border: none;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Utility */
 .hidden {
   display: none;
 }
