@@ -20,8 +20,7 @@ fetch("questions.json")
   .then(r => r.json())
   .then(json => {
     data = json;
-    currentRegent = data.subjects[0].categories[0].regents[0];
-    showView("mode-view");
+    showView("subject-view"); // STARTAR ALLTID HÄR
   });
 
 function showView(id) {
