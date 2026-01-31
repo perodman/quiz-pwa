@@ -12,82 +12,80 @@ const regentTitle = document.getElementById("regent-title");
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer");
 const timelineEl = document.getElementById("timeline");
+const toggleAnswerBtn = document.getElementById("toggle-answer");
 
 fetch("questions.json")
-  .then(res => res.json())
+  .then(r => r.json())
   .then(json => {
     data = json;
     renderSubjects();
   });
 
-function showView(viewId) {
+function showView(id) {
   document.querySelectorAll("div[id$='view']").forEach(v =>
     v.classList.add("hidden")
   );
-  document.getElementById(viewId).classList.remove("hidden");
+  document.getElementById(id).classList.remove("hidden");
 }
 
-/* ===== SUBJECTS ===== */
+/* SUBJECT */
 function renderSubjects() {
   subjectsDiv.innerHTML = "";
-  data.subjects.forEach(subject => {
-    const btn = document.createElement("button");
-    btn.textContent = subject.name;
-    btn.onclick = () => {
-      currentSubject = subject;
+  data.subjects.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.name;
+    b.onclick = () => {
+      currentSubject = s;
       renderCategories();
       showView("category-view");
     };
-    subjectsDiv.appendChild(btn);
+    subjectsDiv.appendChild(b);
   });
 }
 
-/* ===== CATEGORIES ===== */
+/* CATEGORY */
 function renderCategories() {
   categoriesDiv.innerHTML = "";
-  currentSubject.categories.forEach(category => {
-    const btn = document.createElement("button");
-    btn.textContent = category.name;
-    btn.onclick = () => {
-      currentCategory = category;
+  currentSubject.categories.forEach(c => {
+    const b = document.createElement("button");
+    b.textContent = c.name;
+    b.onclick = () => {
+      currentCategory = c;
       renderRegents();
       showView("regent-view");
     };
-    categoriesDiv.appendChild(btn);
+    categoriesDiv.appendChild(b);
   });
 }
 
-/* ===== REGENTS ===== */
+/* REGENTS */
 function renderRegents() {
   regentsDiv.innerHTML = "";
-  currentCategory.regents.forEach(regent => {
-    const btn = document.createElement("button");
-    btn.textContent = `${regent.name} (${regent.regeringstid})`;
-
-    if (!regent.hasDetails) {
-      btn.disabled = true;
-      btn.textContent += " 🔒";
+  currentCategory.regents.forEach(r => {
+    const b = document.createElement("button");
+    b.textContent = `${r.name} (${r.regeringstid})`;
+    if (!r.hasDetails) {
+      b.disabled = true;
+      b.textContent += " 🔒";
     } else {
-      btn.onclick = () => {
-        currentRegent = regent;
-        regentTitle.textContent = regent.name;
+      b.onclick = () => {
+        currentRegent = r;
+        regentTitle.textContent = r.name;
         showView("mode-view");
       };
     }
-
-    regentsDiv.appendChild(btn);
+    regentsDiv.appendChild(b);
   });
 }
 
-/* ===== QUIZ ===== */
+/* QUIZ */
 function showQuestion() {
-  const questions = currentRegent.questions;
-  currentQuestion =
-    questions[Math.floor(Math.random() * questions.length)];
-
+  const q = currentRegent.questions;
+  currentQuestion = q[Math.floor(Math.random() * q.length)];
   questionEl.textContent = currentQuestion.q;
   answerEl.textContent = currentQuestion.a;
   answerEl.classList.add("hidden");
+  toggleAnswerBtn.textContent = "Visa svar";
 }
 
 document.getElementById("quiz-mode").onclick = () => {
@@ -95,44 +93,27 @@ document.getElementById("quiz-mode").onclick = () => {
   showView("quiz-view");
 };
 
-document.getElementById("show-answer").onclick = () => {
+toggleAnswerBtn.onclick = () => {
   const hidden = answerEl.classList.toggle("hidden");
-  document.getElementById("show-answer").textContent =
-    hidden ? "Visa svar" : "Dölj svar";
+  toggleAnswerBtn.textContent = hidden ? "Visa svar" : "Dölj svar";
 };
 
 document.getElementById("next-question").onclick = showQuestion;
 
-/* ===== TIMELINE ===== */
+/* TIMELINE */
 document.getElementById("timeline-mode").onclick = () => {
   timelineEl.innerHTML = "";
-
-  currentRegent.timeline.forEach(item => {
+  currentRegent.timeline.forEach(t => {
     const li = document.createElement("li");
-    li.textContent = `${item.year} – ${item.event}`;
+    li.textContent = `${t.year} – ${t.event}`;
     timelineEl.appendChild(li);
   });
-
   showView("timeline-view");
 };
 
-/* ===== BACK BUTTONS ===== */
-document.getElementById("back-to-subjects").onclick = () =>
-  showView("subject-view");
-
-document.getElementById("back-to-categories").onclick = () =>
-  showView("category-view");
-
-document.getElementById("back-to-regents").onclick = () =>
-  showView("regent-view");
-
-document.getElementById("back-to-modes").onclick = () =>
-  showView("mode-view");
-
-document.getElementById("back-to-modes-2").onclick = () =>
-  showView("mode-view");
-
-/* ===== PWA ===== */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
+/* BACK */
+document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
+document.getElementById("back-to-categories").onclick = () => showView("category-view");
+document.getElementById("back-to-regents").onclick = () => showView("regent-view");
+document.getElementById("back-to-modes").onclick = () => showView("mode-view");
+document.getElementById("back-to-modes-2").onclick = () => showView("mode-view");
