@@ -77,9 +77,10 @@ function renderRegents() {
 
   // 🔀 Samtliga
   const allBtn = document.createElement("button");
-  allBtn.textContent = "🔀 Samtliga";
-  allBtn.onclick = startAllQuiz;
-  regentsDiv.appendChild(allBtn);
+allBtn.textContent = "🔀 Samtliga (alla regenter)";
+allBtn.style.background = "#222";
+allBtn.style.color = "white";
+allBtn.style.fontWeight = "bold";
 }
 
 
