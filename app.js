@@ -108,6 +108,18 @@ toggleAnswerBtn.onclick = () => {
 
 document.getElementById("next-question").onclick = showQuestion;
 
+/* REPETITION */
+function saveMark(level) {
+  if (!currentQuestion) return;
+  const key = `${currentRegent.id}-${currentQuestion.year}-${currentQuestion.q}`;
+  localStorage.setItem(key, level);
+  alert(`Markerad som: ${level}`);
+}
+
+document.getElementById("mark-good").onclick = () => saveMark("sitter");
+document.getElementById("mark-okay").onclick = () => saveMark("osäker");
+document.getElementById("mark-hard").onclick = () => saveMark("svår");
+
 /* YEAR QUIZ */
 function showYear() {
   currentYearEntry =
