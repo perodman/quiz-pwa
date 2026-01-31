@@ -21,6 +21,8 @@ const answerEl = document.getElementById("answer");
 const yearDisplay = document.getElementById("year-display");
 const yearAnswer = document.getElementById("year-answer");
 
+const timelineEl = document.getElementById("timeline");
+
 const repeatQuestionEl = document.getElementById("repeat-question");
 const repeatAnswerEl = document.getElementById("repeat-answer");
 
@@ -36,7 +38,7 @@ fetch("questions.json")
     showView("subject-view");
   });
 
-/* VIEW HANDLING */
+/* VIEW */
 function showView(id) {
   document.querySelectorAll("div[id$='view']").forEach(v =>
     v.classList.add("hidden")
@@ -47,45 +49,45 @@ function showView(id) {
 /* SUBJECTS */
 function renderSubjects() {
   subjectsDiv.innerHTML = "";
-  data.subjects.forEach(subject => {
-    const btn = document.createElement("button");
-    btn.textContent = subject.name;
-    btn.onclick = () => {
-      currentSubject = subject;
+  data.subjects.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.name;
+    b.onclick = () => {
+      currentSubject = s;
       renderCategories();
       showView("category-view");
     };
-    subjectsDiv.appendChild(btn);
+    subjectsDiv.appendChild(b);
   });
 }
 
 /* CATEGORIES */
 function renderCategories() {
   categoriesDiv.innerHTML = "";
-  currentSubject.categories.forEach(category => {
-    const btn = document.createElement("button");
-    btn.textContent = category.name;
-    btn.onclick = () => {
-      currentCategory = category;
+  currentSubject.categories.forEach(c => {
+    const b = document.createElement("button");
+    b.textContent = c.name;
+    b.onclick = () => {
+      currentCategory = c;
       renderRegents();
       showView("regent-view");
     };
-    categoriesDiv.appendChild(btn);
+    categoriesDiv.appendChild(b);
   });
 }
 
 /* REGENTS */
 function renderRegents() {
   regentsDiv.innerHTML = "";
-  currentCategory.regents.forEach(regent => {
-    const btn = document.createElement("button");
-    btn.textContent = regent.name;
-    btn.onclick = () => {
-      currentRegent = regent;
-      document.getElementById("regent-title").textContent = regent.name;
+  currentCategory.regents.forEach(r => {
+    const b = document.createElement("button");
+    b.textContent = r.name;
+    b.onclick = () => {
+      currentRegent = r;
+      document.getElementById("regent-title").textContent = r.name;
       showView("mode-view");
     };
-    regentsDiv.appendChild(btn);
+    regentsDiv.appendChild(b);
   });
 }
 
@@ -119,6 +121,21 @@ function showYear() {
   });
 }
 
+/* TIMELINE */
+function showTimeline() {
+  timelineEl.innerHTML = "";
+  currentRegent.timeline.forEach(t => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${t.year}</strong> – ${t.event}`;
+    const code = document.createElement("div");
+    code.className = "code-box";
+    code.textContent = `Minneskod: ${t.code || "—"}`;
+    li.appendChild(code);
+    timelineEl.appendChild(li);
+  });
+  showView("timeline-view");
+}
+
 /* REPEAT */
 function showRepeat() {
   if (repeatItems.length === 0) {
@@ -130,51 +147,41 @@ function showRepeat() {
   currentRepeatItem =
     repeatItems[Math.floor(Math.random() * repeatItems.length)];
 
-  if (currentRepeatItem.type === "quiz") {
-    repeatQuestionEl.textContent = currentRepeatItem.q;
-  } else {
-    repeatQuestionEl.textContent = `Vad hände ${currentRepeatItem.year}?`;
-  }
+  repeatQuestionEl.textContent =
+    currentRepeatItem.type === "quiz"
+      ? currentRepeatItem.q
+      : `Vad hände ${currentRepeatItem.year}?`;
 
   repeatAnswerEl.textContent = getAnswer(currentRepeatItem.year);
   repeatAnswerEl.classList.add("hidden");
 }
 
-/* REPEAT TOGGLE */
+/* HELPERS */
 function toggleRepeat(item) {
   const exists = repeatItems.some(
     r => r.type === item.type && r.year === item.year
   );
 
-  if (!exists) {
-    repeatItems.push(item);
-  } else {
-    repeatItems = repeatItems.filter(
-      r => !(r.type === item.type && r.year === item.year)
-    );
-  }
+  repeatItems = exists
+    ? repeatItems.filter(r => !(r.type === item.type && r.year === item.year))
+    : [...repeatItems, item];
 
   localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
 }
 
-/* UPDATE REPEAT BUTTON */
 function updateRepeatButton(btn, item) {
-  if (!btn) return;
-
   const exists = repeatItems.some(
     r => r.type === item.type && r.year === item.year
   );
-
   btn.textContent = exists ? "Repetera? ✅" : "Repetera? 🔁";
 }
 
-/* ANSWER LOOKUP */
 function getAnswer(year) {
   const entry = currentRegent.timeline.find(t => t.year === year);
   return entry ? entry.event : "—";
 }
 
-/* BUTTON EVENTS */
+/* MODE BUTTONS */
 document.getElementById("quiz-mode").onclick = () => {
   showQuestion();
   showView("quiz-view");
@@ -184,6 +191,8 @@ document.getElementById("year-mode").onclick = () => {
   showYear();
   showView("year-view");
 };
+
+document.getElementById("timeline-mode").onclick = showTimeline;
 
 document.getElementById("repeat-mode").onclick = () => {
   showRepeat();
@@ -207,26 +216,13 @@ document.getElementById("next-repeat").onclick = showRepeat;
 
 /* MARK REPEAT */
 markRepeatQuizBtn.onclick = () => {
-  toggleRepeat({
-    type: "quiz",
-    year: currentQuestion.year,
-    q: currentQuestion.q
-  });
-  updateRepeatButton(markRepeatQuizBtn, {
-    type: "quiz",
-    year: currentQuestion.year
-  });
+  toggleRepeat({ type: "quiz", year: currentQuestion.year, q: currentQuestion.q });
+  updateRepeatButton(markRepeatQuizBtn, { type: "quiz", year: currentQuestion.year });
 };
 
 markRepeatYearBtn.onclick = () => {
-  toggleRepeat({
-    type: "year",
-    year: currentYearEntry.year
-  });
-  updateRepeatButton(markRepeatYearBtn, {
-    type: "year",
-    year: currentYearEntry.year
-  });
+  toggleRepeat({ type: "year", year: currentYearEntry.year });
+  updateRepeatButton(markRepeatYearBtn, { type: "year", year: currentYearEntry.year });
 };
 
 /* REMOVE FROM REPEAT */
