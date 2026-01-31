@@ -85,13 +85,33 @@ function renderRegents() {
 
 /* QUIZ */
 function showQuestion() {
-  const q = currentRegent.questions;
-  currentQuestion = q[Math.floor(Math.random() * q.length)];
+  let source;
+
+  if (allMode) {
+    source = allQuestions;
+  } else {
+    source = currentRegent.questions;
+  }
+
+  if (!source || source.length === 0) {
+    questionEl.textContent = "Inga frågor ännu.";
+    answerEl.textContent = "";
+    return;
+  }
+
+  currentQuestion = source[Math.floor(Math.random() * source.length)];
+
   questionEl.textContent = currentQuestion.q;
+
+  if (currentQuestion.from) {
+    questionEl.textContent += `\n(${currentQuestion.from})`;
+  }
+
   answerEl.textContent = currentQuestion.a;
   answerEl.classList.add("hidden");
   toggleAnswerBtn.textContent = "Visa svar";
 }
+
 
 document.getElementById("quiz-mode").onclick = () => {
   showQuestion();
@@ -120,5 +140,37 @@ document.getElementById("timeline-mode").onclick = () => {
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
 document.getElementById("back-to-categories").onclick = () => showView("category-view");
 document.getElementById("back-to-regents").onclick = () => showView("regent-view");
-document.getElementById("back-to-modes").onclick = () => showView("mode-view");
+document.getElementById("back-to-modes").onclick = () => {
+  allMode = false;
+  showView("mode-view");
+};
 document.getElementById("back-to-modes-2").onclick = () => showView("mode-view");
+
+let allQuestions = [];
+let allMode = false;
+
+function startAllQuiz() {
+  allQuestions = [];
+
+  currentCategory.regents.forEach(regent => {
+    if (regent.questions && regent.questions.length > 0) {
+      regent.questions.forEach(q => {
+        allQuestions.push({
+          ...q,
+          from: regent.name
+        });
+      });
+    }
+  });
+
+  if (allQuestions.length === 0) {
+    alert("Inga frågor tillgängliga ännu.");
+    return;
+  }
+
+  allMode = true;
+  document.getElementById("regent-title").textContent = "Samtliga regenter";
+  showQuestion();
+  showView("quiz-view");
+}
+
