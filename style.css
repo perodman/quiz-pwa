@@ -46,19 +46,25 @@ button {
 #repeat-mode { background: #2e8b57; }
 
 /* FUNCTION BUTTONS */
-.btn-answer { background: #6b6bd6; }
-.btn-next { background: #4f6ef7; }
-.btn-repeat { background: #2e8b57; }
-.btn-remove { background: #e53935; }
-
-button.secondary {
-  background: #e0e0e0;
-  color: #222;
+#toggle-answer,
+#toggle-year-answer,
+#toggle-repeat-answer {
+  background: #6b6bd6;
 }
 
-button.small {
-  font-size: 14px;
-  padding: 8px;
+#next-question,
+#next-year,
+#next-repeat {
+  background: #4f6ef7;
+}
+
+#mark-repeat,
+#mark-repeat-year {
+  background: #2e8b57;
+}
+
+#remove-repeat {
+  background: #e53935;
 }
 
 /* QUIZ CARD */
@@ -76,16 +82,11 @@ button.small {
 }
 
 .answer-text {
-  margin-top: 16px;
+  margin-top: 20px;
   padding: 14px;
   background: #eef0ff;
   border-radius: 12px;
   min-height: 80px;
-}
-
-/* BUTTON GROUP */
-.quiz-actions {
-  margin-top: 24px;
 }
 
 /* YEAR */
