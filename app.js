@@ -24,6 +24,7 @@ const timelineEl = document.getElementById("timeline");
 const repeatQuestionEl = document.getElementById("repeat-question");
 const repeatAnswerEl = document.getElementById("repeat-answer");
 
+/* FETCH DATA */
 fetch("questions.json")
   .then(r => r.json())
   .then(json => {
@@ -117,11 +118,15 @@ toggleAnswerBtn.onclick = () => {
 document.getElementById("next-question").onclick = showQuestion;
 
 markRepeatBtn.onclick = () => {
-  const exists = repeatQuestions.some(q => q.q === currentQuestion.q);
-  if (!exists) {
+  const index = repeatQuestions.findIndex(q => q.q === currentQuestion.q);
+
+  if (index === -1) {
     repeatQuestions.push(currentQuestion);
-    localStorage.setItem("repeatQuestions", JSON.stringify(repeatQuestions));
+  } else {
+    repeatQuestions.splice(index, 1);
   }
+
+  localStorage.setItem("repeatQuestions", JSON.stringify(repeatQuestions));
   updateRepeatIcon();
 };
 
