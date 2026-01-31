@@ -145,45 +145,38 @@
                 }
               ],
               "questions": [
-                { "q": "När föds Gustav Eriksson?", "year": 1496 },
-                { "q": "Var föds Gustav Eriksson?", "year": 1496 },
-                { "q": "Vilket samhällsskikt tillhör Gustav Erikssons familj?", "year": 1496 },
+                { "q": "När föds Gustav Eriksson (Gustav Vasa)?", "year": 1496 },
+                { "q": "Var föds Gustav Eriksson år 1496?", "year": 1496 },
+                { "q": "Vilket samhällsskikt tillhör Gustav Erikssons familj vid hans födelse 1496?", "year": 1496 },
 
                 { "q": "Vid vilket universitet studerar Gustav Vasa år 1509?", "year": 1509 },
-                { "q": "Vilka ämnen omfattar hans studier?", "year": 1509 },
+                { "q": "Vilka ämnen studerar Gustav Vasa vid Uppsala universitet år 1509?", "year": 1509 },
 
-                { "q": "Vem ansluter sig Gustav Vasa till år 1514?", "year": 1514 },
-                { "q": "Mot vilken kung riktas oppositionen?", "year": 1514 },
+                { "q": "Till vilken politisk ledare ansluter sig Gustav Vasa år 1514?", "year": 1514 },
+                { "q": "Mot vilken unionskung riktas oppositionen som Gustav Vasa ansluter sig till 1514?", "year": 1514 },
 
-                { "q": "Efter vilket slag tas Gustav Vasa som gisslan?", "year": 1518 },
-                { "q": "Vem tar Gustav Vasa som gisslan?", "year": 1518 },
+                { "q": "Efter vilket slag tas Gustav Vasa som gisslan av Kristian II år 1518?", "year": 1518 },
+                { "q": "Vilken kung tar Gustav Vasa som gisslan efter slaget vid Brännkyrka 1518?", "year": 1518 },
 
-                { "q": "Vilken händelse undgår Gustav Vasa år 1520?", "year": 1520 },
-                { "q": "Vem beordrar avrättningarna?", "year": 1520 },
+                { "q": "Vilken massavrättning undgår Gustav Vasa år 1520?", "year": 1520 },
+                { "q": "Vilken kung beordrar Stockholms blodbad år 1520?", "year": 1520 },
 
-                { "q": "Vilket uppror inleds år 1521?", "year": 1521 },
-                { "q": "Vem leder upproret?", "year": 1521 },
+                { "q": "Vilket uppror inleds i Dalarna år 1521?", "year": 1521 },
+                { "q": "Vem leder Dalupproret som inleder befrielsekriget år 1521?", "year": 1521 },
 
-                { "q": "När väljs Gustav Vasa till kung?", "year": 1523 },
-                { "q": "Vad händer med Kalmarunionen?", "year": 1523 },
+                { "q": "När väljs Gustav Vasa till kung av Sverige?", "year": 1523 },
+                { "q": "Vilken politisk union upplöses när Gustav Vasa blir kung 1523?", "year": 1523 },
 
-                { "q": "Vad beslutas om kyrkans egendom år 1527?", "year": 1527 },
-                { "q": "Till vem förs egendomarna över?", "year": 1527 },
+                { "q": "Vad beslutar Västerås riksdag 1527 om kyrkans egendom?", "year": 1527 },
+                { "q": "Till vem överförs kyrkans egendomar efter riksdagen i Västerås 1527?", "year": 1527 },
 
-                { "q": "Vem efterträder Gustav Vasa som kung?", "year": 1560 },
-                { "q": "Vad efterlämnar Gustav Vasa vid sin död?", "year": 1560 }
+                { "q": "Vem efterträder Gustav Vasa som kung vid hans död 1560?", "year": 1560 },
+                { "q": "Vilket slags rike efterlämnar Gustav Vasa vid sin död 1560?", "year": 1560 }
               ]
             },
-
             {
               "id": "erik-xiv",
               "name": "Erik XIV",
-              "timeline": [],
-              "questions": []
-            },
-            {
-              "id": "johan-iii",
-              "name": "Johan III",
               "timeline": [],
               "questions": []
             }
