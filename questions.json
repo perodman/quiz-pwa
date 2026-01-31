@@ -1,28 +1,48 @@
 {
-  "id": "gustav-vasa",
-  "name": "Gustav Vasa",
-  "mnemonic": "G V S T A T R E F",
-  "questions": [
+  "subjects": [
     {
-      "q": "Vilket år valdes Gustav Vasa till kung av Sverige?",
-      "a": "1523"
-    }
-  ],
-  "timeline": [
-    {
-      "year": 1523,
-      "event": "Gustav Vasa väljs till kung av Sverige",
-      "code": "SJÄLV | STAT | MAKT"
-    },
-    {
-      "year": 1527,
-      "event": "Västerås riksdag beslutar om indragning av kyrkans egendom",
-      "code": "REF | KYRKA | STAT"
-    },
-    {
-      "year": 1544,
-      "event": "Kungamakten görs ärftlig",
-      "code": "ARV | DYNASTI | MAKT"
+      "id": "historia",
+      "name": "Historia",
+      "categories": [
+        {
+          "id": "svenska-regenter",
+          "name": "Svenska regenter",
+          "regents": [
+            {
+              "id": "gustav-vasa",
+              "name": "Gustav Vasa",
+              "mnemonic": "G V S T A T R E F",
+              "questions": [
+                {
+                  "q": "Vilket år valdes Gustav Vasa till kung av Sverige?",
+                  "a": "1523"
+                },
+                {
+                  "q": "Vilken riksdag markerar genombrottet för reformationen under Gustav Vasa?",
+                  "a": "Västerås riksdag 1527"
+                }
+              ],
+              "timeline": [
+                {
+                  "year": 1523,
+                  "event": "Gustav Vasa väljs till kung av Sverige och Kalmarunionen upplöses.",
+                  "code": "SJÄLV | STAT | MAKT"
+                },
+                {
+                  "year": 1527,
+                  "event": "Västerås riksdag beslutar att dra in kyrkans egendomar till kronan.",
+                  "code": "REF | KYRKA | STAT"
+                },
+                {
+                  "year": 1544,
+                  "event": "Kungamakten görs ärftlig och valkungadömet avskaffas.",
+                  "code": "ARV | DYNASTI | MAKT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
