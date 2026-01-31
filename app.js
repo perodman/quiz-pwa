@@ -61,20 +61,18 @@ function renderCategories() {
 /* REGENTS */
 function renderRegents() {
   regentsDiv.innerHTML = "";
-  currentCategory.regents.forEach(r => {
-    const b = document.createElement("button");
-    b.textContent = `${r.name} (${r.regeringstid})`;
-    if (!r.hasDetails) {
-      b.disabled = true;
-      b.textContent += " 🔒";
-    } else {
-      b.onclick = () => {
-        currentRegent = r;
-        regentTitle.textContent = r.name;
-        showView("mode-view");
-      };
-    }
-    regentsDiv.appendChild(b);
+
+  currentCategory.regents.forEach(regent => {
+    const button = document.createElement("button");
+    button.textContent = regent.name;
+
+    button.onclick = () => {
+      currentRegent = regent;
+      document.getElementById("regent-title").textContent = regent.name;
+      showView("mode-view");
+    };
+
+    regentsDiv.appendChild(button);
   });
 }
 
