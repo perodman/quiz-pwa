@@ -1,14 +1,8 @@
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open("quiz-cache").then(cache =>
-      cache.addAll([
-        "./",
-        "./index.html",
-        "./style.css",
-        "./app.js",
-        "./questions.json",
-        "./manifest.json"
-      ])
-    )
-  );
+// Service worker DISABLED during development
+self.addEventListener("install", () => {
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", () => {
+  self.registration.unregister();
 });
