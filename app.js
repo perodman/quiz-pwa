@@ -85,17 +85,28 @@ function renderRegents() {
   });
 }
 
-/* QUIZ */
+/* QUIZ – NY LOGIK */
 function showQuestion() {
   if (activeQuestions.length === 0) {
     questionEl.textContent = "Inga frågor.";
     answerEl.textContent = "";
     return;
   }
+
   currentQuestion =
     activeQuestions[Math.floor(Math.random() * activeQuestions.length)];
+
   questionEl.textContent = currentQuestion.q;
-  answerEl.textContent = currentQuestion.a;
+
+  // 🔑 HÄMTA SVAR FRÅN TIMELINE
+  const entry = activeTimeline.find(
+    t => t.year === currentQuestion.year
+  );
+
+  answerEl.textContent = entry
+    ? entry.event
+    : "Ingen information hittades för detta år.";
+
   answerEl.classList.add("hidden");
   document.getElementById("toggle-answer").textContent = "Visa svar";
 }
@@ -113,7 +124,7 @@ document.getElementById("toggle-answer").onclick = () => {
 
 document.getElementById("next-question").onclick = showQuestion;
 
-/* YEAR QUIZ */
+/* YEAR QUIZ (oförändrat) */
 function showYear() {
   if (activeTimeline.length === 0) return;
 
@@ -121,11 +132,10 @@ function showYear() {
     activeTimeline[Math.floor(Math.random() * activeTimeline.length)];
 
   yearDisplay.textContent = currentYearEntry.year;
-
   yearAnswer.textContent = currentYearEntry.event;
-  yearAnswer.classList.add("hidden");
-
   yearCodeEl.textContent = currentYearEntry.code || "–";
+
+  yearAnswer.classList.add("hidden");
   yearCodeEl.classList.add("hidden");
 
   document.getElementById("toggle-year-answer").textContent = "Visa svar";
