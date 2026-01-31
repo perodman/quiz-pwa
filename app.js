@@ -74,7 +74,14 @@ function renderRegents() {
 
     regentsDiv.appendChild(button);
   });
+
+  // 🔀 Samtliga
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "🔀 Samtliga";
+  allBtn.onclick = startAllQuiz;
+  regentsDiv.appendChild(allBtn);
 }
+
 
 /* QUIZ */
 function showQuestion() {
