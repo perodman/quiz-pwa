@@ -3,11 +3,9 @@ let currentSubject;
 let currentCategory;
 let currentRegent;
 
-let currentQuestion;
-
-/* 🔗 AKTIV DATAKÄLLA */
 let activeQuestions = [];
 let activeTimeline = [];
+let currentQuestion;
 
 /* ELEMENT */
 const subjectsDiv = document.getElementById("subjects");
@@ -21,7 +19,12 @@ const timelineEl = document.getElementById("timeline");
 const yearDisplay = document.getElementById("year-display");
 const yearAnswer = document.getElementById("year-answer");
 
-/* LOAD DATA */
+/* CODE MODE */
+const regentCodeEl = document.getElementById("regent-code");
+const yearCodeEl = document.getElementById("year-code");
+const codeYearEl = document.getElementById("code-year");
+
+/* LOAD */
 fetch("questions.json")
   .then(r => r.json())
   .then(json => {
@@ -29,7 +32,7 @@ fetch("questions.json")
     renderSubjects();
   });
 
-/* VIEW HANDLING */
+/* VIEW */
 function showView(id) {
   document.querySelectorAll("div[id$='view']").forEach(v =>
     v.classList.add("hidden")
@@ -40,11 +43,11 @@ function showView(id) {
 /* SUBJECT */
 function renderSubjects() {
   subjectsDiv.innerHTML = "";
-  data.subjects.forEach(subject => {
+  data.subjects.forEach(s => {
     const b = document.createElement("button");
-    b.textContent = subject.name;
+    b.textContent = s.name;
     b.onclick = () => {
-      currentSubject = subject;
+      currentSubject = s;
       renderCategories();
       showView("category-view");
     };
@@ -55,11 +58,11 @@ function renderSubjects() {
 /* CATEGORY */
 function renderCategories() {
   categoriesDiv.innerHTML = "";
-  currentSubject.categories.forEach(category => {
+  currentSubject.categories.forEach(c => {
     const b = document.createElement("button");
-    b.textContent = category.name;
+    b.textContent = c.name;
     b.onclick = () => {
-      currentCategory = category;
+      currentCategory = c;
       renderRegents();
       showView("regent-view");
     };
@@ -67,46 +70,17 @@ function renderCategories() {
   });
 }
 
-/* REGENTS + SAMTLIGA */
+/* REGENTS */
 function renderRegents() {
   regentsDiv.innerHTML = "";
 
-  /* 🔀 SAMTLIGA REGENTER */
-  const allBtn = document.createElement("button");
-  allBtn.textContent = "🔀 Samtliga regenter";
-  allBtn.onclick = () => {
-    activeQuestions = [];
-    activeTimeline = [];
-
-    currentCategory.regents.forEach(r => {
-      if (r.questions) {
-        r.questions.forEach(q =>
-          activeQuestions.push({ ...q, from: r.name })
-        );
-      }
-      if (r.timeline) {
-        r.timeline.forEach(t =>
-          activeTimeline.push({ ...t, regent: r.name })
-        );
-      }
-    });
-
-    document.getElementById("regent-title").textContent = "Samtliga regenter";
-    showView("mode-view");
-  };
-  regentsDiv.appendChild(allBtn);
-
-  /* ENSKILDA REGENTER */
   currentCategory.regents.forEach(regent => {
     const b = document.createElement("button");
     b.textContent = regent.name;
     b.onclick = () => {
       currentRegent = regent;
       activeQuestions = regent.questions || [];
-      activeTimeline = (regent.timeline || []).map(t => ({
-        ...t,
-        regent: regent.name
-      }));
+      activeTimeline = regent.timeline || [];
       document.getElementById("regent-title").textContent = regent.name;
       showView("mode-view");
     };
@@ -114,81 +88,23 @@ function renderRegents() {
   });
 }
 
-/* 🧠 QUIZ */
+/* QUIZ */
 function showQuestion() {
-  if (!activeQuestions || activeQuestions.length === 0) {
-    questionEl.textContent = "Inga frågor ännu.";
-    answerEl.textContent = "";
+  if (activeQuestions.length === 0) {
+    questionEl.textContent = "Inga frågor.";
     return;
   }
-
   currentQuestion =
     activeQuestions[Math.floor(Math.random() * activeQuestions.length)];
-
   questionEl.textContent = currentQuestion.q;
-
-  if (currentQuestion.from) {
-    questionEl.textContent += `\n(${currentQuestion.from})`;
-  }
-
   answerEl.textContent = currentQuestion.a;
   answerEl.classList.add("hidden");
   document.getElementById("toggle-answer").textContent = "Visa svar";
 }
 
-/* 📅 ÅRTALSQUIZ */
-function showYear() {
-  if (!activeTimeline || activeTimeline.length === 0) {
-    yearDisplay.textContent = "–";
-    yearAnswer.textContent = "Ingen data.";
-    return;
-  }
-
-  // unika år
-  const years = [...new Set(activeTimeline.map(t => t.year))];
-
-  // slumpa år
-  const year = years[Math.floor(Math.random() * years.length)];
-
-  // alla händelser detta år
-  const events = activeTimeline.filter(t => t.year === year);
-
-  yearDisplay.textContent = year;
-
-  yearAnswer.innerHTML = events
-    .map(e => `• ${e.event} <em>(${e.regent})</em>`)
-    .join("<br><br>");
-
-  yearAnswer.classList.add("hidden");
-  document.getElementById("toggle-year-answer").textContent = "Visa svar";
-}
-
-/* 📜 TIMELINE */
-function showTimeline() {
-  timelineEl.innerHTML = "";
-  activeTimeline
-    .sort((a, b) => a.year - b.year)
-    .forEach(t => {
-      const li = document.createElement("li");
-      li.textContent = `${t.year} – ${t.event} (${t.regent})`;
-      timelineEl.appendChild(li);
-    });
-}
-
-/* BUTTONS */
 document.getElementById("quiz-mode").onclick = () => {
   showQuestion();
   showView("quiz-view");
-};
-
-document.getElementById("timeline-mode").onclick = () => {
-  showTimeline();
-  showView("timeline-view");
-};
-
-document.getElementById("year-quiz-mode").onclick = () => {
-  showYear();
-  showView("year-quiz-view");
 };
 
 document.getElementById("toggle-answer").onclick = () => {
@@ -197,14 +113,58 @@ document.getElementById("toggle-answer").onclick = () => {
     hidden ? "Visa svar" : "Dölj svar";
 };
 
-document.getElementById("toggle-year-answer").onclick = () => {
-  const hidden = yearAnswer.classList.toggle("hidden");
-  document.getElementById("toggle-year-answer").textContent =
-    hidden ? "Visa svar" : "Dölj svar";
+document.getElementById("next-question").onclick = showQuestion;
+
+/* CODE MODE */
+function showCodeYear() {
+  if (activeTimeline.length === 0) {
+    codeYearEl.textContent = "–";
+    yearCodeEl.textContent = "";
+    return;
+  }
+
+  const entry =
+    activeTimeline[Math.floor(Math.random() * activeTimeline.length)];
+
+  codeYearEl.textContent = entry.year;
+  yearCodeEl.textContent = entry.code || "–";
+  yearCodeEl.classList.add("hidden");
+  document.getElementById("toggle-year-code").textContent = "Visa årskod";
+}
+
+document.getElementById("code-mode").onclick = () => {
+  regentCodeEl.textContent = currentRegent.mnemonic || "–";
+  regentCodeEl.classList.add("hidden");
+  document.getElementById("toggle-regent-code").textContent = "Visa kod";
+
+  showCodeYear();
+  showView("code-view");
 };
 
-document.getElementById("next-question").onclick = showQuestion;
-document.getElementById("next-year").onclick = showYear;
+document.getElementById("toggle-regent-code").onclick = () => {
+  const hidden = regentCodeEl.classList.toggle("hidden");
+  document.getElementById("toggle-regent-code").textContent =
+    hidden ? "Visa kod" : "Dölj kod";
+};
+
+document.getElementById("toggle-year-code").onclick = () => {
+  const hidden = yearCodeEl.classList.toggle("hidden");
+  document.getElementById("toggle-year-code").textContent =
+    hidden ? "Visa årskod" : "Dölj årskod";
+};
+
+document.getElementById("next-code-year").onclick = showCodeYear;
+
+/* TIMELINE */
+document.getElementById("timeline-mode").onclick = () => {
+  timelineEl.innerHTML = "";
+  activeTimeline.forEach(t => {
+    const li = document.createElement("li");
+    li.textContent = `${t.year} – ${t.event}`;
+    timelineEl.appendChild(li);
+  });
+  showView("timeline-view");
+};
 
 /* BACK */
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
@@ -213,3 +173,4 @@ document.getElementById("back-to-regents").onclick = () => showView("regent-view
 document.getElementById("back-to-modes").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-2").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-3").onclick = () => showView("mode-view");
+document.getElementById("back-to-modes-code").onclick = () => showView("mode-view");
