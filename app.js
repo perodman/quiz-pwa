@@ -50,3 +50,8 @@ document.getElementById("back").onclick = () => {
   document.getElementById("quiz-view").classList.add("hidden");
   document.getElementById("subject-view").classList.remove("hidden");
 };
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+
