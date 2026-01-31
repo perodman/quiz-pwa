@@ -1,0 +1,32 @@
+{
+  "subjects": [
+    {
+      "id": "historia",
+      "name": "Historia",
+      "questions": [
+        {
+          "q": "När började franska revolutionen?",
+          "a": "1789"
+        },
+        {
+          "q": "Vem var Sveriges kung år 1900?",
+          "a": "Oscar II"
+        }
+      ]
+    },
+    {
+      "id": "teknik",
+      "name": "Teknik",
+      "questions": [
+        {
+          "q": "Vad står HTML för?",
+          "a": "HyperText Markup Language"
+        },
+        {
+          "q": "Vad används CSS till?",
+          "a": "För att styla och layouta webbsidor"
+        }
+      ]
+    }
+  ]
+}
