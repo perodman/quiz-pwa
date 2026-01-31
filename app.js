@@ -2,7 +2,6 @@ let data;
 let currentSubject;
 let currentCategory;
 let currentRegent;
-
 let currentQuestion;
 let currentYearEntry;
 
@@ -82,8 +81,17 @@ function renderRegents() {
 function showQuestion() {
   const qs = currentRegent.questions;
   currentQuestion = qs[Math.floor(Math.random() * qs.length)];
+
   questionEl.textContent = currentQuestion.q;
-  answerEl.textContent = currentQuestion.a;
+
+  const entry = currentRegent.timeline.find(
+    t => t.year === currentQuestion.year
+  );
+
+  answerEl.textContent = entry
+    ? entry.event
+    : "Svar saknas för detta år.";
+
   answerEl.classList.add("hidden");
   toggleAnswerBtn.textContent = "Visa svar";
 }
@@ -126,6 +134,7 @@ document.getElementById("next-year").onclick = showYear;
 /* TIMELINE */
 document.getElementById("timeline-mode").onclick = () => {
   timelineEl.innerHTML = "";
+
   currentRegent.timeline.forEach(t => {
     const li = document.createElement("li");
     li.innerHTML = `<strong>${t.year}</strong> – ${t.event}`;
