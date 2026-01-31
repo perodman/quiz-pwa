@@ -6,93 +6,104 @@
   <title>Quiz</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="app-container">
+<div class="app-container">
 
-    <!-- SUBJECT -->
-    <div id="subject-view">
-      <h1 class="quiz-title">📚 Quiz 📚</h1>
-      <p class="subtitle">Välj ämne</p>
-      <div id="subjects"></div>
-    </div>
-
-    <!-- CATEGORY -->
-    <div id="category-view" class="hidden">
-      <button id="back-to-subjects" class="secondary small">⬅ Tillbaka</button>
-      <h1>Välj kategori</h1>
-      <div id="categories"></div>
-    </div>
-
-    <!-- REGENT -->
-    <div id="regent-view" class="hidden">
-      <button id="back-to-categories" class="secondary small">⬅ Tillbaka</button>
-      <h1>Välj regent</h1>
-      <div id="regents"></div>
-    </div>
-
-    <!-- MODE -->
-    <div id="mode-view" class="hidden">
-      <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
-      <h1 id="regent-title"></h1>
-
-      <div class="mode-quiz">
-        <button id="quiz-mode">🧠 Quiz</button>
-      </div>
-
-      <div class="mode-year">
-        <button id="year-mode">📆 Årtalsquiz</button>
-      </div>
-
-      <div class="mode-timeline">
-        <button id="timeline-mode">📜 Tidslinje</button>
-      </div>
-    </div>
-
-    <!-- QUIZ -->
-    <div id="quiz-view" class="hidden">
-      <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="quiz-title">📚 Quiz 📚</h1>
-
-      <div class="quiz-card">
-        <div id="question" class="question-text"></div>
-        <div id="answer" class="answer-text hidden"></div>
-
-        <button id="toggle-answer">Visa svar</button>
-        <button id="next-question">Nästa fråga</button>
-
-        <div class="icon-bar">
-          <button id="mark-repeat" class="icon-btn">🔁 Markera för repetition</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- YEAR QUIZ -->
-    <div id="year-view" class="hidden">
-      <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="year-title">📆 Årtalsquiz</h1>
-
-      <div class="quiz-card">
-        <div id="year-display" class="year-box"></div>
-        <div id="year-answer" class="answer-text hidden"></div>
-
-        <button id="toggle-year-answer">Visa svar</button>
-        <button id="next-year">Slumpa nytt år</button>
-      </div>
-    </div>
-
-    <!-- TIMELINE -->
-    <div id="timeline-view" class="hidden">
-      <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="timeline-title">📜 Tidslinje</h1>
-
-      <ul id="timeline"></ul>
-
-      <button id="back-to-modes-3b" class="secondary small">⬅ Tillbaka</button>
-    </div>
-
+  <!-- SUBJECT -->
+  <div id="subject-view">
+    <h1 class="quiz-title">📚 Quiz 📚</h1>
+    <p class="subtitle">Välj ämne</p>
+    <div id="subjects"></div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- CATEGORY -->
+  <div id="category-view" class="hidden">
+    <button id="back-to-subjects" class="secondary small">⬅ Tillbaka</button>
+    <h1>Välj kategori</h1>
+    <div id="categories"></div>
+  </div>
+
+  <!-- REGENT -->
+  <div id="regent-view" class="hidden">
+    <button id="back-to-categories" class="secondary small">⬅ Tillbaka</button>
+    <h1>Välj regent</h1>
+    <div id="regents"></div>
+  </div>
+
+  <!-- MODE -->
+  <div id="mode-view" class="hidden">
+    <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
+    <h1 id="regent-title"></h1>
+
+    <div class="mode-quiz">
+      <button id="quiz-mode">🧠 Quiz</button>
+    </div>
+    <div class="mode-year">
+      <button id="year-mode">📆 Årtalsquiz</button>
+    </div>
+    <div class="mode-timeline">
+      <button id="timeline-mode">📜 Tidslinje</button>
+    </div>
+    <div class="mode-repeat">
+      <button id="repeat-mode">🔁 Repetition</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-view" class="hidden">
+    <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
+    <h1 class="quiz-title">📚 Quiz 📚</h1>
+
+    <div class="quiz-card">
+      <div id="question" class="question-text"></div>
+      <div id="answer" class="answer-text hidden"></div>
+
+      <div class="icon-bar">
+        <button id="mark-repeat" title="Markera för repetition">🔁</button>
+      </div>
+
+      <button id="toggle-answer">Visa svar</button>
+      <button id="next-question">Nästa fråga</button>
+    </div>
+  </div>
+
+  <!-- YEAR QUIZ -->
+  <div id="year-view" class="hidden">
+    <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
+    <h1 class="year-title">📆 Årtalsquiz</h1>
+
+    <div class="quiz-card">
+      <div id="year-display" class="year-box"></div>
+      <div id="year-answer" class="answer-text hidden"></div>
+
+      <button id="toggle-year-answer">Visa svar</button>
+      <button id="next-year">Slumpa nytt år</button>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="timeline-view" class="hidden">
+    <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
+    <h1 class="timeline-title">📜 Tidslinje</h1>
+    <ul id="timeline"></ul>
+    <button id="back-to-modes-3b" class="secondary small">⬅ Tillbaka</button>
+  </div>
+
+  <!-- REPEAT -->
+  <div id="repeat-view" class="hidden">
+    <button id="back-to-modes-4" class="secondary small">⬅ Tillbaka</button>
+    <h1 class="repeat-title">🔁 Repetition</h1>
+
+    <div class="quiz-card">
+      <div id="repeat-question" class="question-text"></div>
+      <div id="repeat-answer" class="answer-text hidden"></div>
+
+      <button id="toggle-repeat-answer">Visa svar</button>
+      <button id="next-repeat">Nästa repetitionsfråga</button>
+    </div>
+  </div>
+
+</div>
+<script src="app.js"></script>
 </body>
 </html>
