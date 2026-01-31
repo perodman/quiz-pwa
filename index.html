@@ -1,13 +1,59 @@
-📚 Quiz
-Välj ämne
-Historia
-Välj kategori
-⬅ Tillbaka
-Välj regent
-⬅ Tillbaka
-Visa svar
-Nästa fråga ⬅ Tillbaka
-🧠 Quiz 📜 Tidslinje ⬅ Tillbaka
-Visa svar Nästa fråga ⬅ Tillbaka
-Tidslinje
-⬅ Tillbaka
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📚 Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<h1>📚 Quiz</h1>
+
+<!-- SUBJECT -->
+<div id="subject-view">
+  <h2>Välj ämne</h2>
+  <div id="subjects"></div>
+</div>
+
+<!-- CATEGORY -->
+<div id="category-view" class="hidden">
+  <h2>Välj kategori</h2>
+  <div id="categories"></div>
+  <button id="back-to-subjects">⬅ Tillbaka</button>
+</div>
+
+<!-- REGENTS -->
+<div id="regent-view" class="hidden">
+  <h2>Välj regent</h2>
+  <div id="regents"></div>
+  <button id="back-to-categories">⬅ Tillbaka</button>
+</div>
+
+<!-- MODE -->
+<div id="mode-view" class="hidden">
+  <h2 id="regent-title"></h2>
+  <button id="quiz-mode">🧠 Quiz</button>
+  <button id="timeline-mode">📜 Tidslinje</button>
+  <button id="back-to-regents">⬅ Tillbaka</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-view" class="hidden">
+  <h2 id="question"></h2>
+  <p id="answer" class="hidden"></p>
+  <button id="toggle-answer">Visa svar</button>
+  <button id="next-question">Nästa fråga</button>
+  <button id="back-to-modes">⬅ Tillbaka</button>
+</div>
+
+<!-- TIMELINE -->
+<div id="timeline-view" class="hidden">
+  <h2>Tidslinje</h2>
+  <ul id="timeline"></ul>
+  <button id="back-to-modes-2">⬅ Tillbaka</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
