@@ -122,3 +122,16 @@ li {
 .hidden {
   display: none;
 }
+
+/* MODE-SPECIFIKA FÄRGER */
+.mode-quiz button {
+  background: #5b5bd6;
+}
+
+.mode-year button {
+  background: #3f8efc;
+}
+
+.mode-timeline button {
+  background: #7a4fd9;
+}
