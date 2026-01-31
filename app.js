@@ -5,6 +5,8 @@ let currentRegent;
 let currentQuestion;
 let currentYearEntry;
 
+let repeatQuestions = JSON.parse(localStorage.getItem("repeatQuestions") || "[]");
+
 const subjectsDiv = document.getElementById("subjects");
 const categoriesDiv = document.getElementById("categories");
 const regentsDiv = document.getElementById("regents");
@@ -12,11 +14,15 @@ const regentsDiv = document.getElementById("regents");
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer");
 const toggleAnswerBtn = document.getElementById("toggle-answer");
+const markRepeatBtn = document.getElementById("mark-repeat");
 
 const yearDisplay = document.getElementById("year-display");
 const yearAnswer = document.getElementById("year-answer");
 
 const timelineEl = document.getElementById("timeline");
+
+const repeatQuestionEl = document.getElementById("repeat-question");
+const repeatAnswerEl = document.getElementById("repeat-answer");
 
 fetch("questions.json")
   .then(r => r.json())
@@ -62,7 +68,7 @@ function renderCategories() {
   });
 }
 
-/* REGENTS */
+/* REGENT */
 function renderRegents() {
   regentsDiv.innerHTML = "";
   currentCategory.regents.forEach(r => {
@@ -84,13 +90,18 @@ function showQuestion() {
 
   questionEl.textContent = currentQuestion.q;
 
-  const entry = currentRegent.timeline.find(
-    t => t.year === currentQuestion.year
-  );
+  const yearData = currentRegent.timeline.find(t => t.year === currentQuestion.year);
+  answerEl.textContent = yearData ? yearData.event : "—";
 
-  answerEl.textContent = entry ? entry.event : "Svar saknas.";
   answerEl.classList.add("hidden");
   toggleAnswerBtn.textContent = "Visa svar";
+
+  updateRepeatIcon();
+}
+
+function updateRepeatIcon() {
+  const exists = repeatQuestions.some(q => q.q === currentQuestion.q);
+  markRepeatBtn.textContent = exists ? "🔁✅" : "🔁";
 }
 
 document.getElementById("quiz-mode").onclick = () => {
@@ -105,20 +116,19 @@ toggleAnswerBtn.onclick = () => {
 
 document.getElementById("next-question").onclick = showQuestion;
 
-/* REPETITION – ENKEL */
-document.getElementById("mark-repeat").onclick = () => {
-  if (!currentQuestion) return;
-  const key = `${currentRegent.id}-${currentQuestion.year}-${currentQuestion.q}`;
-  localStorage.setItem(key, "repeat");
-  alert("Markerad för repetition 🔁");
+markRepeatBtn.onclick = () => {
+  const exists = repeatQuestions.some(q => q.q === currentQuestion.q);
+  if (!exists) {
+    repeatQuestions.push(currentQuestion);
+    localStorage.setItem("repeatQuestions", JSON.stringify(repeatQuestions));
+  }
+  updateRepeatIcon();
 };
 
 /* YEAR QUIZ */
 function showYear() {
   currentYearEntry =
-    currentRegent.timeline[
-      Math.floor(Math.random() * currentRegent.timeline.length)
-    ];
+    currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
 
   yearDisplay.textContent = `Vad hände ${currentYearEntry.year}?`;
   yearAnswer.textContent = currentYearEntry.event;
@@ -139,21 +149,43 @@ document.getElementById("next-year").onclick = showYear;
 /* TIMELINE */
 document.getElementById("timeline-mode").onclick = () => {
   timelineEl.innerHTML = "";
-
   currentRegent.timeline.forEach(t => {
     const li = document.createElement("li");
     li.innerHTML = `<strong>${t.year}</strong> – ${t.event}`;
-
     const code = document.createElement("div");
-    code.textContent = `Minneskod: ${t.code || "–"}`;
-    code.classList.add("code-box");
-
+    code.className = "code-box";
+    code.textContent = `Minneskod: ${t.code || "—"}`;
     li.appendChild(code);
     timelineEl.appendChild(li);
   });
-
   showView("timeline-view");
 };
+
+/* REPEAT */
+function showRepeat() {
+  if (repeatQuestions.length === 0) {
+    repeatQuestionEl.textContent = "Inga markerade frågor ännu.";
+    repeatAnswerEl.textContent = "";
+    return;
+  }
+  const q = repeatQuestions[Math.floor(Math.random() * repeatQuestions.length)];
+  repeatQuestionEl.textContent = q.q;
+
+  const yearData = currentRegent.timeline.find(t => t.year === q.year);
+  repeatAnswerEl.textContent = yearData ? yearData.event : "—";
+  repeatAnswerEl.classList.add("hidden");
+}
+
+document.getElementById("repeat-mode").onclick = () => {
+  showRepeat();
+  showView("repeat-view");
+};
+
+document.getElementById("toggle-repeat-answer").onclick = () => {
+  repeatAnswerEl.classList.toggle("hidden");
+};
+
+document.getElementById("next-repeat").onclick = showRepeat;
 
 /* BACK */
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
@@ -163,3 +195,4 @@ document.getElementById("back-to-modes").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-2").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-3").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-3b").onclick = () => showView("mode-view");
+document.getElementById("back-to-modes-4").onclick = () => showView("mode-view");
