@@ -16,6 +16,10 @@ body {
 }
 
 /* RUBRIKER */
+h1 {
+  text-align: center;
+}
+
 .quiz-title {
   color: #5b5bd6;
 }
@@ -26,6 +30,13 @@ body {
 
 .timeline-title {
   color: #7a4fd9;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
 /* KNAPPAR */
@@ -64,7 +75,7 @@ button:active {
 }
 
 .question-text {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
   line-height: 1.4;
 }
