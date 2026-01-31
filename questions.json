@@ -9,13 +9,73 @@
           "name": "Svenska regenter",
           "regents": [
             {
-              "id": "gustav-vasa",
-              "name": "Gustav Vasa",
-              "regeringstid": "1523–1560",
-              "dynasti": "Vasaätten",
-              "epok": "Äldre Vasatid",
-              "hasDetails": true
-            },
+  "id": "gustav-vasa",
+  "name": "Gustav Vasa",
+  "regeringstid": "1523–1560",
+  "dynasti": "Vasaätten",
+  "epok": "Äldre Vasatid",
+  "hasDetails": true,
+
+  "meta": {
+    "levnadstid": "1496–1560"
+  },
+
+  "timeline": [
+    { "year": 1496, "event": "Föds den 12 maj i Uppland" },
+    { "year": 1518, "event": "Tas som gisslan av Kristian II" },
+    { "year": 1520, "event": "Undkommer Stockholms blodbad" },
+    { "year": 1521, "event": "Dalupproret inleder befrielsekriget" },
+    { "year": 1523, "event": "Väljs till kung av Sverige den 6 juni" },
+    { "year": 1544, "event": "Kungamakten görs ärftlig" },
+    { "year": 1560, "event": "Avlider den 29 september" }
+  ],
+
+  "facts": [
+    "Gustav Eriksson föds den 12 maj 1496 i Uppland i en frälsefamilj.",
+    "Han studerar vid Uppsala universitet med inriktning på latin, teologi och förvaltning.",
+    "Han ansluter sig till oppositionen mot unionskungen Kristian II.",
+    "Efter slaget vid Brännkyrka tas han som gisslan men lyckas fly till Lübeck.",
+    "Han undkommer Stockholms blodbad 1520.",
+    "Dalupproret markerar början på befrielsekriget mot Danmark.",
+    "Med stöd från Hansan besegras de danska styrkorna.",
+    "Gustav Vasa väljs till kung av Sverige den 6 juni 1523.",
+    "Kalmarunionen upplöses och Sverige blir självständigt.",
+    "Under hans regering genomförs reformationen och kyrkans egendomar dras in till kronan.",
+    "Kungamakten görs ärftlig och centralmakten stärks.",
+    "Gustav Vasa avlider den 29 september 1560."
+  ],
+
+  "questions": [
+    {
+      "q": "När föddes Gustav Vasa?",
+      "a": "Den 12 maj 1496."
+    },
+    {
+      "q": "Vilken händelse undkom Gustav Vasa år 1520?",
+      "a": "Stockholms blodbad."
+    },
+    {
+      "q": "Vad markerar starten på Gustav Vasas befrielsekrig?",
+      "a": "Dalupproret."
+    },
+    {
+      "q": "När valdes Gustav Vasa till kung av Sverige?",
+      "a": "Den 6 juni 1523."
+    },
+    {
+      "q": "Vilken viktig religiös förändring genomfördes under Gustav Vasas regering?",
+      "a": "Reformationen och brytningen med påvedömet."
+    },
+    {
+      "q": "Vad innebar beslutet att göra kungamakten ärftlig?",
+      "a": "Att Sverige gick från valkungadöme till ärftlig monarki."
+    },
+    {
+      "q": "När avled Gustav Vasa?",
+      "a": "Den 29 september 1560."
+    }
+  ]
+},
             {
               "id": "erik-xiv",
               "name": "Erik XIV",
