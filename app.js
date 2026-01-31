@@ -4,6 +4,7 @@ let currentCategory;
 let currentRegent;
 let currentQuestion;
 let currentYearEntry;
+let currentRepeatQuestion;
 
 let repeatQuestions = JSON.parse(localStorage.getItem("repeatQuestions") || "[]");
 
@@ -23,8 +24,9 @@ const timelineEl = document.getElementById("timeline");
 
 const repeatQuestionEl = document.getElementById("repeat-question");
 const repeatAnswerEl = document.getElementById("repeat-answer");
+const unmarkRepeatBtn = document.getElementById("unmark-repeat");
 
-/* FETCH DATA */
+/* FETCH */
 fetch("questions.json")
   .then(r => r.json())
   .then(json => {
@@ -173,10 +175,14 @@ function showRepeat() {
     repeatAnswerEl.textContent = "";
     return;
   }
-  const q = repeatQuestions[Math.floor(Math.random() * repeatQuestions.length)];
-  repeatQuestionEl.textContent = q.q;
+  currentRepeatQuestion =
+    repeatQuestions[Math.floor(Math.random() * repeatQuestions.length)];
 
-  const yearData = currentRegent.timeline.find(t => t.year === q.year);
+  repeatQuestionEl.textContent = currentRepeatQuestion.q;
+
+  const yearData = currentRegent.timeline.find(
+    t => t.year === currentRepeatQuestion.year
+  );
   repeatAnswerEl.textContent = yearData ? yearData.event : "—";
   repeatAnswerEl.classList.add("hidden");
 }
@@ -191,6 +197,14 @@ document.getElementById("toggle-repeat-answer").onclick = () => {
 };
 
 document.getElementById("next-repeat").onclick = showRepeat;
+
+unmarkRepeatBtn.onclick = () => {
+  repeatQuestions = repeatQuestions.filter(
+    q => q.q !== currentRepeatQuestion.q
+  );
+  localStorage.setItem("repeatQuestions", JSON.stringify(repeatQuestions));
+  showRepeat();
+};
 
 /* BACK */
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
