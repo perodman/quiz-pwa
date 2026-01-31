@@ -62,6 +62,13 @@ function renderCategories() {
 function renderRegents() {
   regentsDiv.innerHTML = "";
 
+  // 🔀 Samtliga – alltid först
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "🔀 Samtliga regenter";
+  allBtn.onclick = startAllQuiz;
+  regentsDiv.appendChild(allBtn);
+
+  // Enskilda regenter
   currentCategory.regents.forEach(regent => {
     const button = document.createElement("button");
     button.textContent = regent.name;
@@ -74,13 +81,6 @@ function renderRegents() {
 
     regentsDiv.appendChild(button);
   });
-
-  // 🔀 Samtliga
-  const allBtn = document.createElement("button");
-allBtn.textContent = "🔀 Samtliga (alla regenter)";
-allBtn.style.background = "#222";
-allBtn.style.color = "white";
-allBtn.style.fontWeight = "bold";
 }
 
 
