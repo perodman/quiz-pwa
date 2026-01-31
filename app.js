@@ -88,10 +88,7 @@ function showQuestion() {
     t => t.year === currentQuestion.year
   );
 
-  answerEl.textContent = entry
-    ? entry.event
-    : "Svar saknas för detta år.";
-
+  answerEl.textContent = entry ? entry.event : "Svar saknas.";
   answerEl.classList.add("hidden");
   toggleAnswerBtn.textContent = "Visa svar";
 }
@@ -108,17 +105,13 @@ toggleAnswerBtn.onclick = () => {
 
 document.getElementById("next-question").onclick = showQuestion;
 
-/* REPETITION */
-function saveMark(level) {
+/* REPETITION – ENKEL */
+document.getElementById("mark-repeat").onclick = () => {
   if (!currentQuestion) return;
   const key = `${currentRegent.id}-${currentQuestion.year}-${currentQuestion.q}`;
-  localStorage.setItem(key, level);
-  alert(`Markerad som: ${level}`);
-}
-
-document.getElementById("mark-good").onclick = () => saveMark("sitter");
-document.getElementById("mark-okay").onclick = () => saveMark("osäker");
-document.getElementById("mark-hard").onclick = () => saveMark("svår");
+  localStorage.setItem(key, "repeat");
+  alert("Markerad för repetition 🔁");
+};
 
 /* YEAR QUIZ */
 function showYear() {
