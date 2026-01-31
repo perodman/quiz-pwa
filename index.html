@@ -6,68 +6,76 @@
   <title>Quiz</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-
   <div class="app-container">
-
-    <h1>📚 Quiz</h1>
 
     <!-- SUBJECT -->
     <div id="subject-view">
-      <h2>Välj ämne</h2>
+      <h1 class="quiz-title">📚 Quiz 📚</h1>
+      <p>Välj ämne</p>
       <div id="subjects"></div>
     </div>
 
     <!-- CATEGORY -->
     <div id="category-view" class="hidden">
-      <h2>Välj kategori</h2>
+      <button id="back-to-subjects" class="secondary small">⬅ Tillbaka</button>
+      <h1>Välj kategori</h1>
       <div id="categories"></div>
-      <button id="back-to-subjects">⬅ Tillbaka</button>
     </div>
 
     <!-- REGENT -->
     <div id="regent-view" class="hidden">
-      <h2>Välj regent</h2>
+      <button id="back-to-categories" class="secondary small">⬅ Tillbaka</button>
+      <h1>Välj regent</h1>
       <div id="regents"></div>
-      <button id="back-to-categories">⬅ Tillbaka</button>
     </div>
 
     <!-- MODE -->
     <div id="mode-view" class="hidden">
-      <h2 id="regent-title"></h2>
+      <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
+      <h1 id="regent-title"></h1>
       <button id="quiz-mode">🧠 Quiz</button>
-      <button id="year-quiz-mode">📅 Årtalsquiz</button>
+      <button id="year-mode">📆 Årtalsquiz</button>
       <button id="timeline-mode">📜 Tidslinje</button>
-      <button id="back-to-regents">⬅ Tillbaka</button>
     </div>
 
     <!-- QUIZ -->
     <div id="quiz-view" class="hidden">
-      <p id="question"></p>
-      <p id="answer" class="hidden"></p>
-      <button id="toggle-answer">Visa svar</button>
-      <button id="next-question">Nästa fråga</button>
-      <button id="back-to-modes">⬅ Tillbaka</button>
+      <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
+      <h1 class="quiz-title">📚 Quiz 📚</h1>
+
+      <div class="quiz-card">
+        <div id="question" class="question-text"></div>
+        <div id="answer" class="answer-text hidden"></div>
+
+        <button id="toggle-answer">Visa svar</button>
+        <button id="next-question">Nästa fråga</button>
+      </div>
     </div>
 
     <!-- YEAR QUIZ -->
-    <div id="year-quiz-view" class="hidden">
-      <div id="year-display" class="big-year"></div>
+    <div id="year-view" class="hidden">
+      <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
+      <h1 class="year-title">📆 Årtalsquiz</h1>
 
-      <p id="year-code" class="hidden code-box"></p>
-      <button id="toggle-year-code">Visa kod</button>
+      <div class="quiz-card">
+        <div id="year-display" class="year-box"></div>
+        <div id="year-answer" class="answer-text hidden"></div>
 
-      <p id="year-answer" class="hidden"></p>
-      <button id="toggle-year-answer">Visa svar</button>
-
-      <button id="next-year">Slumpa nytt år</button>
-      <button id="back-to-modes-2">⬅ Tillbaka</button>
+        <button id="toggle-year-answer">Visa svar</button>
+        <button id="next-year">Slumpa nytt år</button>
+      </div>
     </div>
 
     <!-- TIMELINE -->
     <div id="timeline-view" class="hidden">
+      <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
+      <h1 class="timeline-title">📜 Tidslinje</h1>
+
       <ul id="timeline"></ul>
-      <button id="back-to-modes-3">⬅ Tillbaka</button>
+
+      <button id="back-to-modes-3b" class="secondary small">⬅ Tillbaka</button>
     </div>
 
   </div>
