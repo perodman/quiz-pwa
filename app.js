@@ -1,8 +1,8 @@
 let data;
 let currentSubject, currentCategory, currentRegent;
-let currentQuestion, currentYearEntry, currentRepeatItem;
+let currentQuestion, currentYearEntry, currentRepeatItem, currentChallengeItem;
 let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
-let streak = 0;
+let challengeStreak = 0;
 
 /* LADDA DATA */
 fetch("questions.json")
@@ -60,28 +60,30 @@ function renderRegents() {
 }
 
 /* SVARSLOGIK */
-function toggleAnswer(displayId, btnId, controlsToShowId, controlsToHideId) {
+function toggleAnswerSimple(displayId, btnId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
-  el.classList.remove("invisible");
-  el.classList.add("visible");
-  btn.innerHTML = 'Dölj svar &nbsp; ✖';
-  btn.classList.add("active");
-  
-  document.getElementById(controlsToHideId).classList.add("hidden");
-  document.getElementById(controlsToShowId).classList.remove("hidden");
+  const isHidden = el.classList.contains("invisible");
+  el.classList.toggle("invisible", !isHidden);
+  el.classList.toggle("visible", isHidden);
+  btn.innerHTML = isHidden ? 'Dölj svar &nbsp; ✖' : 'Visa svar';
+  btn.classList.toggle("active", isHidden);
 }
 
-function resetQuizUI(displayId, btnId, initialId, actionId) {
+function toggleChallengeAnswer() {
+  document.getElementById("challenge-answer").classList.replace("invisible", "visible");
+  document.getElementById("challenge-initial-controls").classList.add("hidden");
+  document.getElementById("challenge-action-controls").classList.remove("hidden");
+}
+
+function resetUI(displayId, btnId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
-  el.classList.add("invisible");
-  el.classList.remove("visible");
-  btn.innerHTML = "Visa svar";
-  btn.classList.remove("active");
-  
-  document.getElementById(initialId).classList.remove("hidden");
-  document.getElementById(actionId).classList.add("hidden");
+  el.classList.replace("visible", "invisible");
+  if (btn) {
+    btn.innerHTML = "Visa svar";
+    btn.classList.remove("active");
+  }
 }
 
 /* MODES */
@@ -89,58 +91,70 @@ function showQuestion() {
   currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
   document.getElementById("question").textContent = currentQuestion.q;
   document.getElementById("answer").textContent = getAnswer(currentQuestion.year);
-  resetQuizUI("answer", "toggle-answer", "quiz-initial-controls", "quiz-action-controls");
-  document.getElementById("quiz-streak").textContent = streak;
+  resetUI("answer", "toggle-answer");
 }
 
 function showYear() {
   currentYearEntry = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
   document.getElementById("year-display").textContent = currentYearEntry.year;
   document.getElementById("year-answer").textContent = currentYearEntry.event;
-  resetQuizUI("year-answer", "toggle-year-answer", "year-initial-controls", "year-action-controls");
-  document.getElementById("year-streak").textContent = streak;
+  resetUI("year-answer", "toggle-year-answer");
+}
+
+function showChallenge() {
+  // Slumpa antingen en fråga eller ett årtal för utmaningen
+  const isYearMode = Math.random() > 0.5;
+  if (isYearMode) {
+    currentChallengeItem = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
+    document.getElementById("challenge-question").textContent = `Vad hände år ${currentChallengeItem.year}?`;
+    document.getElementById("challenge-answer").textContent = currentChallengeItem.event;
+  } else {
+    const q = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
+    currentChallengeItem = q;
+    document.getElementById("challenge-question").textContent = q.q;
+    document.getElementById("challenge-answer").textContent = getAnswer(q.year);
+  }
+  
+  document.getElementById("challenge-answer").classList.replace("visible", "invisible");
+  document.getElementById("challenge-initial-controls").classList.remove("hidden");
+  document.getElementById("challenge-action-controls").classList.add("hidden");
+  document.getElementById("challenge-streak").textContent = challengeStreak;
 }
 
 function showRepeat() {
   if (repeatItems.length === 0) {
     document.getElementById("repeat-question").textContent = "Inga frågor kvar 🎉";
     document.getElementById("repeat-answer").textContent = "";
-    document.getElementById("repeat-action-controls").classList.add("hidden");
-    document.getElementById("repeat-initial-controls").classList.remove("hidden");
     return;
   }
   currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
   document.getElementById("repeat-question").textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
   document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
-  resetQuizUI("repeat-answer", "toggle-repeat-answer", "repeat-initial-controls", "repeat-action-controls");
-}
-
-/* STREAK & REPEAT LOGIC */
-function handleResponse(isKnown, type) {
-  if (isKnown) {
-    streak++;
-  } else {
-    streak = 0;
-    // Lägg till i repetition om det inte redan finns
-    const item = type === 'quiz' 
-      ? { type: "quiz", year: currentQuestion.year, q: currentQuestion.q }
-      : { type: "year", year: currentYearEntry.year };
-    
-    const exists = repeatItems.some(r => r.year === item.year && r.type === item.type);
-    if (!exists) {
-      repeatItems.push(item);
-      localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    }
-  }
-  
-  if (type === 'quiz') showQuestion();
-  else showYear();
+  resetUI("repeat-answer", "toggle-repeat-answer");
 }
 
 /* HELPERS */
 function getAnswer(year) {
   const entry = currentRegent.timeline.find(t => t.year === year);
   return entry ? entry.event : "Svar saknas";
+}
+
+function handleChallenge(isKnown) {
+  if (isKnown) {
+    challengeStreak++;
+  } else {
+    challengeStreak = 0;
+    // Lägg till i repetition automatiskt vid fel
+    const item = currentChallengeItem.q 
+      ? { type: "quiz", year: currentChallengeItem.year, q: currentChallengeItem.q }
+      : { type: "year", year: currentChallengeItem.year };
+    
+    if (!repeatItems.some(r => r.year === item.year && r.type === item.type)) {
+      repeatItems.push(item);
+      localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
+    }
+  }
+  showChallenge();
 }
 
 function showTimeline() {
@@ -155,23 +169,24 @@ function showTimeline() {
 }
 
 /* LISTENERS */
-document.getElementById("quiz-mode").onclick = () => { streak = 0; showQuestion(); showView("quiz-view"); };
-document.getElementById("year-mode").onclick = () => { streak = 0; showYear(); showView("year-view"); };
+document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
+document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
+document.getElementById("challenge-mode").onclick = () => { challengeStreak = 0; showChallenge(); showView("challenge-view"); };
 document.getElementById("timeline-mode").onclick = showTimeline;
 
-// Toggle Listeners
-document.getElementById("toggle-answer").onclick = () => toggleAnswer("answer", "toggle-answer", "quiz-action-controls", "quiz-initial-controls");
-document.getElementById("toggle-year-answer").onclick = () => toggleAnswer("year-answer", "toggle-year-answer", "year-action-controls", "year-initial-controls");
-document.getElementById("toggle-repeat-answer").onclick = () => toggleAnswer("repeat-answer", "toggle-repeat-answer", "repeat-action-controls", "repeat-initial-controls");
+document.getElementById("toggle-answer").onclick = () => toggleAnswerSimple("answer", "toggle-answer");
+document.getElementById("toggle-year-answer").onclick = () => toggleAnswerSimple("year-answer", "toggle-year-answer");
+document.getElementById("toggle-repeat-answer").onclick = () => toggleAnswerSimple("repeat-answer", "toggle-repeat-answer");
+document.getElementById("toggle-challenge-answer").onclick = toggleChallengeAnswer;
 
-// Action Listeners
-document.getElementById("mark-known").onclick = () => handleResponse(true, 'quiz');
-document.getElementById("mark-retry").onclick = () => handleResponse(false, 'quiz');
-document.getElementById("mark-known-year").onclick = () => handleResponse(true, 'year');
-document.getElementById("mark-retry-year").onclick = () => handleResponse(false, 'year');
-
+document.getElementById("next-question").onclick = showQuestion;
+document.getElementById("next-year").onclick = showYear;
 document.getElementById("next-repeat").onclick = showRepeat;
+
+document.getElementById("mark-known").onclick = () => handleChallenge(true);
+document.getElementById("mark-retry").onclick = () => handleChallenge(false);
+
 document.getElementById("remove-repeat").onclick = () => {
   repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && r.type === currentRepeatItem.type));
   localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
