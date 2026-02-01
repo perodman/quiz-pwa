@@ -5,35 +5,42 @@ let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
 let challengeStreak = 0;
 let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
+let audioCtx;
 
-/* GLADARE LJUDMOTOR (Anpassad för mobil) */
+/* LJUDMOTOR FÖR MOBIL & DATOR */
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+// Trigga ljudupplåsning vid första klick
+document.body.addEventListener('click', initAudio, { once: true });
+
 async function playSuccessSound() {
     if (!isSoundEnabled) return;
+    initAudio();
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioContext();
-        
-        // För mobiler: återuppväck kontexten
-        if (ctx.state === 'suspended') await ctx.resume();
-
         const playTone = (freq, startTime, duration, vol) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, startTime);
             gain.gain.setValueAtTime(0, startTime);
             gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
             gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-            osc.connect(gain); gain.connect(ctx.destination);
+            osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(startTime); osc.stop(startTime + duration);
         };
-
-        const now = ctx.currentTime;
-        // Tre glada toner (C5, E5, G5)
-        playTone(523.25, now, 0.25, 0.1); 
-        playTone(659.25, now + 0.08, 0.25, 0.1);
-        playTone(783.99, now + 0.16, 0.4, 0.1);
-    } catch(e) { console.log("Ljud kunde inte spelas:", e); }
+        const now = audioCtx.currentTime;
+        // Glatt ackord
+        playTone(523.25, now, 0.2, 0.1); 
+        playTone(659.25, now + 0.1, 0.2, 0.1);
+        playTone(783.99, now + 0.2, 0.4, 0.1);
+    } catch(e) { console.log(e); }
 }
 
 /* INIT */
@@ -66,7 +73,10 @@ document.getElementById("global-back").onclick = () => {
     if (viewHistory.length > 1) {
         viewHistory.pop(); 
         const prev = viewHistory[viewHistory.length - 1];
-        showView(prev);
+        // Specialare: om vi går tillbaka, rensa hidden manuellt
+        document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
+        document.getElementById(prev).classList.remove("hidden");
+        if (prev === "subject-view") document.getElementById("nav-header").classList.add("hidden");
     }
 };
 
@@ -85,7 +95,7 @@ function updateTrackers() {
         badge.classList.toggle("hidden", count === 0);
     }
     const ct = document.getElementById("repeat-counter-text");
-    if(ct) ct.textContent = count > 0 ? `${count} händelser kvar!` : "";
+    if(ct) ct.textContent = count > 0 ? `${count} händelser kvar!` : "Inga händelser kvar!";
 }
 
 /* RENDERING */
@@ -256,5 +266,6 @@ document.getElementById("mark-retry").onclick = () => {
 document.getElementById("remove-repeat").onclick = () => {
     repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true)));
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
+    updateTrackers(); // Omedelbar uppdatering av räknaren
     showRepeat();
 };
