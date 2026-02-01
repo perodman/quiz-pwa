@@ -6,7 +6,7 @@ body {
 }
 .app-container { max-width: 720px; margin: auto; padding: 16px; }
 
-/* TOPP-KONTROLLER (Hem & Ljud) */
+/* TOPP-KONTROLLER */
 .top-controls {
   position: fixed; top: 15px; right: 15px;
   display: flex; gap: 10px; z-index: 1000;
@@ -22,7 +22,7 @@ body {
 .center { text-align: center; margin-bottom: 25px; }
 .quiz-title { text-align: center; font-size: 38px; font-weight: 900; margin: 40px 0 10px; color: #2c3e50; }
 .subtitle { text-align: center; color: #7f8c8d; font-weight: 600; margin-bottom: 30px; }
-.center-small { text-align: center; font-size: 13px; color: #888; margin-bottom: 10px; font-weight: 700; }
+.center-small { text-align: center; font-size: 14px; color: #888; margin-bottom: 10px; font-weight: 800; }
 
 /* SELECTION BUTTONS (Historia, Regenter etc) */
 .selection-container { 
@@ -30,7 +30,8 @@ body {
 }
 .selection-container button { 
   background: #3f8efc; color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-  width: auto; min-width: 180px; padding: 14px 30px; border-radius: 16px; font-weight: 700; border: none; cursor: pointer;
+  width: auto; min-width: 200px; padding: 16px 32px; border-radius: 18px; 
+  font-weight: 800; border: none; cursor: pointer; font-size: 18px;
 }
 
 /* NAVIGERING */
@@ -40,7 +41,7 @@ body {
 
 /* MODES */
 .mode-container { display: flex; flex-direction: column; gap: 12px; max-width: 340px; margin: 0 auto; }
-.mode-btn { padding: 14px; border-radius: 16px; border: none; color: white; font-weight: 700; cursor: pointer; width: 100%; }
+.mode-btn { padding: 16px; border-radius: 18px; border: none; color: white; font-weight: 800; cursor: pointer; width: 100%; font-size: 18px; }
 .purple { background: #7a4fd9; } .blue { background: #3f8efc; } .indigo { background: #5b5bd6; } .dark-green { background: #2e8b57; } .orange { background: #f39c12; }
 .badge { background: #ff4757; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
 .menu-section-label { text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #aaa; font-weight: 800; margin: 25px 0 10px; display: flex; align-items: center; justify-content: center; }
@@ -58,8 +59,9 @@ body {
 
 /* KONTROLLER I QUIZ */
 .quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-.half-btn { flex: 1; min-width: 130px; padding: 12px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
-.full-btn { width: 100%; padding: 12px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; }
+.half-btn, .full-btn { padding: 14px; border-radius: 16px; border: none; font-weight: 800; cursor: pointer; font-size: 16px; }
+.half-btn { flex: 1; min-width: 130px; }
+.full-btn { width: 100%; }
 .toggle-btn { background: #4f6ef7; color: white; }
 .next-btn, .known-btn { background: #27ae60; color: white; }
 .retry-btn { background: #ffb347; color: white; }
@@ -67,35 +69,32 @@ body {
 .repeat-btn-active { background: #ffb347; color: white; }
 .remove-btn { background: #f0f0f0; color: #666; }
 
-/* UTMANINGEN */
-.header-row { display: flex; justify-content: center; margin-bottom: 10px; }
-.streak-badge { background: white; padding: 6px 15px; border-radius: 20px; color: #f39c12; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
-/* TIDSLINJE (Mobilanpassad 80-85% bredd) */
-.timeline-wrapper { position: relative; padding: 30px 10px; overflow-x: hidden; }
-ul#timeline { list-style: none; padding: 0; margin: 0; position: relative; }
-ul#timeline::before { content: ""; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background: #ddd; }
+/* TIDSLINJE (Zick-Zack 80% bredd) */
+.timeline-wrapper { position: relative; padding: 40px 0; overflow-x: hidden; }
+ul#timeline { list-style: none; padding: 0; margin: 0; position: relative; width: 100%; }
+ul#timeline::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: #ddd; transform: translateX(-50%); }
 
 ul#timeline li { 
-  position: relative; width: 82%; margin-left: 45px; margin-bottom: 25px; 
-  background: white; padding: 18px; border-radius: 18px; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid #7a4fd9;
+  position: relative; width: 80%; margin-bottom: 40px; background: white; padding: 20px; 
+  border-radius: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); clear: both; transition: 0.3s;
 }
-ul#timeline li::after { 
-  content: ""; position: absolute; top: 50%; left: -33px; width: 16px; height: 16px; 
-  background: #7a4fd9; border: 3px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%); z-index: 2;
-}
+ul#timeline li:nth-child(odd) { float: left; margin-left: 2%; border-left: 6px solid #7a4fd9; }
+ul#timeline li:nth-child(even) { float: right; margin-right: 2%; border-right: 6px solid #7a4fd9; text-align: right; }
 
-/* Tidslinje för större skärmar */
-@media (min-width: 650px) {
-  ul#timeline::before { left: 50%; transform: translateX(-50%); }
-  ul#timeline li { width: 42%; margin-left: 0; float: none; }
-  ul#timeline li:nth-child(odd) { float: left; clear: both; }
-  ul#timeline li:nth-child(even) { float: right; clear: both; }
-  ul#timeline li:nth-child(odd)::after { left: auto; right: -12.5%; }
-  ul#timeline li:nth-child(even)::after { left: -12.5%; }
+ul#timeline li::after { 
+  content: ""; position: absolute; top: 50%; width: 18px; height: 18px; 
+  background: #7a4fd9; border: 4px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%); z-index: 2;
+}
+ul#timeline li:nth-child(odd)::after { right: -13.5%; }
+ul#timeline li:nth-child(even)::after { left: -13.5%; }
+
+@media (min-width: 600px) {
+  ul#timeline li { width: 42%; }
+  ul#timeline li:nth-child(odd) { margin-left: 4%; }
+  ul#timeline li:nth-child(even) { margin-right: 4%; }
+  ul#timeline li:nth-child(odd)::after { right: -11%; }
+  ul#timeline li:nth-child(even)::after { left: -11%; }
 }
 
 .code-box { font-size: 10px; color: #bbb; margin-top: 8px; font-family: monospace; }
-.view { animation: slideIn 0.3s ease-out; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.streak-badge { background: white; padding: 6px 15px; border-radius: 20px; color: #f39c12; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
