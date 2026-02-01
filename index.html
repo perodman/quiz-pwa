@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz</title>
+  <title>Quiz App</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -45,14 +45,12 @@
 
       <div class="quiz-card">
         <div id="question" class="question-text"></div>
-        <div id="answer" class="answer-text hidden"></div>
+        <div id="answer" class="answer-text invisible"></div>
 
         <div class="quiz-controls">
-          <button id="toggle-answer" class="half-btn">Visa svar</button>
+          <button id="toggle-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-question" class="half-btn">Nästa</button>
-          <button id="mark-repeat" class="repeat-btn full-btn">
-            Repetera? 🔁
-          </button>
+          <button id="mark-repeat" class="repeat-btn full-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
@@ -63,14 +61,12 @@
 
       <div class="quiz-card">
         <div id="year-display" class="year-box"></div>
-        <div id="year-answer" class="answer-text hidden"></div>
+        <div id="year-answer" class="answer-text invisible"></div>
 
         <div class="quiz-controls">
-          <button id="toggle-year-answer" class="half-btn">Visa svar</button>
+          <button id="toggle-year-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-year" class="half-btn">Nästa</button>
-          <button id="mark-repeat-year" class="repeat-btn full-btn">
-            Repetera? 🔁
-          </button>
+          <button id="mark-repeat-year" class="repeat-btn full-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
@@ -81,14 +77,12 @@
 
       <div class="quiz-card">
         <div id="repeat-question" class="question-text"></div>
-        <div id="repeat-answer" class="answer-text hidden"></div>
+        <div id="repeat-answer" class="answer-text invisible"></div>
 
         <div class="quiz-controls">
-          <button id="toggle-repeat-answer" class="half-btn">Visa svar</button>
+          <button id="toggle-repeat-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-repeat" class="half-btn">Nästa</button>
-          <button id="remove-repeat" class="remove-repeat-btn full-btn">
-            Ta bort? ❌
-          </button>
+          <button id="remove-repeat" class="remove-repeat-btn full-btn">Ta bort? ❌</button>
         </div>
       </div>
     </div>
