@@ -38,12 +38,14 @@ fetch("questions.json")
     showView("subject-view");
   });
 
-/* VIEW */
+/* VIEW CONTROL */
 function showView(id) {
-  document.querySelectorAll("div[id$='view']").forEach(v =>
+  document.querySelectorAll(".view").forEach(v =>
     v.classList.add("hidden")
   );
-  document.getElementById(id).classList.remove("hidden");
+  const target = document.getElementById(id);
+  target.classList.remove("hidden");
+  window.scrollTo(0, 0); // Scrolla upp för bäst animationseffekt
 }
 
 /* SUBJECTS */
@@ -91,7 +93,7 @@ function renderRegents() {
   });
 }
 
-/* QUIZ */
+/* QUIZ LOGIC */
 function showQuestion() {
   currentQuestion =
     currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
@@ -106,7 +108,6 @@ function showQuestion() {
   });
 }
 
-/* YEAR QUIZ */
 function showYear() {
   currentYearEntry =
     currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
@@ -121,7 +122,6 @@ function showYear() {
   });
 }
 
-/* TIMELINE */
 function showTimeline() {
   timelineEl.innerHTML = "";
   currentRegent.timeline.forEach(t => {
@@ -136,7 +136,6 @@ function showTimeline() {
   showView("timeline-view");
 }
 
-/* REPEAT */
 function showRepeat() {
   if (repeatItems.length === 0) {
     repeatQuestionEl.textContent = "Inga repetitionsfrågor kvar 🎉";
@@ -164,7 +163,7 @@ function toggleRepeat(item) {
 
   repeatItems = exists
     ? repeatItems.filter(r => !(r.type === item.type && r.year === item.year))
-    : [...repeatItems, item];
+    : [...repeatItems, { ...item, q: item.q || "" }];
 
   localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
 }
@@ -173,7 +172,7 @@ function updateRepeatButton(btn, item) {
   const exists = repeatItems.some(
     r => r.type === item.type && r.year === item.year
   );
-  btn.textContent = exists ? "Repetera? ✅" : "Repetera? 🔁";
+  btn.innerHTML = exists ? "Repetera? ✅" : "Repetera? 🔁";
 }
 
 function getAnswer(year) {
@@ -181,40 +180,20 @@ function getAnswer(year) {
   return entry ? entry.event : "—";
 }
 
-/* MODE BUTTONS */
-document.getElementById("quiz-mode").onclick = () => {
-  showQuestion();
-  showView("quiz-view");
-};
-
-document.getElementById("year-mode").onclick = () => {
-  showYear();
-  showView("year-view");
-};
-
+/* EVENT LISTENERS */
+document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
+document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
 document.getElementById("timeline-mode").onclick = showTimeline;
+document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
 
-document.getElementById("repeat-mode").onclick = () => {
-  showRepeat();
-  showView("repeat-view");
-};
+document.getElementById("toggle-answer").onclick = () => answerEl.classList.toggle("hidden");
+document.getElementById("toggle-year-answer").onclick = () => yearAnswer.classList.toggle("hidden");
+document.getElementById("toggle-repeat-answer").onclick = () => repeatAnswerEl.classList.toggle("hidden");
 
-/* TOGGLES */
-document.getElementById("toggle-answer").onclick = () =>
-  answerEl.classList.toggle("hidden");
-
-document.getElementById("toggle-year-answer").onclick = () =>
-  yearAnswer.classList.toggle("hidden");
-
-document.getElementById("toggle-repeat-answer").onclick = () =>
-  repeatAnswerEl.classList.toggle("hidden");
-
-/* NEXT */
 document.getElementById("next-question").onclick = showQuestion;
 document.getElementById("next-year").onclick = showYear;
 document.getElementById("next-repeat").onclick = showRepeat;
 
-/* MARK REPEAT */
 markRepeatQuizBtn.onclick = () => {
   toggleRepeat({ type: "quiz", year: currentQuestion.year, q: currentQuestion.q });
   updateRepeatButton(markRepeatQuizBtn, { type: "quiz", year: currentQuestion.year });
@@ -225,7 +204,6 @@ markRepeatYearBtn.onclick = () => {
   updateRepeatButton(markRepeatYearBtn, { type: "year", year: currentYearEntry.year });
 };
 
-/* REMOVE FROM REPEAT */
 document.getElementById("remove-repeat").onclick = () => {
   repeatItems = repeatItems.filter(
     r => !(r.type === currentRepeatItem.type && r.year === currentRepeatItem.year)
@@ -234,7 +212,7 @@ document.getElementById("remove-repeat").onclick = () => {
   showRepeat();
 };
 
-/* BACK */
+/* BACK NAVIGATION */
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
 document.getElementById("back-to-categories").onclick = () => showView("category-view");
 document.getElementById("back-to-regents").onclick = () => showView("regent-view");
