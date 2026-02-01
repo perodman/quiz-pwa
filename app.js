@@ -17,8 +17,8 @@ function initAudio() {
     }
 }
 
-// Trigga ljudupplåsning vid första klick
-document.body.addEventListener('click', initAudio, { once: true });
+// Trigga ljudupplåsning vid VARJE klick för säkerhets skull
+document.body.addEventListener('click', initAudio);
 
 async function playSuccessSound() {
     if (!isSoundEnabled) return;
@@ -36,11 +36,11 @@ async function playSuccessSound() {
             osc.start(startTime); osc.stop(startTime + duration);
         };
         const now = audioCtx.currentTime;
-        // Glatt ackord
+        // Glatt ackord (C5, E5, G5)
         playTone(523.25, now, 0.2, 0.1); 
         playTone(659.25, now + 0.1, 0.2, 0.1);
         playTone(783.99, now + 0.2, 0.4, 0.1);
-    } catch(e) { console.log(e); }
+    } catch(e) { console.log("Ljudfel:", e); }
 }
 
 /* INIT */
@@ -73,7 +73,6 @@ document.getElementById("global-back").onclick = () => {
     if (viewHistory.length > 1) {
         viewHistory.pop(); 
         const prev = viewHistory[viewHistory.length - 1];
-        // Specialare: om vi går tillbaka, rensa hidden manuellt
         document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
         document.getElementById(prev).classList.remove("hidden");
         if (prev === "subject-view") document.getElementById("nav-header").classList.add("hidden");
@@ -84,9 +83,10 @@ document.getElementById("sound-toggle").onclick = function() {
     isSoundEnabled = !isSoundEnabled;
     this.textContent = isSoundEnabled ? "🔊" : "🔇";
     this.style.opacity = isSoundEnabled ? "1" : "0.4";
+    initAudio(); // Försök initiera vid klick
 };
 
-/* TRACKERS */
+/* TRACKERS (Med grammatik-fix) */
 function updateTrackers() {
     const badge = document.getElementById("repeat-badge");
     const count = repeatItems.length;
@@ -95,7 +95,10 @@ function updateTrackers() {
         badge.classList.toggle("hidden", count === 0);
     }
     const ct = document.getElementById("repeat-counter-text");
-    if(ct) ct.textContent = count > 0 ? `${count} händelser kvar!` : "Inga händelser kvar!";
+    if(ct) {
+        const ord = count === 1 ? "händelse" : "händelser";
+        ct.textContent = count > 0 ? `${count} ${ord} kvar!` : "Inga händelser kvar!";
+    }
 }
 
 /* RENDERING */
@@ -195,14 +198,23 @@ function showChallenge() {
     document.getElementById("challenge-streak").textContent = challengeStreak;
 }
 
+/* SMARTARE REPETITION (Årtal får rätt fråga) */
 function showRepeat() {
     if (repeatItems.length === 0) {
         document.getElementById("repeat-question").textContent = "Allt klart! 🎉";
         document.getElementById("repeat-answer").textContent = "";
+        updateTrackers();
         return;
     }
     currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-    document.getElementById("repeat-question").textContent = currentRepeatItem.q || `Händelsen år ${currentRepeatItem.year}`;
+    
+    // Om objektet saknar q (fråga), kommer det från Årtalsquizet
+    if (!currentRepeatItem.q) {
+        document.getElementById("repeat-question").textContent = `Vad hände år ${currentRepeatItem.year}?`;
+    } else {
+        document.getElementById("repeat-question").textContent = currentRepeatItem.q;
+    }
+    
     document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
     resetUI("repeat-answer", "toggle-repeat-answer");
 }
@@ -252,7 +264,11 @@ function toggleRepeat(item) {
 document.getElementById("mark-repeat").onclick = () => { toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); updateRepeatBtnUI("mark-repeat", currentQuestion); };
 document.getElementById("mark-repeat-year").onclick = () => { toggleRepeat({year: currentYearEntry.year}); updateRepeatBtnUI("mark-repeat-year", currentYearEntry); };
 
-document.getElementById("mark-known").onclick = () => { challengeStreak++; playSuccessSound(); showChallenge(); };
+document.getElementById("mark-known").onclick = () => { 
+    challengeStreak++; 
+    playSuccessSound(); 
+    showChallenge(); 
+};
 document.getElementById("mark-retry").onclick = () => { 
     challengeStreak = 0; 
     const item = currentChallengeItem.q ? {year: currentChallengeItem.year, q: currentChallengeItem.q} : {year: currentChallengeItem.year};
@@ -266,6 +282,6 @@ document.getElementById("mark-retry").onclick = () => {
 document.getElementById("remove-repeat").onclick = () => {
     repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true)));
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    updateTrackers(); // Omedelbar uppdatering av räknaren
+    updateTrackers(); // Direkt uppdatering av räknaren
     showRepeat();
 };
