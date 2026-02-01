@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HistorieQuiz</title>
+  <link rel="stylesheet" href="style.css?v=10">
+</head>
 <body>
   <div class="top-controls">
     <div id="global-home" class="circle-ctrl">🏠</div>
@@ -14,71 +22,115 @@
     <div id="nav-header" class="nav-row hidden">
       <button id="global-back" class="secondary small">⬅ Tillbaka</button>
     </div>
-    ```
 
-### 2. style.css
-Här fixar vi knappbredden, färgerna (Blå historia-knapp), tidslinjen (80% bredd) och kontrollerna uppe till höger.
+    <div id="category-view" class="view hidden">
+      <h1 class="center">Välj kategori</h1>
+      <div id="categories" class="selection-container"></div>
+    </div>
 
-```css
-/* Ersätt/lägg till dessa delar i din style.css */
+    <div id="regent-view" class="view hidden">
+      <h1 class="center">Välj regent</h1>
+      <div id="regents" class="selection-container"></div>
+    </div>
 
-/* 1 & 2: Knappar för val (Historia, Regenter etc) */
-.selection-container { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    gap: 12px; 
-    margin-top: 20px; 
-}
-.selection-container button { 
-    background: #3f8efc; /* Blå */
-    color: #000;         /* Svart text */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-    width: auto;         /* Anpassar till texten */
-    min-width: 160px;
-    padding: 12px 30px;
-}
+    <div id="mode-view" class="view hidden">
+      <h1 id="regent-title" class="center"></h1>
+      <div class="menu-section-label">Studieläge</div>
+      <div class="mode-container">
+        <button id="timeline-mode" class="mode-btn purple">📜 Historisk tidslinje</button>
+        <button id="repeat-mode" class="mode-btn dark-green">
+          🔁 Repetition <span id="repeat-badge" class="badge hidden">0</span>
+        </button>
+      </div>
+      <div class="menu-section-label">Quiz & Tävling</div>
+      <div class="mode-container">
+        <button id="year-mode" class="mode-btn blue">📆 Årtalsquiz</button>
+        <button id="quiz-mode" class="mode-btn indigo">🧠 Quiz</button>
+        <button id="challenge-mode" class="mode-btn orange">🔥 Utmaningen</button>
+      </div>
+    </div>
 
-/* 3: Hemknapp och Ljudknapp uppe till höger */
-.top-controls {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 10px;
-    z-index: 1000;
-}
-.circle-ctrl {
-    background: white; width: 44px; height: 44px;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer;
-    font-size: 20px; transition: 0.2s;
-}
-/* Ta bort gamla .sound-control och ersätt med ovan */
+    <div id="quiz-view" class="view hidden">
+      <h1 class="center">🧠 Quiz</h1>
+      <div class="quiz-card">
+        <div class="question-header">
+          <span class="question-label">Fråga</span>
+          <div class="divider"></div>
+          <div id="question" class="question-text"></div>
+        </div>
+        <div id="answer" class="answer-text invisible"></div>
+        <div class="quiz-controls">
+          <button id="toggle-answer" class="half-btn toggle-btn">Visa svar 📖</button>
+          <button id="next-question" class="half-btn next-btn">Nästa ⮕</button>
+          <button id="mark-repeat" class="full-btn">Repetera? 🔁</button>
+        </div>
+      </div>
+    </div>
 
-/* 5: Tidslinje (Fixad för mobil - 80% bredd) */
-.timeline-wrapper { position: relative; padding: 40px 0; overflow-x: hidden; }
-ul#timeline::before { left: 20px; transform: none; } /* Flytta linjen till vänster på mobil */
+    <div id="challenge-view" class="view hidden">
+      <div class="header-row">
+        <div class="streak-badge">Streak: <span id="challenge-streak">0</span></div>
+      </div>
+      <h1 class="center">🔥 Utmaningen</h1>
+      <div class="quiz-card">
+        <div class="question-header">
+          <span class="question-label">Kan du detta?</span>
+          <div class="divider"></div>
+          <div id="challenge-question" class="question-text"></div>
+        </div>
+        <div id="challenge-answer" class="answer-text invisible"></div>
+        <div class="quiz-controls" id="challenge-initial-controls">
+          <button id="toggle-challenge-answer" class="full-btn toggle-btn">Visa svar 📖</button>
+        </div>
+        <div class="quiz-controls hidden" id="challenge-action-controls">
+          <button id="mark-known" class="half-btn known-btn">Detta visste jag! 😊</button>
+          <button id="mark-retry" class="half-btn retry-btn">Repetera! 🔁</button>
+        </div>
+      </div>
+    </div>
 
-ul#timeline li { 
-    position: relative; 
-    width: 85%;      /* 85% bredd på mobil */
-    margin-left: 45px; 
-    margin-bottom: 25px; 
-    float: none !important; /* Stapla dem */
-    text-align: left !important;
-    border: none;
-    border-left: 6px solid #7a4fd9 !important;
-    clear: both;
-}
-ul#timeline li::after { left: -33px !important; right: auto !important; }
+    <div id="year-view" class="view hidden">
+      <h1 class="center">📆 Årtalsquiz</h1>
+      <div class="quiz-card">
+        <div class="question-header">
+          <span class="question-label">Vad hände?</span>
+          <div class="divider"></div>
+          <div id="year-display" class="question-text highlight"></div>
+        </div>
+        <div id="year-answer" class="answer-text invisible"></div>
+        <div class="quiz-controls">
+          <button id="toggle-year-answer" class="half-btn toggle-btn">Visa svar 📖</button>
+          <button id="next-year" class="half-btn next-btn">Nästa ⮕</button>
+          <button id="mark-repeat-year" class="full-btn">Repetera? 🔁</button>
+        </div>
+      </div>
+    </div>
 
-/* Desktop-justering för tidslinje (Om skärmen är bred) */
-@media (min-width: 600px) {
-    ul#timeline::before { left: 50%; transform: translateX(-50%); }
-    ul#timeline li { width: 45%; margin-left: 0; }
-    ul#timeline li:nth-child(odd) { float: left; }
-    ul#timeline li:nth-child(even) { float: right; }
-    ul#timeline li:nth-child(odd)::after { right: -12.5% !important; left: auto !important; }
-    ul#timeline li:nth-child(even)::after { left: -12.5% !important; }
-}
+    <div id="repeat-view" class="view hidden">
+      <h1 class="center">🔁 Repetition</h1>
+      <p id="repeat-counter-text" class="center-small"></p>
+      <div class="quiz-card">
+        <div class="question-header">
+          <span class="question-label">Träna mer</span>
+          <div class="divider"></div>
+          <div id="repeat-question" class="question-text"></div>
+        </div>
+        <div id="repeat-answer" class="answer-text invisible"></div>
+        <div class="quiz-controls">
+          <button id="toggle-repeat-answer" class="half-btn toggle-btn">Visa svar 📖</button>
+          <button id="next-repeat" class="half-btn next-btn">Nästa ⮕</button>
+          <button id="remove-repeat" class="full-btn remove-btn">Ta bort? ❌</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="timeline-view" class="view hidden">
+      <h1 class="center">📜 Historisk tidslinje</h1>
+      <div class="timeline-wrapper">
+        <ul id="timeline"></ul>
+      </div>
+    </div>
+  </div>
+  <script src="app.js?v=10"></script>
+</body>
+</html>
