@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HistorieQuiz</title>
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <div class="app-container">
@@ -30,11 +30,17 @@
     <div id="mode-view" class="view hidden">
       <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
       <h1 id="regent-title" class="center"></h1>
+      
+      <div class="menu-section-label">Studieläge</div>
       <div class="mode-container">
         <button id="timeline-mode" class="mode-btn purple">📜 Historisk tidslinje</button>
+        <button id="repeat-mode" class="mode-btn dark-green">🔁 Repetition</button>
+      </div>
+
+      <div class="menu-section-label">Quiz & Tävling</div>
+      <div class="mode-container">
         <button id="year-mode" class="mode-btn blue">📆 Årtalsquiz</button>
         <button id="quiz-mode" class="mode-btn indigo">🧠 Quiz</button>
-        <button id="repeat-mode" class="mode-btn dark-green">🔁 Repetition</button>
         <button id="challenge-mode" class="mode-btn orange">🔥 Utmaningen</button>
       </div>
     </div>
@@ -52,6 +58,7 @@
         <div class="quiz-controls">
           <button id="toggle-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-question" class="half-btn next-btn">Nästa</button>
+          <button id="mark-repeat" class="full-btn repeat-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
@@ -73,7 +80,7 @@
           <button id="toggle-challenge-answer" class="full-btn toggle-btn">Visa svar</button>
         </div>
         <div class="quiz-controls hidden" id="challenge-action-controls">
-          <button id="mark-known" class="half-btn known-btn">Detta visste jag</button>
+          <button id="mark-known" class="half-btn known-btn">Detta visste jag! 😊</button>
           <button id="mark-retry" class="half-btn retry-btn">Repetera</button>
         </div>
       </div>
@@ -92,6 +99,7 @@
         <div class="quiz-controls">
           <button id="toggle-year-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-year" class="half-btn next-btn">Nästa</button>
+          <button id="mark-repeat-year" class="full-btn repeat-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
@@ -123,6 +131,6 @@
     </div>
 
   </div>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
