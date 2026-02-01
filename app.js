@@ -6,21 +6,34 @@ let challengeStreak = 0;
 let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
 
-/* LJUDMOTOR */
-function playSuccessSound() {
+/* GLADARE LJUDMOTOR (Anpassad för mobil) */
+async function playSuccessSound() {
     if (!isSoundEnabled) return;
     try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); 
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1); 
-        gain.gain.setValueAtTime(0.1, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(); osc.stop(ctx.currentTime + 0.3);
-    } catch(e) { console.log("Ljud kunde inte spelas."); }
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        
+        // För mobiler: återuppväck kontexten
+        if (ctx.state === 'suspended') await ctx.resume();
+
+        const playTone = (freq, startTime, duration, vol) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(startTime); osc.stop(startTime + duration);
+        };
+
+        const now = ctx.currentTime;
+        // Tre glada toner (C5, E5, G5)
+        playTone(523.25, now, 0.25, 0.1); 
+        playTone(659.25, now + 0.08, 0.25, 0.1);
+        playTone(783.99, now + 0.16, 0.4, 0.1);
+    } catch(e) { console.log("Ljud kunde inte spelas:", e); }
 }
 
 /* INIT */
@@ -31,7 +44,6 @@ fetch("questions.json").then(r => r.json()).then(json => {
     showView("subject-view");
 });
 
-/* VY-HANTERING */
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
@@ -54,16 +66,14 @@ document.getElementById("global-back").onclick = () => {
     if (viewHistory.length > 1) {
         viewHistory.pop(); 
         const prev = viewHistory[viewHistory.length - 1];
-        document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
-        document.getElementById(prev).classList.remove("hidden");
-        if (prev === "subject-view") document.getElementById("nav-header").classList.add("hidden");
+        showView(prev);
     }
 };
 
 document.getElementById("sound-toggle").onclick = function() {
     isSoundEnabled = !isSoundEnabled;
     this.textContent = isSoundEnabled ? "🔊" : "🔇";
-    this.classList.toggle("sound-off", !isSoundEnabled);
+    this.style.opacity = isSoundEnabled ? "1" : "0.4";
 };
 
 /* TRACKERS */
@@ -141,7 +151,6 @@ function updateRepeatBtnUI(btnId, item) {
     btn.className = exists ? "full-btn repeat-btn-active" : "full-btn repeat-btn-inactive";
 }
 
-/* MODES */
 function showQuestion() {
     currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
     document.getElementById("question").textContent = currentQuestion.q;
