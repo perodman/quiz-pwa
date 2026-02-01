@@ -56,11 +56,10 @@ function renderRegents() {
   });
 }
 
-/* TOGGLE ANSWER HELPER (Den nya logiken) */
+/* TOGGLE LOGIC */
 function handleToggleAnswer(displayId, btnId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
-  
   if (el.classList.contains("invisible")) {
     el.classList.remove("invisible");
     el.classList.add("visible");
@@ -74,7 +73,6 @@ function handleToggleAnswer(displayId, btnId) {
   }
 }
 
-/* RESET TOGGLE BUTTON */
 function resetToggle(displayId, btnId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
@@ -95,7 +93,8 @@ function showQuestion() {
 
 function showYear() {
   currentYearEntry = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
-  document.getElementById("year-display").textContent = `Vad hände ${currentYearEntry.year}?`;
+  // Här visar vi nu bara siffran för att det ska se snyggt ut med den nya designen
+  document.getElementById("year-display").textContent = currentYearEntry.year;
   document.getElementById("year-answer").textContent = currentYearEntry.event;
   resetToggle("year-answer", "toggle-year-answer");
   updateRepeatButton(document.getElementById("mark-repeat-year"), { type: "year", year: currentYearEntry.year });
@@ -103,7 +102,7 @@ function showYear() {
 
 function showRepeat() {
   if (repeatItems.length === 0) {
-    document.getElementById("repeat-question").textContent = "Inga repetitionsfrågor kvar 🎉";
+    document.getElementById("repeat-question").textContent = "Inga frågor kvar 🎉";
     document.getElementById("repeat-answer").textContent = "";
     return;
   }
