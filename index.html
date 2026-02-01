@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz App</title>
+  <title>HistorieQuiz</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -30,85 +30,74 @@
     <div id="mode-view" class="view hidden">
       <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
       <h1 id="regent-title" class="center"></h1>
-
       <div class="mode-container">
-        <button id="timeline-mode">📜 Tidslinje</button>
-        <button id="year-mode">📆 Årtalsquiz</button>
-        <button id="quiz-mode">🧠 Quiz</button>
-        <button id="repeat-mode">🔁 Repetition</button>
+        <button id="timeline-mode" class="mode-btn purple">📜 Tidslinje</button>
+        <button id="year-mode" class="mode-btn blue">📆 Årtalsquiz</button>
+        <button id="quiz-mode" class="mode-btn indigo">🧠 Quiz</button>
+        <button id="repeat-mode" class="mode-btn dark-green">🔁 Repetition</button>
       </div>
     </div>
 
     <div id="quiz-view" class="view hidden">
       <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="quiz-title center">🧠 Quiz</h1>
-
+      <h1 class="center">🧠 Quiz</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Fråga</span>
           <div id="question" class="question-text"></div>
         </div>
-        
         <div id="answer" class="answer-text invisible"></div>
-
         <div class="quiz-controls">
           <button id="toggle-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-question" class="half-btn next-btn">Nästa</button>
-          <button id="mark-repeat" class="repeat-btn full-btn">Repetera? 🔁</button>
+          <button id="mark-repeat" class="full-btn repeat-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
 
     <div id="year-view" class="view hidden">
       <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="year-title center">📆 Årtalsquiz</h1>
-
+      <h1 class="center">📆 Årtalsquiz</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Vad hände?</span>
           <div id="year-display" class="question-text highlight"></div>
         </div>
-
         <div id="year-answer" class="answer-text invisible"></div>
-
         <div class="quiz-controls">
           <button id="toggle-year-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-year" class="half-btn next-btn">Nästa</button>
-          <button id="mark-repeat-year" class="repeat-btn full-btn">Repetera? 🔁</button>
+          <button id="mark-repeat-year" class="full-btn repeat-btn">Repetera? 🔁</button>
         </div>
       </div>
     </div>
 
     <div id="repeat-view" class="view hidden">
       <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="repeat-title center">🔁 Repetition</h1>
-
+      <h1 class="center">🔁 Repetition</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Repetition</span>
           <div id="repeat-question" class="question-text"></div>
         </div>
-
         <div id="repeat-answer" class="answer-text invisible"></div>
-
         <div class="quiz-controls">
           <button id="toggle-repeat-answer" class="half-btn toggle-btn">Visa svar</button>
           <button id="next-repeat" class="half-btn next-btn">Nästa</button>
-          <button id="remove-repeat" class="remove-repeat-btn full-btn">Ta bort? ❌</button>
+          <button id="remove-repeat" class="full-btn remove-btn">Ta bort? ❌</button>
         </div>
       </div>
     </div>
 
     <div id="timeline-view" class="view hidden">
       <button id="back-to-modes-4" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="timeline-title center">📜 Tidslinje</h1>
+      <h1 class="center">📜 Tidslinje</h1>
       <div class="timeline-wrapper">
         <ul id="timeline"></ul>
       </div>
     </div>
 
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
