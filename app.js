@@ -7,45 +7,40 @@ let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
 let audioCtx;
 
-/* LJUDMOTOR */
 function initAudio() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 document.body.addEventListener('click', initAudio);
+
+// Haptisk feedback-funktion
+function haptic() {
+    if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(10);
+    }
+}
 
 async function playSuccessSound() {
     if (!isSoundEnabled) return;
     initAudio();
     try {
-        const playTone = (freq, startTime, duration, vol) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, startTime);
-            gain.gain.setValueAtTime(0, startTime);
-            gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(startTime); osc.stop(startTime + duration);
-        };
         const now = audioCtx.currentTime;
-        playTone(523.25, now, 0.2, 0.1); 
-        playTone(659.25, now + 0.1, 0.2, 0.1);
-        playTone(783.99, now + 0.2, 0.4, 0.1);
-    } catch(e) { console.log("Ljudfel:", e); }
+        const playTone = (freq, start, dur) => {
+            const osc = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            osc.frequency.setValueAtTime(freq, start);
+            g.gain.setValueAtTime(0, start);
+            g.gain.linearRampToValueAtTime(0.1, start + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.start(start); osc.stop(start + dur);
+        };
+        playTone(523, now, 0.2); playTone(659, now+0.1, 0.2); playTone(783, now+0.2, 0.4);
+    } catch(e) {}
 }
 
-/* INIT */
 fetch("questions.json").then(r => r.json()).then(json => {
-    data = json;
-    renderSubjects();
-    updateTrackers();
-    showView("subject-view");
+    data = json; renderSubjects(); updateTrackers(); showView("subject-view");
 });
 
 function showView(id) {
@@ -54,20 +49,19 @@ function showView(id) {
     const nav = document.getElementById("nav-header");
     if (id === "subject-view") {
         nav.classList.add("hidden");
-        viewHistory = ["subject-view"]; 
+        viewHistory = ["subject-view"];
     } else {
         nav.classList.remove("hidden");
         if (viewHistory[viewHistory.length - 1] !== id) viewHistory.push(id);
     }
     window.scrollTo(0, 0);
-    updateTrackers();
 }
 
-/* NAVIGERING */
-document.getElementById("global-home").onclick = () => showView("subject-view");
+document.getElementById("global-home").onclick = () => { haptic(); showView("subject-view"); };
 document.getElementById("global-back").onclick = () => {
+    haptic();
     if (viewHistory.length > 1) {
-        viewHistory.pop(); 
+        viewHistory.pop();
         const prev = viewHistory[viewHistory.length - 1];
         document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
         document.getElementById(prev).classList.remove("hidden");
@@ -75,35 +69,25 @@ document.getElementById("global-back").onclick = () => {
     }
 };
 
-document.getElementById("sound-toggle").onclick = function() {
-    isSoundEnabled = !isSoundEnabled;
-    this.textContent = isSoundEnabled ? "🔊" : "🔇";
-    this.style.opacity = isSoundEnabled ? "1" : "0.4";
-};
-
-/* TRACKERS (Grammatik-fix) */
+/* 3: REPETITION UTAN UTROPSTECKEN */
 function updateTrackers() {
     const badge = document.getElementById("repeat-badge");
     const count = repeatItems.length;
-    if (badge) {
-        badge.textContent = count;
-        badge.classList.toggle("hidden", count === 0);
-    }
+    if (badge) { badge.textContent = count; badge.classList.toggle("hidden", count === 0); }
     const ct = document.getElementById("repeat-counter-text");
     if(ct) {
         const ord = count === 1 ? "händelse" : "händelser";
-        ct.textContent = count > 0 ? `${count} ${ord} kvar!` : "Inga händelser kvar!";
+        ct.textContent = count > 0 ? `${count} ${ord} kvar` : "Inga händelser kvar";
     }
 }
 
-/* RENDERING AV KNAPPAR */
 function renderSubjects() {
     const container = document.getElementById("subjects");
     container.innerHTML = "";
     data.subjects.forEach(s => {
         const b = document.createElement("button");
         b.textContent = s.name;
-        b.onclick = () => { currentSubject = s; renderCategories(); showView("category-view"); };
+        b.onclick = () => { haptic(); currentSubject = s; renderCategories(); showView("category-view"); };
         container.appendChild(b);
     });
 }
@@ -114,7 +98,7 @@ function renderCategories() {
     currentSubject.categories.forEach(c => {
         const b = document.createElement("button");
         b.textContent = c.name;
-        b.onclick = () => { currentCategory = c; renderRegents(); showView("regent-view"); };
+        b.onclick = () => { haptic(); currentCategory = c; renderRegents(); showView("regent-view"); };
         container.appendChild(b);
     });
 }
@@ -126,7 +110,7 @@ function renderRegents() {
         const b = document.createElement("button");
         b.textContent = r.name;
         b.onclick = () => { 
-            currentRegent = r; 
+            haptic(); currentRegent = r; 
             document.getElementById("regent-title").textContent = r.name;
             showView("mode-view"); 
         };
@@ -134,8 +118,9 @@ function renderRegents() {
     });
 }
 
-/* QUIZ LOGIK */
+/* 2: Toggle med Grå bakgrund för dölj svar */
 function toggleAnswer(displayId, btnId) {
+    haptic();
     const el = document.getElementById(displayId);
     const btn = document.getElementById(btnId);
     const isHidden = el.classList.contains("invisible");
@@ -202,30 +187,25 @@ function showRepeat() {
     if (repeatItems.length === 0) {
         document.getElementById("repeat-question").textContent = "Allt klart! 🎉";
         document.getElementById("repeat-answer").textContent = "";
-        updateTrackers();
-        return;
+        updateTrackers(); return;
     }
     currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-    if (!currentRepeatItem.q) {
-        document.getElementById("repeat-question").textContent = `Vad hände år ${currentRepeatItem.year}?`;
-    } else {
-        document.getElementById("repeat-question").textContent = currentRepeatItem.q;
-    }
+    document.getElementById("repeat-question").textContent = !currentRepeatItem.q ? `Vad hände år ${currentRepeatItem.year}?` : currentRepeatItem.q;
     document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
     resetUI("repeat-answer", "toggle-repeat-answer");
 }
 
-/* LISTENERS */
-document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
-document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
-document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
-document.getElementById("challenge-mode").onclick = () => { challengeStreak = 0; showChallenge(); showView("challenge-view"); };
+document.getElementById("quiz-mode").onclick = () => { haptic(); showQuestion(); showView("quiz-view"); };
+document.getElementById("year-mode").onclick = () => { haptic(); showYear(); showView("year-view"); };
+document.getElementById("repeat-mode").onclick = () => { haptic(); showRepeat(); showView("repeat-view"); };
+document.getElementById("challenge-mode").onclick = () => { haptic(); challengeStreak = 0; showChallenge(); showView("challenge-view"); };
 document.getElementById("timeline-mode").onclick = () => {
+    haptic();
     const container = document.getElementById("timeline");
     container.innerHTML = "";
     currentRegent.timeline.forEach(t => {
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${t.year}</strong><br>${t.event}<div class="code-box">Kod: ${t.code || "—"}</div>`;
+        li.innerHTML = `<strong>${t.year}</strong><br>${t.event}`;
         container.appendChild(li);
     });
     showView("timeline-view");
@@ -235,14 +215,23 @@ document.getElementById("toggle-answer").onclick = () => toggleAnswer("answer", 
 document.getElementById("toggle-year-answer").onclick = () => toggleAnswer("year-answer", "toggle-year-answer");
 document.getElementById("toggle-repeat-answer").onclick = () => toggleAnswer("repeat-answer", "toggle-repeat-answer");
 document.getElementById("toggle-challenge-answer").onclick = () => {
+    haptic();
     document.getElementById("challenge-answer").classList.replace("invisible", "visible");
     document.getElementById("challenge-initial-controls").classList.add("hidden");
     document.getElementById("challenge-action-controls").classList.remove("hidden");
 };
 
-document.getElementById("next-question").onclick = showQuestion;
-document.getElementById("next-year").onclick = showYear;
-document.getElementById("next-repeat").onclick = showRepeat;
+document.getElementById("next-question").onclick = () => { haptic(); showQuestion(); };
+document.getElementById("next-year").onclick = () => { haptic(); showYear(); };
+document.getElementById("next-repeat").onclick = () => { haptic(); showRepeat(); };
+
+document.getElementById("mark-repeat").onclick = () => { haptic(); toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); updateRepeatBtnUI("mark-repeat", currentQuestion); };
+document.getElementById("mark-repeat-year").onclick = () => { haptic(); toggleRepeat({year: currentYearEntry.year}); updateRepeatBtnUI("mark-repeat-year", currentYearEntry); };
+
+document.getElementById("mark-known").onclick = () => { haptic(); challengeStreak++; playSuccessSound(); showChallenge(); };
+document.getElementById("mark-retry").onclick = () => { haptic(); challengeStreak = 0; toggleRepeat(currentChallengeItem); showChallenge(); };
+
+document.getElementById("remove-repeat").onclick = () => { haptic(); repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true))); localStorage.setItem("repeatItems", JSON.stringify(repeatItems)); updateTrackers(); showRepeat(); };
 
 function toggleRepeat(item) {
     const idx = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
@@ -251,28 +240,3 @@ function toggleRepeat(item) {
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
     updateTrackers();
 }
-
-document.getElementById("mark-repeat").onclick = () => { toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); updateRepeatBtnUI("mark-repeat", currentQuestion); };
-document.getElementById("mark-repeat-year").onclick = () => { toggleRepeat({year: currentYearEntry.year}); updateRepeatBtnUI("mark-repeat-year", currentYearEntry); };
-
-document.getElementById("mark-known").onclick = () => { 
-    challengeStreak++; 
-    playSuccessSound(); 
-    showChallenge(); 
-};
-document.getElementById("mark-retry").onclick = () => { 
-    challengeStreak = 0; 
-    const item = currentChallengeItem.q ? {year: currentChallengeItem.year, q: currentChallengeItem.q} : {year: currentChallengeItem.year};
-    if (!repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true))) {
-        repeatItems.push(item);
-        localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    }
-    showChallenge(); 
-};
-
-document.getElementById("remove-repeat").onclick = () => {
-    repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true)));
-    localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    updateTrackers();
-    showRepeat();
-};
