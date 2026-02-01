@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz App</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=15">
+  <title>Quiz App Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
   <div class="top-controls">
@@ -21,7 +21,7 @@
       </div>
       <p class="subtitle">Välj ämne</p>
       <div class="divider"></div>
-      <div id="subjects" class="selection-container left-aligned"></div>
+      <div id="subjects" class="selection-container zigzag-layout"></div>
     </div>
 
     <div id="nav-header" class="nav-row hidden">
@@ -31,13 +31,13 @@
     <div id="category-view" class="view hidden">
       <h1 class="section-title">Välj kategori</h1>
       <div class="divider"></div>
-      <div id="categories" class="selection-container left-aligned"></div>
+      <div id="categories" class="selection-container zigzag-layout"></div>
     </div>
 
     <div id="regent-view" class="view hidden">
       <h1 class="section-title">Välj regent</h1>
       <div class="divider"></div>
-      <div id="regents" class="selection-container left-aligned"></div>
+      <div id="regents" class="selection-container zigzag-layout"></div>
     </div>
 
     <div id="mode-view" class="view hidden">
@@ -76,7 +76,7 @@
     </div>
 
     <div id="challenge-view" class="view hidden">
-      <div class="header-row streak-container">
+      <div class="streak-container">
         <div class="streak-badge">STREAK: <span id="challenge-streak">0</span></div>
       </div>
       <h1 class="section-title">🔥 Streak-race</h1>
@@ -139,6 +139,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>
