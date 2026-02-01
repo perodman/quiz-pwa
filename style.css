@@ -1,120 +1,33 @@
-* { box-sizing: border-box; }
-
 body {
   font-family: system-ui, sans-serif;
-  margin: 0;
   background: #f4f6fb;
-  color: #222;
+  margin: 0;
 }
 
-.app-container {
-  max-width: 720px;
+.app {
+  max-width: 600px;
   margin: auto;
-  padding: 16px;
+  padding: 20px;
 }
 
-h1 { text-align: center; }
-
-.subtitle {
-  text-align: center;
-  font-size: 18px;
-  color: #555;
+.view {
+  display: none;
 }
 
-/* GENERELLA KNAPPAR */
 button {
-  padding: 12px 18px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background: #4f6ef7;
-  color: white;
-}
-
-.choice-btn {
-  width: auto;
-  min-width: 220px;
-  margin: 6px auto;
   display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 16px;
 }
 
-/* TILLBAKA */
-button.secondary {
-  background: #e0e0e0;
-  color: #222;
-}
-
-/* MODE BUTTONS */
-#mode-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-#mode-view button {
-  width: 220px;
-}
-
-/* FÄRGER PER LÄGE */
-#timeline-mode { background: #7a4fd9; }
-#year-mode     { background: #3f8efc; }
-#quiz-mode     { background: #5b5bd6; }
-#repeat-mode   { background: #2e8b57; }
-
-/* QUIZ CARD */
-.quiz-card {
+.card {
   background: white;
   padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  margin-top: 20px;
-}
-
-.question-text {
-  font-size: 21px;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
-.answer-text {
-  margin: 20px 0;
-  padding: 14px;
-  background: #eef0ff;
   border-radius: 12px;
 }
 
-/* REPEAT */
-.active-repeat {
-  background: #2e8b57;
+#answer {
+  margin: 16px 0;
 }
-
-/* YEAR */
-.year-box {
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-}
-
-/* TIMELINE */
-ul { list-style: none; padding: 0; }
-
-li {
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-}
-
-.code-box {
-  margin-top: 8px;
-  padding: 10px;
-  background: #f1f1ff;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-/* HIDDEN */
-.hidden { display: none; }
