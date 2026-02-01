@@ -10,7 +10,6 @@ function initAudio() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 document.body.addEventListener('click', initAudio);
-
 function haptic() { if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(10); }
 
 async function playSuccessSound() {
@@ -104,13 +103,6 @@ function resetUI(displayId, btnId) {
     if (btn) { btn.innerHTML = "Visa svar 📖"; btn.classList.remove("active"); }
 }
 
-function updateRepeatBtnUI(btnId, item) {
-    const btn = document.getElementById(btnId); if (!btn) return;
-    const exists = repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    btn.innerHTML = exists ? "Repetera! ✅" : "Repetera? 🔁";
-    btn.className = exists ? "full-btn repeat-btn-active" : "full-btn repeat-btn-inactive";
-}
-
 function getAnswer(year) {
     const entry = currentRegent.timeline.find(t => t.year === year);
     return entry ? entry.event : "Svar saknas";
@@ -162,6 +154,20 @@ function showRepeat() {
     resetUI("repeat-answer", "toggle-repeat-answer");
 }
 
+function updateRepeatBtnUI(btnId, item) {
+    const btn = document.getElementById(btnId); if (!btn) return;
+    const exists = repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true));
+    btn.innerHTML = exists ? "Repetera! ✅" : "Repetera? 🔁";
+    btn.className = exists ? "full-btn repeat-btn-active" : "full-btn repeat-btn-inactive";
+}
+
+function toggleRepeat(item) {
+    const idx = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
+    if (idx > -1) repeatItems.splice(idx, 1); else repeatItems.push(item);
+    localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
+    updateTrackers();
+}
+
 document.getElementById("quiz-mode").onclick = () => { haptic(); showQuestion(); showView("quiz-view"); };
 document.getElementById("year-mode").onclick = () => { haptic(); showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { haptic(); showRepeat(); showView("repeat-view"); };
@@ -190,11 +196,21 @@ document.getElementById("next-year").onclick = () => { haptic(); showYear(); };
 document.getElementById("next-repeat").onclick = () => { haptic(); showRepeat(); };
 document.getElementById("mark-known").onclick = () => { haptic(); challengeStreak++; playSuccessSound(); showChallenge(); };
 document.getElementById("mark-retry").onclick = () => { haptic(); challengeStreak = 0; toggleRepeat(currentChallengeItem); showChallenge(); };
-document.getElementById("remove-repeat").onclick = () => { haptic(); repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true))); localStorage.setItem("repeatItems", JSON.stringify(repeatItems)); updateTrackers(); showRepeat(); };
 
-function toggleRepeat(item) {
-    const idx = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    if (idx > -1) repeatItems.splice(idx, 1); else repeatItems.push(item);
+document.getElementById("mark-repeat").onclick = () => { 
+    toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); 
+    updateRepeatBtnUI("mark-repeat", currentQuestion); 
+};
+document.getElementById("mark-repeat-year").onclick = () => { 
+    toggleRepeat({year: currentYearEntry.year}); 
+    updateRepeatBtnUI("mark-repeat-year", currentYearEntry); 
+};
+
+/* FIXAD: Ta bort från repetition */
+document.getElementById("remove-repeat").onclick = () => {
+    haptic();
+    repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true)));
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
     updateTrackers();
-}
+    showRepeat();
+};
