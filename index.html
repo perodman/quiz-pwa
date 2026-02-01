@@ -9,28 +9,24 @@
 <body>
   <div class="app-container">
 
-    <!-- SUBJECT -->
     <div id="subject-view">
       <h1 class="quiz-title">📚 Quiz 📚</h1>
       <p class="subtitle">Välj ämne</p>
       <div id="subjects"></div>
     </div>
 
-    <!-- CATEGORY -->
     <div id="category-view" class="hidden">
       <button id="back-to-subjects" class="secondary small">⬅ Tillbaka</button>
       <h1 class="center">Välj kategori</h1>
       <div id="categories"></div>
     </div>
 
-    <!-- REGENT -->
     <div id="regent-view" class="hidden">
       <button id="back-to-categories" class="secondary small">⬅ Tillbaka</button>
       <h1 class="center">Välj regent</h1>
       <div id="regents"></div>
     </div>
 
-    <!-- MODE -->
     <div id="mode-view" class="hidden">
       <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
       <h1 id="regent-title" class="center"></h1>
@@ -41,7 +37,6 @@
       <button id="repeat-mode">🔁 Repetition</button>
     </div>
 
-    <!-- QUIZ -->
     <div id="quiz-view" class="hidden">
       <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
       <h1 class="quiz-title center">🧠 Quiz</h1>
@@ -59,7 +54,6 @@
       </div>
     </div>
 
-    <!-- YEAR QUIZ -->
     <div id="year-view" class="hidden">
       <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
       <h1 class="year-title center">📆 Årtalsquiz</h1>
@@ -77,7 +71,6 @@
       </div>
     </div>
 
-    <!-- REPEAT -->
     <div id="repeat-view" class="hidden">
       <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
       <h1 class="repeat-title center">🔁 Repetition</h1>
@@ -90,9 +83,15 @@
         <button id="next-repeat">Nästa repetitionsfråga</button>
 
         <button id="remove-repeat" class="remove-repeat-btn">
-          Ta bort från repetition? ❌
+          Ta bort? ❌
         </button>
       </div>
+    </div>
+
+    <div id="timeline-view" class="hidden">
+      <button id="back-to-modes-4" class="secondary small">⬅ Tillbaka</button>
+      <h1 class="timeline-title center">📜 Tidslinje</h1>
+      <ul id="timeline"></ul>
     </div>
 
   </div>
