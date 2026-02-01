@@ -1,29 +1,34 @@
 * { box-sizing: border-box; }
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   margin: 0; background: #f4f6fb; color: #222; overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 .app-container { max-width: 720px; margin: auto; padding: 16px; }
 
-/* NAVIGERING */
+/* NY ANIMERING FÖR VY-BYTE */
 .hidden { display: none !important; }
-.view { animation: fadeIn 0.3s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.view { 
+  animation: slideIn 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 
 /* TEXT & RUBRIKER */
-h1 { 
-  text-align: center; 
-  margin-bottom: 10px; 
-  font-weight: 900; /* Max tjocklek för att synas bra på mobil */
-  letter-spacing: -0.5px;
-}
+h1 { text-align: center; margin-bottom: 10px; font-weight: 900; letter-spacing: -0.5px; }
 .center { text-align: center; }
 .subtitle {
   text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
   color: #888; font-weight: 700; margin-bottom: 30px;
 }
 .subtitle::after { content: ""; display: block; width: 30px; height: 3px; background: #4f6ef7; margin: 8px auto; border-radius: 2px; }
+
+/* FIX FÖR TEXTFÄRG PÅ STARTSIDAN */
+#subjects button {
+  color: #222 !important; /* Tvingar texten "Historia" att vara svart */
+}
 
 /* KNAPPAR */
 button {
@@ -42,9 +47,18 @@ button:active { transform: scale(0.96); }
 .indigo { background: #5b5bd6; }
 .dark-green { background: #2e8b57; }
 
-/* QUIZ DESIGN */
+/* QUIZ DESIGN & AVGRÄNSARE */
 .quiz-card { background: white; padding: 30px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 480px; margin: auto; }
-.question-label { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: #4f6ef7; font-weight: 800; display: block; margin-bottom: 15px; text-align: center; }
+
+.divider {
+  width: 40px;
+  height: 2px;
+  background: #eee;
+  margin: 0 auto 15px auto;
+  border-radius: 2px;
+}
+
+.question-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #4f6ef7; font-weight: 800; display: block; margin-bottom: 8px; text-align: center; }
 .question-text { font-size: 22px; font-weight: 700; text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 .question-text.highlight { color: #6c5ce7; font-size: 44px; font-weight: 900; }
 
@@ -55,12 +69,21 @@ button:active { transform: scale(0.96); }
 .quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
 .half-btn { flex: 1; }
 .full-btn { width: 100%; }
+
+/* KNAPP-FÄRGER */
 .toggle-btn { background: #4f6ef7; color: white; }
+
+/* NY STIL FÖR "DÖLJ SVAR" */
+.toggle-btn.active { 
+  background: #bdc3c7 !important; /* Grå färg */
+  color: #2c3e50 !important;    /* Mörkare text */
+}
+
 .next-btn { background: #27ae60 !important; color: white; }
 .repeat-btn { background: #ffb347 !important; color: white; margin-top: 5px; }
 .remove-btn { background: #f0f0f0; color: #666; }
 
-/* TIDSLINJE (80% BREDD) */
+/* TIDSLINJE */
 .timeline-wrapper { position: relative; padding: 40px 0; }
 ul#timeline { list-style: none; padding: 0; margin: 0; position: relative; width: 100%; }
 ul#timeline::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: #ddd; transform: translateX(-50%); }
@@ -83,7 +106,6 @@ ul#timeline li strong { display: block; font-size: 19px; color: #7a4fd9; font-we
 .code-box { margin-top: 8px; font-size: 12px; background: #f0edff; padding: 5px 10px; border-radius: 8px; display: inline-block; font-weight: 600; }
 .timeline-wrapper::after { content: ""; display: table; clear: both; }
 
-/* Mobil-fix för tidslinjen */
 @media (max-width: 500px) {
   ul#timeline li { width: 85%; }
 }
