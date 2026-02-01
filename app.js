@@ -3,8 +3,27 @@ let currentSubject, currentCategory, currentRegent;
 let currentQuestion, currentYearEntry, currentRepeatItem, currentChallengeItem;
 let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
 let challengeStreak = 0;
+let isSoundEnabled = true;
+let viewHistory = ["subject-view"];
 
-/* LADDA DATA */
+/* SYNTHETIC SOUND ENGINE */
+function playSuccessSound() {
+    if (!isSoundEnabled) return;
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1); // A5
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.3);
+    } catch(e) { console.log("Ljud kunde inte spelas."); }
+}
+
+/* INIT */
 fetch("questions.json").then(r => r.json()).then(json => {
     data = json;
     renderSubjects();
@@ -15,25 +34,49 @@ fetch("questions.json").then(r => r.json()).then(json => {
 /* VY-HANTERING */
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
-    const target = document.getElementById(id);
-    if (target) target.classList.remove("hidden");
+    document.getElementById(id).classList.remove("hidden");
+    
+    // Visa/Dölj Navigering
+    const nav = document.getElementById("nav-header");
+    if (id === "subject-view") nav.classList.add("hidden");
+    else nav.classList.remove("hidden");
+
+    if (viewHistory[viewHistory.length - 1] !== id) viewHistory.push(id);
     window.scrollTo(0, 0);
     updateTrackers();
 }
+
+/* NAVIGERINGSLOGIK */
+document.getElementById("global-home").onclick = () => {
+    viewHistory = ["subject-view"];
+    showView("subject-view");
+};
+
+document.getElementById("global-back").onclick = () => {
+    if (viewHistory.length > 1) {
+        viewHistory.pop(); 
+        const prev = viewHistory.pop();
+        showView(prev);
+    }
+};
+
+document.getElementById("sound-toggle").onclick = function() {
+    isSoundEnabled = !isSoundEnabled;
+    this.textContent = isSoundEnabled ? "🔊" : "🔇";
+    this.classList.toggle("sound-off", !isSoundEnabled);
+};
 
 /* TRACKERS */
 function updateTrackers() {
     const badge = document.getElementById("repeat-badge");
     const counterText = document.getElementById("repeat-counter-text");
     const count = repeatItems.length;
-
-    if (count > 0) {
+    if (badge) {
         badge.textContent = count;
-        badge.classList.remove("hidden");
-        if(counterText) counterText.textContent = `${count} händelser kvar att repetera!`;
-    } else {
-        badge.classList.add("hidden");
-        if(counterText) counterText.textContent = "";
+        badge.classList.toggle("hidden", count === 0);
+    }
+    if (counterText) {
+        counterText.textContent = count > 0 ? `${count} händelser kvar att repetera!` : "";
     }
 }
 
@@ -75,7 +118,7 @@ function renderRegents() {
     });
 }
 
-/* SVARSLOGIK */
+/* QUIZ LOGIK */
 function toggleAnswer(displayId, btnId) {
     const el = document.getElementById(displayId);
     const btn = document.getElementById(btnId);
@@ -88,15 +131,13 @@ function toggleAnswer(displayId, btnId) {
 function resetUI(displayId, btnId) {
     const el = document.getElementById(displayId);
     const btn = document.getElementById(btnId);
-    el.classList.add("invisible"); el.classList.remove("visible");
+    if (el) { el.classList.add("invisible"); el.classList.remove("visible"); }
     if (btn) { btn.innerHTML = "Visa svar 📖"; btn.classList.remove("active"); }
 }
 
-/* REPEAT BUTTON LOGIC */
 function updateRepeatBtnUI(btnId, item) {
     const btn = document.getElementById(btnId);
     const exists = repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    
     if (exists) {
         btn.innerHTML = "Repetera! ✅";
         btn.className = "full-btn repeat-btn-active";
@@ -106,7 +147,7 @@ function updateRepeatBtnUI(btnId, item) {
     }
 }
 
-/* MODES */
+/* LÄGEN */
 function showQuestion() {
     currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
     document.getElementById("question").textContent = currentQuestion.q;
@@ -154,22 +195,12 @@ function showRepeat() {
     resetUI("repeat-answer", "toggle-repeat-answer");
 }
 
-/* HELPERS */
 function getAnswer(year) {
     const entry = currentRegent.timeline.find(t => t.year === year);
     return entry ? entry.event : "Svar saknas";
 }
 
-function toggleRepeat(item, btnId) {
-    const index = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    if (index > -1) repeatItems.splice(index, 1);
-    else repeatItems.push(item);
-    localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    updateRepeatBtnUI(btnId, item);
-    updateTrackers();
-}
-
-/* LISTENERS */
+/* EVENT LISTENERS */
 document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
 document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
@@ -198,10 +229,24 @@ document.getElementById("next-question").onclick = showQuestion;
 document.getElementById("next-year").onclick = showYear;
 document.getElementById("next-repeat").onclick = showRepeat;
 
-document.getElementById("mark-repeat").onclick = () => toggleRepeat({ type: "quiz", year: currentQuestion.year, q: currentQuestion.q }, "mark-repeat");
-document.getElementById("mark-repeat-year").onclick = () => toggleRepeat({ type: "year", year: currentYearEntry.year }, "mark-repeat-year");
+document.getElementById("mark-repeat").onclick = () => toggleRepeatAction("mark-repeat", currentQuestion);
+document.getElementById("mark-repeat-year").onclick = () => toggleRepeatAction("mark-repeat-year", currentYearEntry);
 
-document.getElementById("mark-known").onclick = () => { challengeStreak++; showChallenge(); };
+function toggleRepeatAction(btnId, itemRaw) {
+    const item = itemRaw.q ? { type: "quiz", year: itemRaw.year, q: itemRaw.q } : { type: "year", year: itemRaw.year };
+    const index = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
+    if (index > -1) repeatItems.splice(index, 1);
+    else repeatItems.push(item);
+    localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
+    updateRepeatBtnUI(btnId, item);
+    updateTrackers();
+}
+
+document.getElementById("mark-known").onclick = () => { 
+    challengeStreak++; 
+    playSuccessSound();
+    showChallenge(); 
+};
 document.getElementById("mark-retry").onclick = () => { 
     challengeStreak = 0; 
     const item = currentChallengeItem.q ? { type: "quiz", year: currentChallengeItem.year, q: currentChallengeItem.q } : { type: "year", year: currentChallengeItem.year };
@@ -217,11 +262,3 @@ document.getElementById("remove-repeat").onclick = () => {
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
     showRepeat();
 };
-
-document.querySelectorAll("[id^='back-to-']").forEach(b => b.onclick = (e) => {
-    const target = e.target.id.split("-")[2];
-    if (target === "subjects") showView("subject-view");
-    else if (target === "categories") showView("category-view");
-    else if (target === "regents") showView("regent-view");
-    else showView("mode-view");
-});
