@@ -6,7 +6,6 @@ body {
 }
 .app-container { max-width: 720px; margin: auto; padding: 16px; }
 
-/* ANIMERING & VISUALS */
 .hidden { display: none !important; }
 .view { animation: slideIn 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 @keyframes slideIn {
@@ -25,7 +24,7 @@ body {
 .sound-off { opacity: 0.4; filter: grayscale(1); }
 
 /* NAVIGERING */
-.nav-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.nav-row { display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 20px; }
 .nav-left { display: flex; gap: 10px; }
 
 /* MENY & SEKTIONER */
@@ -80,5 +79,3 @@ ul#timeline li { position: relative; width: 80%; margin-bottom: 35px; background
 ul#timeline li:nth-child(odd) { float: left; border-left: 6px solid #7a4fd9; text-align: left; }
 ul#timeline li:nth-child(even) { float: right; border-right: 6px solid #7a4fd9; text-align: right; }
 ul#timeline li::after { content: ""; position: absolute; top: 50%; width: 16px; height: 16px; background: #7a4fd9; border: 3px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%); }
-ul#timeline li:nth-child(odd)::after { right: -12.5%; transform: translate(50%, -50%); }
-ul#timeline li:nth-child(even)::after { left: -12.5%; transform: translate(-50%, -50%); }
