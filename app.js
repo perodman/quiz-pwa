@@ -134,15 +134,126 @@ function showTimeline() {
     timelineEl.appendChild(li);
   });
   showView("timeline-view");
+}let data;
+
+let currentSubject;
+let currentCategory;
+let currentRegent;
+
+let currentQuestion;
+let currentYearEntry;
+let currentRepeatItem;
+
+let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
+
+/* ELEMENTS */
+const subjectsDiv = document.getElementById("subjects");
+const categoriesDiv = document.getElementById("categories");
+const regentsDiv = document.getElementById("regents");
+
+const questionEl = document.getElementById("question");
+const answerEl = document.getElementById("answer");
+
+const yearDisplay = document.getElementById("year-display");
+const yearAnswer = document.getElementById("year-answer");
+
+const timelineEl = document.getElementById("timeline");
+
+const repeatQuestionEl = document.getElementById("repeat-question");
+const repeatAnswerEl = document.getElementById("repeat-answer");
+
+const markRepeatQuizBtn = document.getElementById("mark-repeat");
+const markRepeatYearBtn = document.getElementById("mark-repeat-year");
+
+/* FETCH */
+fetch("questions.json")
+  .then(r => r.json())
+  .then(json => {
+    data = json;
+    renderSubjects();
+    showView("subject-view");
+  });
+
+/* VIEW */
+function showView(id) {
+  document.querySelectorAll("div[id$='view']").forEach(v =>
+    v.classList.add("hidden")
+  );
+  document.getElementById(id).classList.remove("hidden");
 }
+
+/* SUBJECTS */
+function renderSubjects() {
+  subjectsDiv.innerHTML = "";
+  data.subjects.forEach(s => {
+    const b = document.createElement("button");
+    b.textContent = s.name;
+    b.classList.add("choice-btn");
+    b.onclick = () => {
+      currentSubject = s;
+      renderCategories();
+      showView("category-view");
+    };
+    subjectsDiv.appendChild(b);
+  });
+}
+
+/* CATEGORIES */
+function renderCategories() {
+  categoriesDiv.innerHTML = "";
+  currentSubject.categories.forEach(c => {
+    const b = document.createElement("button");
+    b.textContent = c.name;
+    b.classList.add("choice-btn");
+    b.onclick = () => {
+      currentCategory = c;
+      renderRegents();
+      showView("regent-view");
+    };
+    categoriesDiv.appendChild(b);
+  });
+}
+
+/* REGENTS */
+function renderRegents() {
+  regentsDiv.innerHTML = "";
+  currentCategory.regents.forEach(r => {
+    const b = document.createElement("button");
+    b.textContent = r.name;
+    b.classList.add("choice-btn");
+    b.onclick = () => {
+      currentRegent = r;
+      document.getElementById("regent-title").textContent = r.name;
+      showView("mode-view");
+    };
+    regentsDiv.appendChild(b);
+  });
+}
+
+/* QUIZ / YEAR / TIMELINE / REPEAT – oförändrat */
+
+/* BACK – FIX FÖR REPETITION */
+document.getElementById("back-to-modes-4").onclick = () =>
+  showView("mode-view");
+
 
 /* REPEAT */
 function showRepeat() {
   if (repeatItems.length === 0) {
-    repeatQuestionEl.textContent = "Inga repetitionsfrågor kvar 🎉";
+    repeatQuestionEl.textContent = "Inga repetitionsfrågor kvar! 🎉";
+    repeatQuestionEl.style.textAlign = "center";   // 👈 centrera texten
     repeatAnswerEl.textContent = "";
     return;
   }
+
+  // Återställ när det finns frågor igen
+  repeatQuestionEl.style.textAlign = "left";
+
+  // Exempel på fortsatt logik (behåll din befintliga kod här)
+  const currentItem = repeatItems[0];
+  repeatQuestionEl.textContent = currentItem.question;
+  repeatAnswerEl.textContent = "";
+}
 
   currentRepeatItem =
     repeatItems[Math.floor(Math.random() * repeatItems.length)];
