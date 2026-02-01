@@ -20,10 +20,14 @@ h1 { text-align: center; }
 .timeline-title { color: #7a4fd9; }
 .repeat-title { color: #2e8b57; }
 
+/* SUBTITLE DESIGN */
 .subtitle {
   text-align: center;
-  font-size: 18px;
-  color: #555;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 /* BASE BUTTON */
@@ -34,15 +38,33 @@ button {
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  width: auto;
 }
 
-/* BUTTON TYPES */
-.primary {
-  background: #4f6ef7;
-  color: white;
+/* CHOICE BUTTONS (Historia, Svenska regenter, Gustav Vasa) */
+.choice-btn {
+  background: #eef2ff;
+  color: #2a2a2a;
+  border: 1px solid #d6dcff;
 }
 
+/* MODE BUTTON COLORS */
+#timeline-mode { background: #7a4fd9; color: white; }
+#year-mode     { background: #3f8efc; color: white; }
+#quiz-mode     { background: #5b5bd6; color: white; }
+#repeat-mode   { background: #2e8b57; color: white; }
+
+/* FUNCTION BUTTONS */
+.btn-answer { background: #6b6bd6; color: white; }
+.btn-next   { background: #4f6ef7; color: white; }
+.btn-repeat { background: #2e8b57; color: white; }
+
+/* REMOVE (NEUTRAL) */
+.btn-remove {
+  background: #eeeeee;
+  color: #333;
+}
+
+/* BACK BUTTON */
 .secondary {
   background: #e0e0e0;
   color: #222;
@@ -52,12 +74,6 @@ button {
   font-size: 14px;
   padding: 6px 12px;
 }
-
-/* FUNCTION BUTTON COLORS */
-.btn-answer { background: #6b6bd6; color: white; }
-.btn-next { background: #4f6ef7; color: white; }
-.btn-repeat { background: #2e8b57; color: white; }
-.btn-remove { background: #e53935; color: white; }
 
 /* QUIZ CARD */
 .quiz-card {
@@ -82,7 +98,7 @@ button {
   min-height: 70px;
 }
 
-/* ACTION ROW */
+/* ACTIONS */
 .actions {
   display: flex;
   flex-wrap: wrap;
