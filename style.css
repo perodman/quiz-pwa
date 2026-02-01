@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   margin: 0;
   background: #f4f6fb;
   color: #222;
@@ -16,110 +16,146 @@ body {
 
 /* ANIMATIONER */
 @keyframes fadeInSlide {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.view {
-  animation: fadeInSlide 0.4s ease-out;
+.view { animation: fadeInSlide 0.3s ease-out; }
+
+h1 { text-align: center; margin-bottom: 10px; }
+.center { text-align: center; }
+
+/* 1. DESIGNAD SUBTITLE */
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #777;
+  font-weight: 700;
+  margin-bottom: 30px;
+  position: relative;
 }
 
-h1 { text-align: center; }
-.center { text-align: center; }
+.subtitle::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #4f6ef7;
+  margin: 8px auto;
+  border-radius: 2px;
+}
 
 /* KNAPP-BAS */
 button {
   display: inline-block;
   padding: 12px 20px;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 12px;
   border: none;
   cursor: pointer;
   background: #4f6ef7;
   color: white;
-  transition: transform 0.1s, background 0.2s;
+  transition: all 0.2s ease;
   text-align: center;
 }
 
-button:active {
-  transform: scale(0.95);
-}
+button:active { transform: scale(0.96); }
 
-/* SELECTION CONTAINER (För Historia, Regenter etc.) */
+/* 2. LÖPANDE KNAPPAR (Startar från vänster) */
 .selection-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
+  gap: 12px;
+  justify-content: flex-start; /* Ändrat från center */
+  padding: 10px;
 }
 
 .selection-container button {
-  width: auto; /* Anpassar sig efter texten */
-  min-width: 120px;
+  width: auto;
+  min-width: 100px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 /* TILLBAKA-KNAPPAR */
 button.secondary.small {
-  background: #e0e0e0;
-  color: #444;
-  font-size: 14px;
-  padding: 8px 16px;
-  margin-bottom: 10px;
+  background: #e9e9e9;
+  color: #555;
+  font-size: 13px;
+  padding: 8px 14px;
+  margin-bottom: 15px;
 }
 
 /* MODE MENU */
-.mode-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.mode-container button { width: 90%; max-width: 340px; }
+.mode-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.mode-container button { width: 100%; max-width: 320px; font-size: 17px; }
 
 #timeline-mode { background: #7a4fd9; }
 #year-mode { background: #3f8efc; }
 #quiz-mode { background: #5b5bd6; }
 #repeat-mode { background: #2e8b57; }
 
-/* QUIZ CARD & TRIANGLE LAYOUT */
+/* 3. RESEREVERAT SVAR-UTRYMME */
 .quiz-card {
   background: white;
   padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
   max-width: 480px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
-.quiz-controls {
+.answer-text {
+  margin: 20px 0;
+  padding: 18px;
+  background: #f8f9ff;
+  border-radius: 16px;
+  text-align: center;
+  min-height: 100px; /* Reserverar höjden */
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  font-style: italic;
+  color: #333;
+  transition: all 0.3s ease;
+  border: 2px dashed #eee; /* Visar att det finns ett hål där */
 }
 
-.half-btn {
-  flex: 1 1 calc(50% - 10px); /* Tar upp halva bredden */
-  font-size: 14px;
+/* När svaret syns */
+.answer-text.visible {
+  background: #eef1ff;
+  border: 2px solid transparent;
+  font-style: normal;
+  opacity: 1;
 }
 
-.full-btn {
-  flex: 1 1 100%; /* Tar upp hela bredden under de andra två */
+.answer-text.invisible {
+  opacity: 0.3; /* Lite genomskinlig när den är tom */
+  color: transparent;
 }
+
+/* 4. VISA/DÖLJ SVAR KNAPP */
+.toggle-btn.active {
+  background: #ff9800 !important; /* Orange färg */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.half-btn { flex: 1 1 calc(50% - 5px); }
+.full-btn { flex: 1 1 100%; margin-top: 5px; }
 
 #mark-repeat, #mark-repeat-year { background: #2e8b57; }
-#remove-repeat { background: #eeeeee; color: #333; border: 1px solid #ddd; }
+#remove-repeat { background: #f0f0f0; color: #666; }
 
 /* TEXT STYLES */
-.question-text { font-size: 20px; font-weight: 600; min-height: 60px; text-align: center; margin-bottom: 10px; }
-.answer-text { padding: 16px; background: #f0f3ff; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-.year-box { font-size: 32px; font-weight: 800; text-align: center; color: #3f8efc; margin-bottom: 10px; }
+.question-text { font-size: 20px; font-weight: 700; text-align: center; color: #1a1a1a; }
+.year-box { font-size: 36px; font-weight: 800; text-align: center; color: #3f8efc; }
 
 /* TIMELINE LIST */
 ul#timeline { list-style: none; padding: 0; }
-ul#timeline li { background: white; border-radius: 14px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-.code-box { margin-top: 8px; padding: 8px; background: #f8f9ff; border-radius: 8px; font-size: 13px; color: #555; border-left: 4px solid #7a4fd9; }
+ul#timeline li { background: white; border-radius: 16px; padding: 18px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-left: 5px solid #7a4fd9; }
 
 .hidden { display: none; }
