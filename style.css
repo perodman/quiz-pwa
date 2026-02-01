@@ -1,140 +1,78 @@
-/* ... (behåll resten av din CSS för knappar och quiz-kort) ... */
-
-/* 1. REPETERA-KNAPP (Mjuk Orange) */
-#mark-repeat, #mark-repeat-year, .repeat-btn, .mark-repeat-btn {
-  background: #ffb347 !important;
-  box-shadow: 0 4px 12px rgba(255, 179, 71, 0.2);
-  color: white;
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0; background: #f4f6fb; color: #222; overflow-x: hidden;
 }
+.app-container { max-width: 720px; margin: auto; padding: 16px; }
 
-/* 2. DEN NYA "ZIPPER" TIDSLINJEN (80% bredd) */
-.timeline-wrapper {
-  position: relative;
-  padding: 40px 0;
-  overflow: hidden; /* Förhindrar horisontell scroll */
-}
+/* NAVIGERING */
+.hidden { display: none !important; }
+.view { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-ul#timeline {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  width: 100%;
+/* TEXT & RUBRIKER */
+h1 { text-align: center; margin-bottom: 10px; font-weight: 800; }
+.center { text-align: center; }
+.subtitle {
+  text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
+  color: #888; font-weight: 700; margin-bottom: 30px;
 }
+.subtitle::after { content: ""; display: block; width: 30px; height: 3px; background: #4f6ef7; margin: 8px auto; border-radius: 2px; }
 
-/* Mittlinjen */
-ul#timeline::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: #e0e0e0;
-  transform: translateX(-50%);
-  z-index: 0;
+/* KNAPPAR */
+button {
+  padding: 14px 22px; font-size: 15px; font-weight: 700; border-radius: 14px;
+  border: none; cursor: pointer; transition: all 0.2s ease;
 }
+button:active { transform: scale(0.96); }
+
+.secondary.small { background: #e9e9e9; color: #555; font-size: 13px; padding: 8px 16px; margin-bottom: 15px; }
+.selection-container { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 10px; }
+.mode-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.mode-btn { width: 100%; max-width: 320px; color: white; }
+
+.purple { background: #7a4fd9; }
+.blue { background: #3f8efc; }
+.indigo { background: #5b5bd6; }
+.dark-green { background: #2e8b57; }
+
+/* QUIZ DESIGN */
+.quiz-card { background: white; padding: 30px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 480px; margin: auto; }
+.question-label { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: #4f6ef7; font-weight: 800; display: block; margin-bottom: 15px; text-align: center; }
+.question-text { font-size: 22px; font-weight: 700; text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+.question-text.highlight { color: #6c5ce7; font-size: 44px; }
+
+.answer-text { margin: 20px 0; padding: 20px; background: #f8f9ff; border-radius: 18px; text-align: center; min-height: 80px; transition: 0.3s; border: 2px dashed #edf0f7; }
+.answer-text.visible { background: #eff2ff; border-style: solid; color: #222; opacity: 1; }
+.answer-text.invisible { opacity: 0; }
+
+.quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+.half-btn { flex: 1; }
+.full-btn { width: 100%; }
+.toggle-btn { background: #4f6ef7; color: white; }
+.next-btn { background: #27ae60 !important; color: white; }
+.repeat-btn { background: #ffb347 !important; color: white; margin-top: 5px; }
+.remove-btn { background: #f0f0f0; color: #666; }
+
+/* TIDSLINJE (80% BREDD) */
+.timeline-wrapper { position: relative; padding: 40px 0; }
+ul#timeline { list-style: none; padding: 0; margin: 0; position: relative; width: 100%; }
+ul#timeline::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: #ddd; transform: translateX(-50%); }
 
 ul#timeline li {
-  position: relative;
-  width: 80%; /* Ökat från 45% till 80% för mer textutrymme */
-  margin-bottom: 40px;
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  z-index: 1;
-  transition: transform 0.2s ease;
+  position: relative; width: 80%; margin-bottom: 35px; background: white;
+  padding: 18px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); z-index: 1;
 }
+ul#timeline li:nth-child(odd) { float: left; border-left: 6px solid #7a4fd9; text-align: left; }
+ul#timeline li:nth-child(even) { float: right; border-right: 6px solid #7a4fd9; text-align: right; }
 
-/* Sicksack: Alternera vänster/höger med 80% bredd */
-ul#timeline li:nth-child(odd) {
-  float: left;
-  clear: both;
-  text-align: left;
-  border-left: 6px solid #7a4fd9;
-  /* Boxen startar till vänster, lämnar 20% glapp till höger */
-}
-
-ul#timeline li:nth-child(even) {
-  float: right;
-  clear: both;
-  text-align: right;
-  border-right: 6px solid #7a4fd9;
-  /* Boxen startar till höger, lämnar 20% glapp till vänster */
-}
-
-/* Pricken på mittlinjen */
 ul#timeline li::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  background: #7a4fd9;
-  border: 4px solid #f4f6fb;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+  content: ""; position: absolute; top: 50%; width: 16px; height: 16px;
+  background: #7a4fd9; border: 3px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%);
 }
+ul#timeline li:nth-child(odd)::after { right: -12.5%; transform: translate(50%, -50%); }
+ul#timeline li:nth-child(even)::after { left: -12.5%; transform: translate(-50%, -50%); }
 
-/* Positionera pricken exakt på 50% av skärmen */
-/* För vänster-boxar (odd): Pricken ska sitta 50% från vänster kant av skärmen. 
-   Eftersom boxen är 80% bred, hamnar 50% märket inne i boxen. */
-ul#timeline li:nth-child(odd)::after {
-  right: calc(37.5% - 9px); 
-  /* Beräkning: (50% center / 80% bredd) ger positionen relativt boxen */
-  /* Men enklare: */
-  left: auto;
-  right: -10%; /* Justering för att pricken ska landa på mittlinjen när boxen är 80% */
-  /* För att det ska bli exakt på mittlinjen oavsett skärm: */
-  left: calc(50% / 0.8 - 9px); 
-}
-
-/* Förenklad positionering av pricken oavsett boxbredd: */
-ul#timeline li:nth-child(odd)::after {
-  left: calc(62.5% - 9px); /* 50% av totalen dividerat på 80% bredd */
-}
-ul#timeline li:nth-child(even)::after {
-  right: calc(62.5% - 9px);
-}
-
-/* RENARE VERSION AV PRICK-LOGIKEN: */
-ul#timeline li:nth-child(odd)::after {
-  left: auto;
-  right: calc((50% / 0.8) * -1 + 50%); /* Matematisk magi för att pricken ska ligga på 50%-linjen */
-  /* Låt oss använda en fastare metod för mobiler: */
-  left: auto;
-  right: 37.5%; /* Om boxen är 80%, är mittlinjen vid 62.5% in i boxen från vänster, eller 37.5% från höger */
-  transform: translate(50%, -50%);
-}
-
-ul#timeline li:nth-child(even)::after {
-  right: auto;
-  left: 37.5%;
-  transform: translate(-50%, -50%);
-}
-
-ul#timeline li strong {
-  display: block;
-  font-size: 20px;
-  color: #7a4fd9;
-  margin-bottom: 5px;
-}
-
-.code-box {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #555;
-  background: #f0edff;
-  padding: 8px 12px;
-  border-radius: 10px;
-  display: inline-block;
-  font-weight: 600;
-}
-
-.timeline-wrapper::after {
-  content: "";
-  display: table;
-  clear: both;
-}
+ul#timeline li strong { display: block; font-size: 19px; color: #7a4fd9; }
+.code-box { margin-top: 8px; font-size: 12px; background: #f0edff; padding: 5px 10px; border-radius: 8px; display: inline-block; }
+.timeline-wrapper::after { content: ""; display: table; clear: both; }
