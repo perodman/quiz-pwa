@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz App Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
-  <div class="top-controls">
-    <div id="global-home" class="circle-ctrl">🏠</div>
-    <div id="sound-toggle" class="circle-ctrl">🔊</div>
+  <div class="global-header">
+    <div id="nav-header" class="hidden">
+      <button id="global-back" class="back-btn">⬅ Tillbaka</button>
+    </div>
+    <div class="top-right-controls">
+      <div id="global-home" class="circle-ctrl">🏠</div>
+      <div id="sound-toggle" class="circle-ctrl">🔊</div>
+    </div>
   </div>
 
   <div class="app-container">
@@ -22,10 +27,6 @@
       <p class="subtitle">Välj ämne</p>
       <div class="divider"></div>
       <div id="subjects" class="selection-container zigzag-layout"></div>
-    </div>
-
-    <div id="nav-header" class="nav-row hidden">
-      <button id="global-back" class="secondary small">⬅ Tillbaka</button>
     </div>
 
     <div id="category-view" class="view hidden">
@@ -139,6 +140,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=16"></script>
+  <script src="app.js?v=17"></script>
 </body>
 </html>
