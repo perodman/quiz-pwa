@@ -1,32 +1,120 @@
+* { box-sizing: border-box; }
+
 body {
   font-family: system-ui, sans-serif;
-  background: #f4f6fb;
   margin: 0;
+  background: #f4f6fb;
+  color: #222;
 }
 
-.app {
-  max-width: 600px;
+.app-container {
+  max-width: 720px;
   margin: auto;
-  padding: 20px;
+  padding: 16px;
 }
 
-.view {
-  display: none;
+h1 { text-align: center; }
+
+.quiz-title { color: #5b5bd6; }
+.year-title { color: #3f8efc; }
+.timeline-title { color: #7a4fd9; }
+.repeat-title { color: #2e8b57; }
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
 }
 
+/* BASE BUTTON */
 button {
   width: 100%;
   padding: 12px;
-  margin: 8px 0;
+  margin: 6px 0;
   font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #4f6ef7;
+  color: white;
 }
 
-.card {
+/* MODE BUTTON COLORS */
+#timeline-mode { background: #7a4fd9; }
+#year-mode { background: #3f8efc; }
+#quiz-mode { background: #5b5bd6; }
+#repeat-mode { background: #2e8b57; }
+
+/* FUNCTION BUTTONS */
+#toggle-answer,
+#toggle-year-answer,
+#toggle-repeat-answer {
+  background: #6b6bd6;
+}
+
+#next-question,
+#next-year,
+#next-repeat {
+  background: #4f6ef7;
+}
+
+#mark-repeat,
+#mark-repeat-year {
+  background: #2e8b57;
+}
+
+#remove-repeat {
+  background: #e53935;
+}
+
+/* QUIZ CARD */
+.quiz-card {
   background: white;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-#answer {
-  margin-top: 16px;
+.question-text {
+  font-size: 21px;
+  font-weight: 600;
+  min-height: 80px;
 }
+
+.answer-text {
+  margin-top: 20px;
+  padding: 14px;
+  background: #eef0ff;
+  border-radius: 12px;
+  min-height: 80px;
+}
+
+/* YEAR */
+.year-box {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  min-height: 60px;
+}
+
+/* TIMELINE */
+ul { list-style: none; padding: 0; }
+
+li {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.code-box {
+  margin-top: 8px;
+  padding: 10px;
+  background: #f1f1ff;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* HIDDEN */
+.hidden { display: none; }
