@@ -27,7 +27,7 @@ function renderSubjects() {
   data.subjects.forEach(s => {
     const b = document.createElement("button");
     b.textContent = s.name;
-    b.className = "blue";
+    // Vi sätter ingen klass här så att CSS-fixen #subjects button biter
     b.onclick = () => { currentSubject = s; renderCategories(); showView("category-view"); };
     container.appendChild(b);
   });
@@ -59,7 +59,7 @@ function renderRegents() {
   });
 }
 
-/* SVARSLOGIK */
+/* SVARSLOGIK MED KRYSS-SYMBOL */
 function toggleAnswer(displayId, btnId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
@@ -67,7 +67,14 @@ function toggleAnswer(displayId, btnId) {
   
   el.classList.toggle("invisible", !isHidden);
   el.classList.toggle("visible", isHidden);
-  btn.textContent = isHidden ? "Dölj svar" : "Visa svar";
+  
+  if (isHidden) {
+    btn.innerHTML = 'Dölj svar &nbsp; ✖'; // Lägger till mörkt kryss
+    btn.classList.add("active");
+  } else {
+    btn.innerHTML = 'Visa svar';
+    btn.classList.remove("active");
+  }
 }
 
 function resetUI(displayId, btnId) {
@@ -75,7 +82,8 @@ function resetUI(displayId, btnId) {
   const btn = document.getElementById(btnId);
   el.classList.add("invisible");
   el.classList.remove("visible");
-  btn.textContent = "Visa svar";
+  btn.innerHTML = "Visa svar";
+  btn.classList.remove("active");
 }
 
 /* MODES */
@@ -96,13 +104,14 @@ function showYear() {
 }
 
 function showRepeat() {
+  const qEl = document.getElementById("repeat-question");
   if (repeatItems.length === 0) {
-    document.getElementById("repeat-question").textContent = "Inga frågor kvar 🎉";
+    qEl.textContent = "Inga frågor kvar 🎉";
     document.getElementById("repeat-answer").textContent = "";
     return;
   }
   currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-  document.getElementById("repeat-question").textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
+  qEl.textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
   document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
   resetUI("repeat-answer", "toggle-repeat-answer");
 }
