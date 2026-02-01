@@ -9,7 +9,7 @@ const categoriesDiv = document.getElementById("categories");
 const regentsDiv = document.getElementById("regents");
 const timelineEl = document.getElementById("timeline");
 
-/* FETCH */
+/* FETCH DATA */
 fetch("questions.json")
   .then(r => r.json())
   .then(json => {
@@ -18,14 +18,14 @@ fetch("questions.json")
     showView("subject-view");
   });
 
-/* VIEW CONTROL */
+/* NAVIGATION */
 function showView(id) {
   document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   window.scrollTo(0, 0);
 }
 
-/* RENDER SELECTIONS */
+/* RENDERING */
 function renderSubjects() {
   subjectsDiv.innerHTML = "";
   data.subjects.forEach(s => {
@@ -51,7 +51,11 @@ function renderRegents() {
   currentCategory.regents.forEach(r => {
     const b = document.createElement("button");
     b.textContent = r.name;
-    b.onclick = () => { currentRegent = r; document.getElementById("regent-title").textContent = r.name; showView("mode-view"); };
+    b.onclick = () => { 
+      currentRegent = r; 
+      document.getElementById("regent-title").textContent = r.name; 
+      showView("mode-view"); 
+    };
     regentsDiv.appendChild(b);
   });
 }
@@ -82,7 +86,7 @@ function resetToggle(displayId, btnId) {
   btn.classList.remove("active");
 }
 
-/* QUIZ LOGIC */
+/* CORE MODES */
 function showQuestion() {
   currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
   document.getElementById("question").textContent = currentQuestion.q;
@@ -93,7 +97,6 @@ function showQuestion() {
 
 function showYear() {
   currentYearEntry = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
-  // Här visar vi nu bara siffran för att det ska se snyggt ut med den nya designen
   document.getElementById("year-display").textContent = currentYearEntry.year;
   document.getElementById("year-answer").textContent = currentYearEntry.event;
   resetToggle("year-answer", "toggle-year-answer");
@@ -122,7 +125,7 @@ function showTimeline() {
   showView("timeline-view");
 }
 
-/* HELPERS */
+/* REPEAT HELPERS */
 function toggleRepeat(item) {
   const exists = repeatItems.some(r => r.type === item.type && r.year === item.year);
   repeatItems = exists ? repeatItems.filter(r => !(r.type === item.type && r.year === item.year)) : [...repeatItems, { ...item, q: item.q || "" }];
@@ -169,7 +172,7 @@ document.getElementById("remove-repeat").onclick = () => {
   showRepeat();
 };
 
-/* BACK NAVIGATION */
+/* BACK */
 document.getElementById("back-to-subjects").onclick = () => showView("subject-view");
 document.getElementById("back-to-categories").onclick = () => showView("category-view");
 document.getElementById("back-to-regents").onclick = () => showView("regent-view");
