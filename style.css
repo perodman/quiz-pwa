@@ -76,3 +76,15 @@ ul#timeline li:nth-child(even)::after { left: -12.5%; transform: translate(-50%,
 ul#timeline li strong { display: block; font-size: 19px; color: #7a4fd9; }
 .code-box { margin-top: 8px; font-size: 12px; background: #f0edff; padding: 5px 10px; border-radius: 8px; display: inline-block; }
 .timeline-wrapper::after { content: ""; display: table; clear: both; }
+
+@media (max-width: 500px) {
+  ul#timeline li {
+    width: 85%; /* Lite bredare på riktigt små skärmar */
+  }
+  ul#timeline li:nth-child(odd)::after {
+    right: -10%; /* Justerar pricken för mobil */
+  }
+  ul#timeline li:nth-child(even)::after {
+    left: -10%;
+  }
+}
