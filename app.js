@@ -241,3 +241,4 @@ document.getElementById("back-to-regents").onclick = () => showView("regent-view
 document.getElementById("back-to-modes").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-2").onclick = () => showView("mode-view");
 document.getElementById("back-to-modes-3").onclick = () => showView("mode-view");
+document.getElementById("back-to-modes-4").onclick = () => showView("mode-view");
