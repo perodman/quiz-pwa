@@ -119,7 +119,7 @@ function showTimeline() {
   timelineEl.innerHTML = "";
   currentRegent.timeline.forEach(t => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${t.year}</strong> – ${t.event}<div class="code-box">Minneskod: ${t.code || "—"}</div>`;
+    li.innerHTML = `<strong>${t.year}</strong> ${t.event} <br> <div class="code-box">Kod: ${t.code || "—"}</div>`;
     timelineEl.appendChild(li);
   });
   showView("timeline-view");
