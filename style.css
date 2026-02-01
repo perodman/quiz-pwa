@@ -6,106 +6,68 @@ body {
 }
 .app-container { max-width: 720px; margin: auto; padding: 16px; }
 
-/* NY ANIMERING FÖR VY-BYTE */
+/* ANIMERING */
 .hidden { display: none !important; }
-.view { 
-  animation: slideIn 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
-}
+.view { animation: slideIn 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* TEXT & RUBRIKER */
-h1 { text-align: center; margin-bottom: 10px; font-weight: 900; letter-spacing: -0.5px; }
-.center { text-align: center; }
-.subtitle {
-  text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
-  color: #888; font-weight: 700; margin-bottom: 30px;
-}
-.subtitle::after { content: ""; display: block; width: 30px; height: 3px; background: #4f6ef7; margin: 8px auto; border-radius: 2px; }
-
-/* FIX FÖR TEXTFÄRG PÅ STARTSIDAN */
+/* STARTSIDA FIX */
 #subjects button {
-  color: #222 !important; /* Tvingar texten "Historia" att vara svart */
+  background-color: #3f8efc !important;
+  color: #000 !important;
 }
+
+/* TEXT & LINJER */
+h1 { text-align: center; margin-bottom: 10px; font-weight: 900; letter-spacing: -0.5px; }
+.divider { width: 120px; height: 2px; background: #eee; margin: 0 auto 15px auto; border-radius: 2px; }
+.subtitle { text-align: center; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #888; font-weight: 700; margin-bottom: 30px; }
+
+/* STREAK BADGE */
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.streak-badge { background: #333; color: #fff; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 13px; }
 
 /* KNAPPAR */
-button {
-  padding: 14px 22px; font-size: 15px; font-weight: 700; border-radius: 14px;
-  border: none; cursor: pointer; transition: all 0.2s ease;
-}
-button:active { transform: scale(0.96); }
+button { padding: 14px 22px; font-size: 15px; font-weight: 700; border-radius: 14px; border: none; cursor: pointer; transition: all 0.2s ease; }
+.secondary.small { background: #e9e9e9; color: #555; font-size: 13px; padding: 8px 16px; }
+.mode-btn { width: 100%; max-width: 320px; color: white; margin-bottom: 12px; }
+.purple { background: #7a4fd9; } .blue { background: #3f8efc; } .indigo { background: #5b5bd6; } .dark-green { background: #2e8b57; }
 
-.secondary.small { background: #e9e9e9; color: #555; font-size: 13px; padding: 8px 16px; margin-bottom: 15px; }
-.selection-container { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 10px; }
-.mode-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.mode-btn { width: 100%; max-width: 320px; color: white; }
-
-.purple { background: #7a4fd9; }
-.blue { background: #3f8efc; }
-.indigo { background: #5b5bd6; }
-.dark-green { background: #2e8b57; }
-
-/* QUIZ DESIGN & AVGRÄNSARE */
+/* QUIZ CARD */
 .quiz-card { background: white; padding: 30px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 480px; margin: auto; }
-
-.divider {
-  width: 40px;
-  height: 2px;
-  background: #eee;
-  margin: 0 auto 15px auto;
-  border-radius: 2px;
-}
-
 .question-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #4f6ef7; font-weight: 800; display: block; margin-bottom: 8px; text-align: center; }
 .question-text { font-size: 22px; font-weight: 700; text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 .question-text.highlight { color: #6c5ce7; font-size: 44px; font-weight: 900; }
 
+/* SVAR */
 .answer-text { margin: 20px 0; padding: 20px; background: #f8f9ff; border-radius: 18px; text-align: center; min-height: 80px; transition: 0.3s; border: 2px dashed #edf0f7; }
 .answer-text.visible { background: #eff2ff; border-style: solid; color: #222; opacity: 1; }
 .answer-text.invisible { opacity: 0; color: transparent; }
 
-.quiz-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-.half-btn { flex: 1; }
+/* NYA KONTROLLER */
+.quiz-controls { display: flex; gap: 10px; margin-top: 15px; }
 .full-btn { width: 100%; }
-
-/* KNAPP-FÄRGER */
+.half-btn { flex: 1; }
 .toggle-btn { background: #4f6ef7; color: white; }
-
-/* NY STIL FÖR "DÖLJ SVAR" */
-.toggle-btn.active { 
-  background: #bdc3c7 !important; /* Grå färg */
-  color: #2c3e50 !important;    /* Mörkare text */
-}
-
-.next-btn { background: #27ae60 !important; color: white; }
-.repeat-btn { background: #ffb347 !important; color: white; margin-top: 5px; }
+.toggle-btn.active { background: #bdc3c7 !important; color: #2c3e50 !important; }
+.known-btn { background: #27ae60 !important; color: white; }
+.retry-btn { background: #ffb347 !important; color: white; }
 .remove-btn { background: #f0f0f0; color: #666; }
 
 /* TIDSLINJE */
 .timeline-wrapper { position: relative; padding: 40px 0; }
 ul#timeline { list-style: none; padding: 0; margin: 0; position: relative; width: 100%; }
 ul#timeline::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: #ddd; transform: translateX(-50%); }
-
-ul#timeline li {
-  position: relative; width: 80%; margin-bottom: 35px; background: white;
-  padding: 18px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); z-index: 1;
-}
+ul#timeline li { position: relative; width: 80%; margin-bottom: 35px; background: white; padding: 18px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); z-index: 1; }
 ul#timeline li:nth-child(odd) { float: left; border-left: 6px solid #7a4fd9; text-align: left; }
 ul#timeline li:nth-child(even) { float: right; border-right: 6px solid #7a4fd9; text-align: right; }
-
-ul#timeline li::after {
-  content: ""; position: absolute; top: 50%; width: 16px; height: 16px;
-  background: #7a4fd9; border: 3px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%);
-}
+ul#timeline li::after { content: ""; position: absolute; top: 50%; width: 16px; height: 16px; background: #7a4fd9; border: 3px solid #f4f6fb; border-radius: 50%; transform: translateY(-50%); }
 ul#timeline li:nth-child(odd)::after { right: -12.5%; transform: translate(50%, -50%); }
 ul#timeline li:nth-child(even)::after { left: -12.5%; transform: translate(-50%, -50%); }
-
 ul#timeline li strong { display: block; font-size: 19px; color: #7a4fd9; font-weight: 800; }
 .code-box { margin-top: 8px; font-size: 12px; background: #f0edff; padding: 5px 10px; border-radius: 8px; display: inline-block; font-weight: 600; }
 .timeline-wrapper::after { content: ""; display: table; clear: both; }
 
-@media (max-width: 500px) {
-  ul#timeline li { width: 85%; }
-}
+@media (max-width: 500px) { ul#timeline li { width: 85%; } }
