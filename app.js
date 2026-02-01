@@ -6,7 +6,7 @@ let challengeStreak = 0;
 let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
 
-/* SYNTHETIC SOUND ENGINE */
+/* LJUDMOTOR */
 function playSuccessSound() {
     if (!isSoundEnabled) return;
     try {
@@ -14,8 +14,8 @@ function playSuccessSound() {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1); // A5
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); 
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1); 
         gain.gain.setValueAtTime(0.1, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
         osc.connect(gain); gain.connect(ctx.destination);
@@ -31,32 +31,38 @@ fetch("questions.json").then(r => r.json()).then(json => {
     showView("subject-view");
 });
 
-/* VY-HANTERING */
+/* VY-HANTERING - Optimerad */
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
     
-    // Visa/Dölj Navigering
     const nav = document.getElementById("nav-header");
-    if (id === "subject-view") nav.classList.add("hidden");
-    else nav.classList.remove("hidden");
-
-    if (viewHistory[viewHistory.length - 1] !== id) viewHistory.push(id);
+    if (id === "subject-view") {
+        nav.classList.add("hidden");
+        viewHistory = ["subject-view"]; 
+    } else {
+        nav.classList.remove("hidden");
+        if (viewHistory[viewHistory.length - 1] !== id) {
+            viewHistory.push(id);
+        }
+    }
     window.scrollTo(0, 0);
     updateTrackers();
 }
 
-/* NAVIGERINGSLOGIK */
-document.getElementById("global-home").onclick = () => {
-    viewHistory = ["subject-view"];
-    showView("subject-view");
-};
+/* NAVIGERING */
+document.getElementById("global-home").onclick = () => showView("subject-view");
 
 document.getElementById("global-back").onclick = () => {
     if (viewHistory.length > 1) {
         viewHistory.pop(); 
-        const prev = viewHistory.pop();
-        showView(prev);
+        const prev = viewHistory[viewHistory.length - 1];
+        
+        document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
+        document.getElementById(prev).classList.remove("hidden");
+        
+        if (prev === "subject-view") document.getElementById("nav-header").classList.add("hidden");
+        updateTrackers();
     }
 };
 
@@ -76,7 +82,7 @@ function updateTrackers() {
         badge.classList.toggle("hidden", count === 0);
     }
     if (counterText) {
-        counterText.textContent = count > 0 ? `${count} händelser kvar att repetera!` : "";
+        counterText.textContent = count > 0 ? `${count} händelser kvar!` : "";
     }
 }
 
@@ -137,6 +143,7 @@ function resetUI(displayId, btnId) {
 
 function updateRepeatBtnUI(btnId, item) {
     const btn = document.getElementById(btnId);
+    if (!btn) return;
     const exists = repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true));
     if (exists) {
         btn.innerHTML = "Repetera! ✅";
@@ -147,7 +154,7 @@ function updateRepeatBtnUI(btnId, item) {
     }
 }
 
-/* LÄGEN */
+/* MODES */
 function showQuestion() {
     currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
     document.getElementById("question").textContent = currentQuestion.q;
@@ -185,7 +192,7 @@ function showChallenge() {
 function showRepeat() {
     updateTrackers();
     if (repeatItems.length === 0) {
-        document.getElementById("repeat-question").textContent = "Inga frågor kvar! 🎉";
+        document.getElementById("repeat-question").textContent = "Inga händelser kvar att repetera! 🎉";
         document.getElementById("repeat-answer").textContent = "";
         return;
     }
@@ -229,9 +236,6 @@ document.getElementById("next-question").onclick = showQuestion;
 document.getElementById("next-year").onclick = showYear;
 document.getElementById("next-repeat").onclick = showRepeat;
 
-document.getElementById("mark-repeat").onclick = () => toggleRepeatAction("mark-repeat", currentQuestion);
-document.getElementById("mark-repeat-year").onclick = () => toggleRepeatAction("mark-repeat-year", currentYearEntry);
-
 function toggleRepeatAction(btnId, itemRaw) {
     const item = itemRaw.q ? { type: "quiz", year: itemRaw.year, q: itemRaw.q } : { type: "year", year: itemRaw.year };
     const index = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
@@ -242,11 +246,15 @@ function toggleRepeatAction(btnId, itemRaw) {
     updateTrackers();
 }
 
+document.getElementById("mark-repeat").onclick = () => toggleRepeatAction("mark-repeat", currentQuestion);
+document.getElementById("mark-repeat-year").onclick = () => toggleRepeatAction("mark-repeat-year", currentYearEntry);
+
 document.getElementById("mark-known").onclick = () => { 
     challengeStreak++; 
     playSuccessSound();
     showChallenge(); 
 };
+
 document.getElementById("mark-retry").onclick = () => { 
     challengeStreak = 0; 
     const item = currentChallengeItem.q ? { type: "quiz", year: currentChallengeItem.year, q: currentChallengeItem.q } : { type: "year", year: currentChallengeItem.year };
