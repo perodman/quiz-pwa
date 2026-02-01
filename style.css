@@ -28,44 +28,36 @@ h1 { text-align: center; }
 
 /* BASE BUTTON */
 button {
-  width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  font-size: 16px;
+  padding: 10px 16px;
+  margin: 6px;
+  font-size: 15px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  width: auto;
+}
+
+/* BUTTON TYPES */
+.primary {
   background: #4f6ef7;
   color: white;
 }
 
-/* MODE BUTTON COLORS */
-#timeline-mode { background: #7a4fd9; }
-#year-mode { background: #3f8efc; }
-#quiz-mode { background: #5b5bd6; }
-#repeat-mode { background: #2e8b57; }
-
-/* FUNCTION BUTTONS */
-#toggle-answer,
-#toggle-year-answer,
-#toggle-repeat-answer {
-  background: #6b6bd6;
+.secondary {
+  background: #e0e0e0;
+  color: #222;
 }
 
-#next-question,
-#next-year,
-#next-repeat {
-  background: #4f6ef7;
+.small {
+  font-size: 14px;
+  padding: 6px 12px;
 }
 
-#mark-repeat,
-#mark-repeat-year {
-  background: #2e8b57;
-}
-
-#remove-repeat {
-  background: #e53935;
-}
+/* FUNCTION BUTTON COLORS */
+.btn-answer { background: #6b6bd6; color: white; }
+.btn-next { background: #4f6ef7; color: white; }
+.btn-repeat { background: #2e8b57; color: white; }
+.btn-remove { background: #e53935; color: white; }
 
 /* QUIZ CARD */
 .quiz-card {
@@ -73,20 +65,29 @@ button {
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-top: 16px;
 }
 
 .question-text {
   font-size: 21px;
   font-weight: 600;
-  min-height: 80px;
+  min-height: 70px;
 }
 
 .answer-text {
-  margin-top: 20px;
+  margin: 16px 0;
   padding: 14px;
   background: #eef0ff;
   border-radius: 12px;
-  min-height: 80px;
+  min-height: 70px;
+}
+
+/* ACTION ROW */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 
 /* YEAR */
