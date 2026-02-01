@@ -15,7 +15,6 @@ body {
 }
 
 button {
-  display: block;
   width: 100%;
   padding: 12px;
   margin: 8px 0;
@@ -29,5 +28,5 @@ button {
 }
 
 #answer {
-  margin: 16px 0;
+  margin-top: 16px;
 }
