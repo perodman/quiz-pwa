@@ -1,4 +1,3 @@
-// --- Global State ---
 let data, currentSubject, currentCategory, currentRegent, currentQuestion, currentYearEntry, currentRepeatItem, currentChallengeItem;
 let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
 let challengeStreak = 0;
@@ -6,7 +5,15 @@ let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
 let audioCtx;
 
-// --- Feedback & Ljud ---
+// --- SPLASH LOGIK ---
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.classList.add('hidden'), 500);
+    }, 1000); // Visas i 1 sekund
+});
+
 function initAudio() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -36,7 +43,6 @@ async function playSuccessSound() {
     playTone(783, now + 0.2, 0.4);
 }
 
-// --- Initiering ---
 fetch("questions.json")
     .then(r => r.json())
     .then(json => {
@@ -44,14 +50,11 @@ fetch("questions.json")
         renderSubjects();
         updateTrackers();
         showView("subject-view");
-    })
-    .catch(err => console.error("Kunde inte ladda frågor:", err));
+    });
 
-// --- Navigering ---
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
-    
     const backBtnArea = document.getElementById("nav-header");
     if (id === "subject-view") {
         backBtnArea.classList.add("hidden");
@@ -64,7 +67,6 @@ function showView(id) {
 }
 
 document.getElementById("global-home").onclick = () => { haptic(); showView("subject-view"); };
-
 document.getElementById("global-back").onclick = () => {
     haptic();
     if (viewHistory.length > 1) {
@@ -76,7 +78,6 @@ document.getElementById("global-back").onclick = () => {
     }
 };
 
-// --- Rendering ---
 function renderSubjects() {
     const container = document.getElementById("subjects");
     container.innerHTML = "";
@@ -110,7 +111,6 @@ function renderRegents() {
     });
 }
 
-// --- Quiz Logik ---
 function toggleAnswer(displayId, btnId) {
     haptic();
     const el = document.getElementById(displayId);
@@ -184,7 +184,9 @@ function updateTrackers() {
     const count = repeatItems.length;
     if (badge) { badge.textContent = count; badge.classList.toggle("hidden", count === 0); }
     const ct = document.getElementById("repeat-counter-text");
-    if (ct) ct.textContent = count > 0 ? `${count} ${count === 1 ? "händelse" : "händelser"} kvar` : "Inga händelser kvar";
+    if (ct) {
+        ct.textContent = count > 0 ? `${count} ${count === 1 ? "händelse" : "händelser"} kvar` : "Inga händelser kvar";
+    }
 }
 
 function updateRepeatBtnUI(btnId, item) {
@@ -201,7 +203,6 @@ function toggleRepeat(item) {
     updateTrackers();
 }
 
-// --- Event Listeners ---
 document.getElementById("quiz-mode").onclick = () => { haptic(); showQuestion(); showView("quiz-view"); };
 document.getElementById("year-mode").onclick = () => { haptic(); showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { haptic(); showRepeat(); showView("repeat-view"); };
@@ -232,7 +233,6 @@ document.getElementById("next-year").onclick = () => { haptic(); showYear(); };
 document.getElementById("next-repeat").onclick = () => { haptic(); showRepeat(); };
 document.getElementById("mark-known").onclick = () => { haptic(); challengeStreak++; playSuccessSound(); showChallenge(); };
 document.getElementById("mark-retry").onclick = () => { haptic(); challengeStreak = 0; toggleRepeat(currentChallengeItem); showChallenge(); };
-
 document.getElementById("mark-repeat").onclick = () => { toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); updateRepeatBtnUI("mark-repeat", currentQuestion); };
 document.getElementById("mark-repeat-year").onclick = () => { toggleRepeat({year: currentYearEntry.year}); updateRepeatBtnUI("mark-repeat-year", currentYearEntry); };
 document.getElementById("remove-repeat").onclick = () => { haptic(); repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true))); localStorage.setItem("repeatItems", JSON.stringify(repeatItems)); updateTrackers(); showRepeat(); };
