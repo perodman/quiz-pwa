@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HistorieQuiz</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <div class="app-container">
@@ -39,35 +39,47 @@
     </div>
 
     <div id="quiz-view" class="view hidden">
-      <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
+      <div class="header-row">
+        <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
+        <div class="streak-badge">Streak: <span id="quiz-streak">0</span></div>
+      </div>
       <h1 class="center">🧠 Quiz</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Fråga</span>
-          <div class="divider"></div> <div id="question" class="question-text"></div>
+          <div class="divider"></div>
+          <div id="question" class="question-text"></div>
         </div>
         <div id="answer" class="answer-text invisible"></div>
-        <div class="quiz-controls">
-          <button id="toggle-answer" class="half-btn toggle-btn">Visa svar</button>
-          <button id="next-question" class="half-btn next-btn">Nästa</button>
-          <button id="mark-repeat" class="full-btn repeat-btn">Repetera? 🔁</button>
+        <div class="quiz-controls" id="quiz-initial-controls">
+          <button id="toggle-answer" class="full-btn toggle-btn">Visa svar</button>
+        </div>
+        <div class="quiz-controls hidden" id="quiz-action-controls">
+          <button id="mark-known" class="half-btn known-btn">Detta visste jag</button>
+          <button id="mark-retry" class="half-btn retry-btn">Repetera</button>
         </div>
       </div>
     </div>
 
     <div id="year-view" class="view hidden">
-      <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
+      <div class="header-row">
+        <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
+        <div class="streak-badge">Streak: <span id="year-streak">0</span></div>
+      </div>
       <h1 class="center">📆 Årtalsquiz</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Vad hände?</span>
-          <div class="divider"></div> <div id="year-display" class="question-text highlight"></div>
+          <div class="divider"></div>
+          <div id="year-display" class="question-text highlight"></div>
         </div>
         <div id="year-answer" class="answer-text invisible"></div>
-        <div class="quiz-controls">
-          <button id="toggle-year-answer" class="half-btn toggle-btn">Visa svar</button>
-          <button id="next-year" class="half-btn next-btn">Nästa</button>
-          <button id="mark-repeat-year" class="full-btn repeat-btn">Repetera? 🔁</button>
+        <div class="quiz-controls" id="year-initial-controls">
+          <button id="toggle-year-answer" class="full-btn toggle-btn">Visa svar</button>
+        </div>
+        <div class="quiz-controls hidden" id="year-action-controls">
+          <button id="mark-known-year" class="half-btn known-btn">Detta visste jag</button>
+          <button id="mark-retry-year" class="half-btn retry-btn">Repetera</button>
         </div>
       </div>
     </div>
@@ -78,13 +90,16 @@
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Repetition</span>
-          <div class="divider"></div> <div id="repeat-question" class="question-text"></div>
+          <div class="divider"></div>
+          <div id="repeat-question" class="question-text"></div>
         </div>
         <div id="repeat-answer" class="answer-text invisible"></div>
-        <div class="quiz-controls">
-          <button id="toggle-repeat-answer" class="half-btn toggle-btn">Visa svar</button>
-          <button id="next-repeat" class="half-btn next-btn">Nästa</button>
-          <button id="remove-repeat" class="full-btn remove-btn">Ta bort? ❌</button>
+        <div class="quiz-controls" id="repeat-initial-controls">
+          <button id="toggle-repeat-answer" class="full-btn toggle-btn">Visa svar</button>
+        </div>
+        <div class="quiz-controls hidden" id="repeat-action-controls">
+          <button id="next-repeat" class="half-btn known-btn">Nästa</button>
+          <button id="remove-repeat" class="half-btn remove-btn">Ta bort? ❌</button>
         </div>
       </div>
     </div>
@@ -98,6 +113,6 @@
     </div>
 
   </div>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
