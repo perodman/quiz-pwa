@@ -1,12 +1,9 @@
 let data;
 let currentSubject;
-let currentCategory;
 let currentRegent;
 
 const subjectsDiv = document.getElementById("subjects");
-const categoriesDiv = document.getElementById("categories");
 const regentsDiv = document.getElementById("regents");
-
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer");
 
@@ -19,49 +16,37 @@ fetch("questions.json")
   });
 
 function show(id) {
-  document.querySelectorAll(".view").forEach(v => v.style.display = "none");
+  document.querySelectorAll(".view").forEach(v => {
+    v.style.display = "none";
+  });
   document.getElementById(id).style.display = "block";
 }
 
 /* SUBJECT */
 function renderSubjects() {
   subjectsDiv.innerHTML = "";
-  data.subjects.forEach(s => {
+
+  data.subjects.forEach(subject => {
     const btn = document.createElement("button");
-    btn.textContent = s.name;
+    btn.textContent = subject.name;
     btn.onclick = () => {
-      currentSubject = s;
-      renderCategories();
-      show("category-view");
+      currentSubject = subject;
+      renderRegents();
+      show("regent-view");
     };
     subjectsDiv.appendChild(btn);
   });
 }
 
-/* CATEGORY */
-function renderCategories() {
-  categoriesDiv.innerHTML = "";
-  currentSubject.categories.forEach(c => {
-    const btn = document.createElement("button");
-    btn.textContent = c.name;
-    btn.onclick = () => {
-      currentCategory = c;
-      renderRegents();
-      show("regent-view");
-    };
-    categoriesDiv.appendChild(btn);
-  });
-}
-
-/* REGENT */
+/* REGENTS */
 function renderRegents() {
   regentsDiv.innerHTML = "";
-  currentCategory.regents.forEach(r => {
+
+  currentSubject.categories[0].regents.forEach(regent => {
     const btn = document.createElement("button");
-    btn.textContent = r.name;
+    btn.textContent = regent.name;
     btn.onclick = () => {
-      currentRegent = r;
-      document.getElementById("regent-title").textContent = r.name;
+      currentRegent = regent;
       show("quiz-view");
       showQuestion();
     };
@@ -71,12 +56,17 @@ function renderRegents() {
 
 /* QUIZ */
 function showQuestion() {
-  const q = currentRegent.questions[
-    Math.floor(Math.random() * currentRegent.questions.length)
-  ];
+  const q =
+    currentRegent.questions[
+      Math.floor(Math.random() * currentRegent.questions.length)
+    ];
+
   questionEl.textContent = q.q;
-  answerEl.textContent =
+
+  const answer =
     currentRegent.timeline.find(t => t.year === q.year)?.event || "";
+
+  answerEl.textContent = answer;
   answerEl.style.display = "none";
 }
 
@@ -86,6 +76,10 @@ document.getElementById("show-answer").onclick = () => {
 
 document.getElementById("next-question").onclick = showQuestion;
 
-document.getElementById("back-to-subjects").onclick = () => show("subject-view");
-document.getElementById("back-to-categories").onclick = () => show("category-view");
-document.getElementById("back-to-regents").onclick = () => show("regent-view");
+document.getElementById("back-to-subjects").onclick = () => {
+  show("subject-view");
+};
+
+document.getElementById("back-to-regents").onclick = () => {
+  show("regent-view");
+};
