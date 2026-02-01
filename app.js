@@ -2,6 +2,7 @@ let data;
 let currentSubject, currentCategory, currentRegent;
 let currentQuestion, currentYearEntry, currentRepeatItem;
 let repeatItems = JSON.parse(localStorage.getItem("repeatItems") || "[]");
+let streak = 0;
 
 /* LADDA DATA */
 fetch("questions.json")
@@ -27,7 +28,6 @@ function renderSubjects() {
   data.subjects.forEach(s => {
     const b = document.createElement("button");
     b.textContent = s.name;
-    // Vi sätter ingen klass här så att CSS-fixen #subjects button biter
     b.onclick = () => { currentSubject = s; renderCategories(); showView("category-view"); };
     container.appendChild(b);
   });
@@ -59,31 +59,29 @@ function renderRegents() {
   });
 }
 
-/* SVARSLOGIK MED KRYSS-SYMBOL */
-function toggleAnswer(displayId, btnId) {
+/* SVARSLOGIK */
+function toggleAnswer(displayId, btnId, controlsToShowId, controlsToHideId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
-  const isHidden = el.classList.contains("invisible");
+  el.classList.remove("invisible");
+  el.classList.add("visible");
+  btn.innerHTML = 'Dölj svar &nbsp; ✖';
+  btn.classList.add("active");
   
-  el.classList.toggle("invisible", !isHidden);
-  el.classList.toggle("visible", isHidden);
-  
-  if (isHidden) {
-    btn.innerHTML = 'Dölj svar &nbsp; ✖'; // Lägger till mörkt kryss
-    btn.classList.add("active");
-  } else {
-    btn.innerHTML = 'Visa svar';
-    btn.classList.remove("active");
-  }
+  document.getElementById(controlsToHideId).classList.add("hidden");
+  document.getElementById(controlsToShowId).classList.remove("hidden");
 }
 
-function resetUI(displayId, btnId) {
+function resetQuizUI(displayId, btnId, initialId, actionId) {
   const el = document.getElementById(displayId);
   const btn = document.getElementById(btnId);
   el.classList.add("invisible");
   el.classList.remove("visible");
   btn.innerHTML = "Visa svar";
   btn.classList.remove("active");
+  
+  document.getElementById(initialId).classList.remove("hidden");
+  document.getElementById(actionId).classList.add("hidden");
 }
 
 /* MODES */
@@ -91,29 +89,58 @@ function showQuestion() {
   currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
   document.getElementById("question").textContent = currentQuestion.q;
   document.getElementById("answer").textContent = getAnswer(currentQuestion.year);
-  resetUI("answer", "toggle-answer");
-  updateRepeatBtn("mark-repeat", { type: "quiz", year: currentQuestion.year, q: currentQuestion.q });
+  resetQuizUI("answer", "toggle-answer", "quiz-initial-controls", "quiz-action-controls");
+  document.getElementById("quiz-streak").textContent = streak;
 }
 
 function showYear() {
   currentYearEntry = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
   document.getElementById("year-display").textContent = currentYearEntry.year;
   document.getElementById("year-answer").textContent = currentYearEntry.event;
-  resetUI("year-answer", "toggle-year-answer");
-  updateRepeatBtn("mark-repeat-year", { type: "year", year: currentYearEntry.year });
+  resetQuizUI("year-answer", "toggle-year-answer", "year-initial-controls", "year-action-controls");
+  document.getElementById("year-streak").textContent = streak;
 }
 
 function showRepeat() {
-  const qEl = document.getElementById("repeat-question");
   if (repeatItems.length === 0) {
-    qEl.textContent = "Inga frågor kvar 🎉";
+    document.getElementById("repeat-question").textContent = "Inga frågor kvar 🎉";
     document.getElementById("repeat-answer").textContent = "";
+    document.getElementById("repeat-action-controls").classList.add("hidden");
+    document.getElementById("repeat-initial-controls").classList.remove("hidden");
     return;
   }
   currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-  qEl.textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
+  document.getElementById("repeat-question").textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
   document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
-  resetUI("repeat-answer", "toggle-repeat-answer");
+  resetQuizUI("repeat-answer", "toggle-repeat-answer", "repeat-initial-controls", "repeat-action-controls");
+}
+
+/* STREAK & REPEAT LOGIC */
+function handleResponse(isKnown, type) {
+  if (isKnown) {
+    streak++;
+  } else {
+    streak = 0;
+    // Lägg till i repetition om det inte redan finns
+    const item = type === 'quiz' 
+      ? { type: "quiz", year: currentQuestion.year, q: currentQuestion.q }
+      : { type: "year", year: currentYearEntry.year };
+    
+    const exists = repeatItems.some(r => r.year === item.year && r.type === item.type);
+    if (!exists) {
+      repeatItems.push(item);
+      localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
+    }
+  }
+  
+  if (type === 'quiz') showQuestion();
+  else showYear();
+}
+
+/* HELPERS */
+function getAnswer(year) {
+  const entry = currentRegent.timeline.find(t => t.year === year);
+  return entry ? entry.event : "Svar saknas";
 }
 
 function showTimeline() {
@@ -127,46 +154,24 @@ function showTimeline() {
   showView("timeline-view");
 }
 
-/* HELPERS */
-function getAnswer(year) {
-  const entry = currentRegent.timeline.find(t => t.year === year);
-  return entry ? entry.event : "Svar saknas";
-}
-
-function updateRepeatBtn(id, item) {
-  const exists = repeatItems.some(r => r.year === item.year && r.type === item.type);
-  document.getElementById(id).innerHTML = exists ? "Repetera? ✅" : "Repetera? 🔁";
-}
-
-function toggleRepeat(item) {
-  const index = repeatItems.findIndex(r => r.year === item.year && r.type === item.type);
-  if (index > -1) repeatItems.splice(index, 1);
-  else repeatItems.push(item);
-  localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-}
-
 /* LISTENERS */
-document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
-document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
+document.getElementById("quiz-mode").onclick = () => { streak = 0; showQuestion(); showView("quiz-view"); };
+document.getElementById("year-mode").onclick = () => { streak = 0; showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
 document.getElementById("timeline-mode").onclick = showTimeline;
 
-document.getElementById("toggle-answer").onclick = () => toggleAnswer("answer", "toggle-answer");
-document.getElementById("toggle-year-answer").onclick = () => toggleAnswer("year-answer", "toggle-year-answer");
-document.getElementById("toggle-repeat-answer").onclick = () => toggleAnswer("repeat-answer", "toggle-repeat-answer");
+// Toggle Listeners
+document.getElementById("toggle-answer").onclick = () => toggleAnswer("answer", "toggle-answer", "quiz-action-controls", "quiz-initial-controls");
+document.getElementById("toggle-year-answer").onclick = () => toggleAnswer("year-answer", "toggle-year-answer", "year-action-controls", "year-initial-controls");
+document.getElementById("toggle-repeat-answer").onclick = () => toggleAnswer("repeat-answer", "toggle-repeat-answer", "repeat-action-controls", "repeat-initial-controls");
 
-document.getElementById("next-question").onclick = showQuestion;
-document.getElementById("next-year").onclick = showYear;
+// Action Listeners
+document.getElementById("mark-known").onclick = () => handleResponse(true, 'quiz');
+document.getElementById("mark-retry").onclick = () => handleResponse(false, 'quiz');
+document.getElementById("mark-known-year").onclick = () => handleResponse(true, 'year');
+document.getElementById("mark-retry-year").onclick = () => handleResponse(false, 'year');
+
 document.getElementById("next-repeat").onclick = showRepeat;
-
-document.getElementById("mark-repeat").onclick = () => {
-  toggleRepeat({ type: "quiz", year: currentQuestion.year, q: currentQuestion.q });
-  updateRepeatBtn("mark-repeat", { type: "quiz", year: currentQuestion.year });
-};
-document.getElementById("mark-repeat-year").onclick = () => {
-  toggleRepeat({ type: "year", year: currentYearEntry.year });
-  updateRepeatBtn("mark-repeat-year", { type: "year", year: currentYearEntry.year });
-};
 document.getElementById("remove-repeat").onclick = () => {
   repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && r.type === currentRepeatItem.type));
   localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
