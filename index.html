@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HistorieQuiz Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <title>Quiz App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
   <div class="top-controls">
@@ -16,7 +16,7 @@
   <div class="app-container">
     <div id="subject-view" class="view">
       <div class="hero-section">
-        <h1 class="quiz-title">HISTORIA</h1>
+        <h1 class="main-title">QUIZ</h1>
         <div class="title-accent"></div>
       </div>
       <p class="subtitle">Välj ämne</p>
@@ -29,19 +29,20 @@
     </div>
 
     <div id="category-view" class="view hidden">
-      <h1 class="center">Välj kategori</h1>
+      <h1 class="section-title">Välj kategori</h1>
       <div class="divider"></div>
       <div id="categories" class="selection-container left-aligned"></div>
     </div>
 
     <div id="regent-view" class="view hidden">
-      <h1 class="center">Välj regent</h1>
+      <h1 class="section-title">Välj regent</h1>
       <div class="divider"></div>
       <div id="regents" class="selection-container left-aligned"></div>
     </div>
 
     <div id="mode-view" class="view hidden">
-      <h1 id="regent-title" class="center"></h1>
+      <h1 id="regent-title" class="section-title"></h1>
+      <div class="divider"></div>
       <div class="menu-section-label">Studieläge</div>
       <div class="mode-container">
         <button id="timeline-mode" class="mode-btn purple">📜 Historisk tidslinje</button>
@@ -58,7 +59,7 @@
     </div>
 
     <div id="quiz-view" class="view hidden">
-      <h1 class="center">🧠 Utmaningen</h1>
+      <h1 class="section-title">🧠 Utmaningen</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Fråga</span>
@@ -75,10 +76,10 @@
     </div>
 
     <div id="challenge-view" class="view hidden">
-      <div class="header-row" style="display:flex; justify-content:center; margin-bottom:10px;">
-        <div class="streak-badge">Streak: <span id="challenge-streak">0</span></div>
+      <div class="header-row streak-container">
+        <div class="streak-badge">STREAK: <span id="challenge-streak">0</span></div>
       </div>
-      <h1 class="center">🔥 Streak-race</h1>
+      <h1 class="section-title">🔥 Streak-race</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Kan du detta?</span>
@@ -97,7 +98,7 @@
     </div>
 
     <div id="year-view" class="view hidden">
-      <h1 class="center">📆 Årtal</h1>
+      <h1 class="section-title">📆 Årtal</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Vad hände?</span>
@@ -114,7 +115,7 @@
     </div>
 
     <div id="repeat-view" class="view hidden">
-      <h1 class="center">🔁 Repetition</h1>
+      <h1 class="section-title">🔁 Repetition</h1>
       <p id="repeat-counter-text" class="center-small"></p>
       <div class="quiz-card">
         <div class="question-header">
@@ -132,12 +133,12 @@
     </div>
 
     <div id="timeline-view" class="view hidden">
-      <h1 class="center">📜 Historisk tidslinje</h1>
+      <h1 class="section-title">📜 Historisk tidslinje</h1>
       <div class="timeline-wrapper">
         <ul id="timeline"></ul>
       </div>
     </div>
   </div>
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>
