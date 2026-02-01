@@ -7,7 +7,7 @@ let isSoundEnabled = true;
 let viewHistory = ["subject-view"];
 let audioCtx;
 
-/* LJUDMOTOR FÖR MOBIL & DATOR */
+/* LJUDMOTOR */
 function initAudio() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -16,8 +16,6 @@ function initAudio() {
         audioCtx.resume();
     }
 }
-
-// Trigga ljudupplåsning vid VARJE klick för säkerhets skull
 document.body.addEventListener('click', initAudio);
 
 async function playSuccessSound() {
@@ -36,7 +34,6 @@ async function playSuccessSound() {
             osc.start(startTime); osc.stop(startTime + duration);
         };
         const now = audioCtx.currentTime;
-        // Glatt ackord (C5, E5, G5)
         playTone(523.25, now, 0.2, 0.1); 
         playTone(659.25, now + 0.1, 0.2, 0.1);
         playTone(783.99, now + 0.2, 0.4, 0.1);
@@ -54,7 +51,6 @@ fetch("questions.json").then(r => r.json()).then(json => {
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
-    
     const nav = document.getElementById("nav-header");
     if (id === "subject-view") {
         nav.classList.add("hidden");
@@ -83,10 +79,9 @@ document.getElementById("sound-toggle").onclick = function() {
     isSoundEnabled = !isSoundEnabled;
     this.textContent = isSoundEnabled ? "🔊" : "🔇";
     this.style.opacity = isSoundEnabled ? "1" : "0.4";
-    initAudio(); // Försök initiera vid klick
 };
 
-/* TRACKERS (Med grammatik-fix) */
+/* TRACKERS (Grammatik-fix) */
 function updateTrackers() {
     const badge = document.getElementById("repeat-badge");
     const count = repeatItems.length;
@@ -101,7 +96,7 @@ function updateTrackers() {
     }
 }
 
-/* RENDERING */
+/* RENDERING AV KNAPPAR */
 function renderSubjects() {
     const container = document.getElementById("subjects");
     container.innerHTML = "";
@@ -164,6 +159,11 @@ function updateRepeatBtnUI(btnId, item) {
     btn.className = exists ? "full-btn repeat-btn-active" : "full-btn repeat-btn-inactive";
 }
 
+function getAnswer(year) {
+    const entry = currentRegent.timeline.find(t => t.year === year);
+    return entry ? entry.event : "Svar saknas";
+}
+
 function showQuestion() {
     currentQuestion = currentRegent.questions[Math.floor(Math.random() * currentRegent.questions.length)];
     document.getElementById("question").textContent = currentQuestion.q;
@@ -198,7 +198,6 @@ function showChallenge() {
     document.getElementById("challenge-streak").textContent = challengeStreak;
 }
 
-/* SMARTARE REPETITION (Årtal får rätt fråga) */
 function showRepeat() {
     if (repeatItems.length === 0) {
         document.getElementById("repeat-question").textContent = "Allt klart! 🎉";
@@ -207,21 +206,13 @@ function showRepeat() {
         return;
     }
     currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-    
-    // Om objektet saknar q (fråga), kommer det från Årtalsquizet
     if (!currentRepeatItem.q) {
         document.getElementById("repeat-question").textContent = `Vad hände år ${currentRepeatItem.year}?`;
     } else {
         document.getElementById("repeat-question").textContent = currentRepeatItem.q;
     }
-    
     document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
     resetUI("repeat-answer", "toggle-repeat-answer");
-}
-
-function getAnswer(year) {
-    const entry = currentRegent.timeline.find(t => t.year === year);
-    return entry ? entry.event : "Svar saknas";
 }
 
 /* LISTENERS */
@@ -282,6 +273,6 @@ document.getElementById("mark-retry").onclick = () => {
 document.getElementById("remove-repeat").onclick = () => {
     repeatItems = repeatItems.filter(r => !(r.year === currentRepeatItem.year && (currentRepeatItem.q ? r.q === currentRepeatItem.q : true)));
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    updateTrackers(); // Direkt uppdatering av räknaren
+    updateTrackers();
     showRepeat();
 };
