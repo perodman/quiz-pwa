@@ -14,6 +14,7 @@ body {
 }
 
 h1 { text-align: center; }
+.center { text-align: center; }
 
 .quiz-title { color: #5b5bd6; }
 .year-title { color: #3f8efc; }
@@ -28,15 +29,35 @@ h1 { text-align: center; }
 
 /* BASE BUTTON */
 button {
-  width: 100%;
+  display: block;
+  width: 90%;
+  max-width: 340px;
+  margin: 10px auto; /* Centrerar knappar horisontellt */
   padding: 12px;
-  margin: 6px 0;
   font-size: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   background: #4f6ef7;
   color: white;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* SECONDARY SMALL (Tillbaka-knappar) */
+button.secondary.small {
+  background: #e0e0e0;
+  color: #444;
+  font-size: 14px;
+  padding: 8px 16px;
+  width: auto;
+  max-width: fit-content;
+  margin-left: 0; /* Placerar den till vänster */
+  margin-bottom: 20px;
 }
 
 /* MODE BUTTON COLORS */
@@ -52,19 +73,16 @@ button {
   background: #6b6bd6;
 }
 
-#next-question,
-#next-year,
-#next-repeat {
-  background: #4f6ef7;
-}
-
 #mark-repeat,
 #mark-repeat-year {
   background: #2e8b57;
 }
 
 #remove-repeat {
-  background: #e53935;
+  background: #eeeeee;
+  color: #333;
+  border: 1px solid #ddd;
+  margin-top: 20px;
 }
 
 /* QUIZ CARD */
@@ -73,20 +91,24 @@ button {
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  max-width: 450px;
+  margin: 20px auto;
 }
 
 .question-text {
   font-size: 21px;
   font-weight: 600;
   min-height: 80px;
+  text-align: center;
 }
 
 .answer-text {
-  margin-top: 20px;
+  margin: 20px 0;
   padding: 14px;
   background: #eef0ff;
   border-radius: 12px;
   min-height: 80px;
+  text-align: center;
 }
 
 /* YEAR */
@@ -98,9 +120,9 @@ button {
 }
 
 /* TIMELINE */
-ul { list-style: none; padding: 0; }
+ul#timeline { list-style: none; padding: 0; }
 
-li {
+ul#timeline li {
   background: white;
   border-radius: 14px;
   padding: 14px;
@@ -116,5 +138,4 @@ li {
   font-size: 14px;
 }
 
-/* HIDDEN */
 .hidden { display: none; }
