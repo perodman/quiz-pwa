@@ -14,10 +14,24 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* STARTSIDA FIX */
+/* STARTSIDA & MENY FIX */
 #subjects button {
   background-color: #3f8efc !important;
   color: #000 !important;
+}
+
+.mode-container {
+  display: flex;
+  flex-direction: column; /* Gör listan vertikal igen */
+  align-items: center;    /* Centrerar knapparna */
+  gap: 12px;
+  width: 100%;
+}
+
+.mode-btn { 
+  width: 100%; 
+  max-width: 320px; /* Samma bredd som tidigare */
+  color: white; 
 }
 
 /* TEXT & LINJER */
@@ -32,8 +46,12 @@ h1 { text-align: center; margin-bottom: 10px; font-weight: 900; letter-spacing: 
 /* KNAPPAR */
 button { padding: 14px 22px; font-size: 15px; font-weight: 700; border-radius: 14px; border: none; cursor: pointer; transition: all 0.2s ease; }
 .secondary.small { background: #e9e9e9; color: #555; font-size: 13px; padding: 8px 16px; }
-.mode-btn { width: 100%; max-width: 320px; color: white; margin-bottom: 12px; }
-.purple { background: #7a4fd9; } .blue { background: #3f8efc; } .indigo { background: #5b5bd6; } .dark-green { background: #2e8b57; }
+
+.purple { background: #7a4fd9; } 
+.blue { background: #3f8efc; } 
+.indigo { background: #5b5bd6; } 
+.dark-green { background: #2e8b57; }
+.orange { background: #f39c12; }
 
 /* QUIZ CARD */
 .quiz-card { background: white; padding: 30px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 480px; margin: auto; }
@@ -46,12 +64,13 @@ button { padding: 14px 22px; font-size: 15px; font-weight: 700; border-radius: 1
 .answer-text.visible { background: #eff2ff; border-style: solid; color: #222; opacity: 1; }
 .answer-text.invisible { opacity: 0; color: transparent; }
 
-/* NYA KONTROLLER */
+/* KONTROLLER */
 .quiz-controls { display: flex; gap: 10px; margin-top: 15px; }
 .full-btn { width: 100%; }
 .half-btn { flex: 1; }
 .toggle-btn { background: #4f6ef7; color: white; }
 .toggle-btn.active { background: #bdc3c7 !important; color: #2c3e50 !important; }
+.next-btn { background: #27ae60 !important; color: white; }
 .known-btn { background: #27ae60 !important; color: white; }
 .retry-btn { background: #ffb347 !important; color: white; }
 .remove-btn { background: #f0f0f0; color: #666; }
