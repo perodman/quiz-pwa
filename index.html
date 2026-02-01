@@ -9,9 +9,9 @@
 <body>
   <div class="app-container">
 
-    <!-- SUBJECT -->
+    <!-- SUBJECT (ENDA SOM ÄR SYNLIG VID START) -->
     <div id="subject-view">
-      <h1 class="quiz-title">📚 Quiz 📚</h1>
+      <h1 class="quiz-title">📚 Quiz</h1>
       <p class="subtitle">Välj ämne</p>
       <div id="subjects"></div>
     </div>
@@ -35,68 +35,44 @@
       <button id="back-to-regents" class="secondary small">⬅ Tillbaka</button>
       <h1 id="regent-title"></h1>
 
-      <button id="timeline-mode" class="primary">📜 Tidslinje</button>
-      <button id="year-mode" class="primary">📆 Årtalsquiz</button>
-      <button id="quiz-mode" class="primary">🧠 Quiz</button>
-      <button id="repeat-mode" class="primary">🔁 Repetition</button>
+      <button id="timeline-mode">📜 Tidslinje</button>
+      <button id="year-mode">📆 Årtalsquiz</button>
+      <button id="quiz-mode">🧠 Quiz</button>
     </div>
 
     <!-- QUIZ -->
     <div id="quiz-view" class="hidden">
       <button id="back-to-modes" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="quiz-title">🧠 Quiz</h1>
+      <h1>🧠 Quiz</h1>
 
       <div class="quiz-card">
         <div id="question" class="question-text"></div>
         <div id="answer" class="answer-text hidden"></div>
 
-        <div class="actions">
-          <button id="toggle-answer" class="btn-answer">Visa svar</button>
-          <button id="next-question" class="btn-next">Nästa fråga</button>
-          <button id="mark-repeat" class="btn-repeat">Repetera? 🔁</button>
-        </div>
+        <button id="toggle-answer">Visa svar</button>
+        <button id="next-question">Nästa fråga</button>
       </div>
     </div>
 
     <!-- YEAR QUIZ -->
     <div id="year-view" class="hidden">
       <button id="back-to-modes-2" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="year-title">📆 Årtalsquiz</h1>
+      <h1>📆 Årtalsquiz</h1>
 
       <div class="quiz-card">
         <div id="year-display" class="year-box"></div>
         <div id="year-answer" class="answer-text hidden"></div>
 
-        <div class="actions">
-          <button id="toggle-year-answer" class="btn-answer">Visa svar</button>
-          <button id="next-year" class="btn-next">Slumpa nytt år</button>
-          <button id="mark-repeat-year" class="btn-repeat">Repetera? 🔁</button>
-        </div>
+        <button id="toggle-year-answer">Visa svar</button>
+        <button id="next-year">Slumpa nytt år</button>
       </div>
     </div>
 
     <!-- TIMELINE -->
     <div id="timeline-view" class="hidden">
       <button id="back-to-modes-3" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="timeline-title">📜 Tidslinje</h1>
+      <h1>📜 Tidslinje</h1>
       <ul id="timeline"></ul>
-    </div>
-
-    <!-- REPEAT -->
-    <div id="repeat-view" class="hidden">
-      <button id="back-to-modes-4" class="secondary small">⬅ Tillbaka</button>
-      <h1 class="repeat-title">🔁 Repetition</h1>
-
-      <div class="quiz-card">
-        <div id="repeat-question" class="question-text"></div>
-        <div id="repeat-answer" class="answer-text hidden"></div>
-
-        <div class="actions">
-          <button id="toggle-repeat-answer" class="btn-answer">Visa svar</button>
-          <button id="next-repeat" class="btn-next">Nästa</button>
-          <button id="remove-repeat" class="btn-remove">Ta bort ❌</button>
-        </div>
-      </div>
     </div>
 
   </div>
