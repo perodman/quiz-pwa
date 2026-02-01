@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HistorieQuiz</title>
-  <link rel="stylesheet" href="style.css?v=13.1">
+  <title>HistorieQuiz Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <div class="top-controls">
@@ -14,7 +15,10 @@
 
   <div class="app-container">
     <div id="subject-view" class="view">
-      <h1 class="quiz-title">📚 Quiz 📚</h1>
+      <div class="hero-section">
+        <h1 class="quiz-title">HISTORIA</h1>
+        <div class="title-accent"></div>
+      </div>
       <p class="subtitle">Välj ämne</p>
       <div class="divider"></div>
       <div id="subjects" class="selection-container left-aligned"></div>
@@ -47,14 +51,14 @@
       </div>
       <div class="menu-section-label">Quiz & Tävling</div>
       <div class="mode-container">
-        <button id="year-mode" class="mode-btn blue">📆 Årtalsquiz</button>
-        <button id="quiz-mode" class="mode-btn indigo">🧠 Quiz</button>
-        <button id="challenge-mode" class="mode-btn orange">🔥 Utmaningen</button>
+        <button id="year-mode" class="mode-btn blue">📆 Årtal</button>
+        <button id="quiz-mode" class="mode-btn indigo">🧠 Utmaningen</button>
+        <button id="challenge-mode" class="mode-btn orange">🔥 Streak-race</button>
       </div>
     </div>
 
     <div id="quiz-view" class="view hidden">
-      <h1 class="center">🧠 Quiz</h1>
+      <h1 class="center">🧠 Utmaningen</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Fråga</span>
@@ -71,10 +75,10 @@
     </div>
 
     <div id="challenge-view" class="view hidden">
-      <div class="header-row">
+      <div class="header-row" style="display:flex; justify-content:center; margin-bottom:10px;">
         <div class="streak-badge">Streak: <span id="challenge-streak">0</span></div>
       </div>
-      <h1 class="center">🔥 Utmaningen</h1>
+      <h1 class="center">🔥 Streak-race</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Kan du detta?</span>
@@ -93,7 +97,7 @@
     </div>
 
     <div id="year-view" class="view hidden">
-      <h1 class="center">📆 Årtalsquiz</h1>
+      <h1 class="center">📆 Årtal</h1>
       <div class="quiz-card">
         <div class="question-header">
           <span class="question-label">Vad hände?</span>
@@ -134,6 +138,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=13.1"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>
