@@ -31,7 +31,7 @@ fetch("questions.json").then(r => r.json()).then(json => {
     showView("subject-view");
 });
 
-/* VY-HANTERING - Optimerad */
+/* VY-HANTERING */
 function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
@@ -42,9 +42,7 @@ function showView(id) {
         viewHistory = ["subject-view"]; 
     } else {
         nav.classList.remove("hidden");
-        if (viewHistory[viewHistory.length - 1] !== id) {
-            viewHistory.push(id);
-        }
+        if (viewHistory[viewHistory.length - 1] !== id) viewHistory.push(id);
     }
     window.scrollTo(0, 0);
     updateTrackers();
@@ -52,17 +50,13 @@ function showView(id) {
 
 /* NAVIGERING */
 document.getElementById("global-home").onclick = () => showView("subject-view");
-
 document.getElementById("global-back").onclick = () => {
     if (viewHistory.length > 1) {
         viewHistory.pop(); 
         const prev = viewHistory[viewHistory.length - 1];
-        
         document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
         document.getElementById(prev).classList.remove("hidden");
-        
         if (prev === "subject-view") document.getElementById("nav-header").classList.add("hidden");
-        updateTrackers();
     }
 };
 
@@ -75,15 +69,13 @@ document.getElementById("sound-toggle").onclick = function() {
 /* TRACKERS */
 function updateTrackers() {
     const badge = document.getElementById("repeat-badge");
-    const counterText = document.getElementById("repeat-counter-text");
     const count = repeatItems.length;
     if (badge) {
         badge.textContent = count;
         badge.classList.toggle("hidden", count === 0);
     }
-    if (counterText) {
-        counterText.textContent = count > 0 ? `${count} händelser kvar!` : "";
-    }
+    const ct = document.getElementById("repeat-counter-text");
+    if(ct) ct.textContent = count > 0 ? `${count} händelser kvar!` : "";
 }
 
 /* RENDERING */
@@ -145,13 +137,8 @@ function updateRepeatBtnUI(btnId, item) {
     const btn = document.getElementById(btnId);
     if (!btn) return;
     const exists = repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    if (exists) {
-        btn.innerHTML = "Repetera! ✅";
-        btn.className = "full-btn repeat-btn-active";
-    } else {
-        btn.innerHTML = "Repetera? 🔁";
-        btn.className = "full-btn repeat-btn-inactive";
-    }
+    btn.innerHTML = exists ? "Repetera! ✅" : "Repetera? 🔁";
+    btn.className = exists ? "full-btn repeat-btn-active" : "full-btn repeat-btn-inactive";
 }
 
 /* MODES */
@@ -160,7 +147,7 @@ function showQuestion() {
     document.getElementById("question").textContent = currentQuestion.q;
     document.getElementById("answer").textContent = getAnswer(currentQuestion.year);
     resetUI("answer", "toggle-answer");
-    updateRepeatBtnUI("mark-repeat", { type: "quiz", year: currentQuestion.year, q: currentQuestion.q });
+    updateRepeatBtnUI("mark-repeat", { year: currentQuestion.year, q: currentQuestion.q });
 }
 
 function showYear() {
@@ -168,12 +155,12 @@ function showYear() {
     document.getElementById("year-display").textContent = currentYearEntry.year;
     document.getElementById("year-answer").textContent = currentYearEntry.event;
     resetUI("year-answer", "toggle-year-answer");
-    updateRepeatBtnUI("mark-repeat-year", { type: "year", year: currentYearEntry.year });
+    updateRepeatBtnUI("mark-repeat-year", { year: currentYearEntry.year });
 }
 
 function showChallenge() {
-    const isYearMode = Math.random() > 0.5;
-    if (isYearMode) {
+    const isYear = Math.random() > 0.5;
+    if (isYear) {
         currentChallengeItem = currentRegent.timeline[Math.floor(Math.random() * currentRegent.timeline.length)];
         document.getElementById("challenge-question").textContent = `Vad hände år ${currentChallengeItem.year}?`;
         document.getElementById("challenge-answer").textContent = currentChallengeItem.event;
@@ -190,14 +177,13 @@ function showChallenge() {
 }
 
 function showRepeat() {
-    updateTrackers();
     if (repeatItems.length === 0) {
-        document.getElementById("repeat-question").textContent = "Inga händelser kvar att repetera! 🎉";
+        document.getElementById("repeat-question").textContent = "Allt klart! 🎉";
         document.getElementById("repeat-answer").textContent = "";
         return;
     }
     currentRepeatItem = repeatItems[Math.floor(Math.random() * repeatItems.length)];
-    document.getElementById("repeat-question").textContent = currentRepeatItem.type === "quiz" ? currentRepeatItem.q : `Vad hände ${currentRepeatItem.year}?`;
+    document.getElementById("repeat-question").textContent = currentRepeatItem.q || `Händelsen år ${currentRepeatItem.year}`;
     document.getElementById("repeat-answer").textContent = getAnswer(currentRepeatItem.year);
     resetUI("repeat-answer", "toggle-repeat-answer");
 }
@@ -207,7 +193,7 @@ function getAnswer(year) {
     return entry ? entry.event : "Svar saknas";
 }
 
-/* EVENT LISTENERS */
+/* LISTENERS */
 document.getElementById("quiz-mode").onclick = () => { showQuestion(); showView("quiz-view"); };
 document.getElementById("year-mode").onclick = () => { showYear(); showView("year-view"); };
 document.getElementById("repeat-mode").onclick = () => { showRepeat(); showView("repeat-view"); };
@@ -217,7 +203,7 @@ document.getElementById("timeline-mode").onclick = () => {
     container.innerHTML = "";
     currentRegent.timeline.forEach(t => {
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${t.year}</strong><span>${t.event}</span><br><div class="code-box">Kod: ${t.code || "—"}</div>`;
+        li.innerHTML = `<strong>${t.year}</strong><br>${t.event}<div class="code-box">Kod: ${t.code || "—"}</div>`;
         container.appendChild(li);
     });
     showView("timeline-view");
@@ -236,28 +222,21 @@ document.getElementById("next-question").onclick = showQuestion;
 document.getElementById("next-year").onclick = showYear;
 document.getElementById("next-repeat").onclick = showRepeat;
 
-function toggleRepeatAction(btnId, itemRaw) {
-    const item = itemRaw.q ? { type: "quiz", year: itemRaw.year, q: itemRaw.q } : { type: "year", year: itemRaw.year };
-    const index = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
-    if (index > -1) repeatItems.splice(index, 1);
+function toggleRepeat(item) {
+    const idx = repeatItems.findIndex(r => r.year === item.year && (item.q ? r.q === item.q : true));
+    if (idx > -1) repeatItems.splice(idx, 1);
     else repeatItems.push(item);
     localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
-    updateRepeatBtnUI(btnId, item);
     updateTrackers();
 }
 
-document.getElementById("mark-repeat").onclick = () => toggleRepeatAction("mark-repeat", currentQuestion);
-document.getElementById("mark-repeat-year").onclick = () => toggleRepeatAction("mark-repeat-year", currentYearEntry);
+document.getElementById("mark-repeat").onclick = () => { toggleRepeat({year: currentQuestion.year, q: currentQuestion.q}); updateRepeatBtnUI("mark-repeat", currentQuestion); };
+document.getElementById("mark-repeat-year").onclick = () => { toggleRepeat({year: currentYearEntry.year}); updateRepeatBtnUI("mark-repeat-year", currentYearEntry); };
 
-document.getElementById("mark-known").onclick = () => { 
-    challengeStreak++; 
-    playSuccessSound();
-    showChallenge(); 
-};
-
+document.getElementById("mark-known").onclick = () => { challengeStreak++; playSuccessSound(); showChallenge(); };
 document.getElementById("mark-retry").onclick = () => { 
     challengeStreak = 0; 
-    const item = currentChallengeItem.q ? { type: "quiz", year: currentChallengeItem.year, q: currentChallengeItem.q } : { type: "year", year: currentChallengeItem.year };
+    const item = currentChallengeItem.q ? {year: currentChallengeItem.year, q: currentChallengeItem.q} : {year: currentChallengeItem.year};
     if (!repeatItems.some(r => r.year === item.year && (item.q ? r.q === item.q : true))) {
         repeatItems.push(item);
         localStorage.setItem("repeatItems", JSON.stringify(repeatItems));
